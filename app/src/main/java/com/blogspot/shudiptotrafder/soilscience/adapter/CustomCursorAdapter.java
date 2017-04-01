@@ -31,8 +31,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
      *
      * @param mContext the current Context
      */
-    public CustomCursorAdapter(Context mContext) {
+    public CustomCursorAdapter(Context mContext,ClickListener clickListener) {
         this.mContext = mContext;
+        this.clickListener = clickListener;
     }
 
     public Cursor swapCursor(Cursor c) {
@@ -62,13 +63,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        int idIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry._ID);
-        int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION);
+        int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry.COLUMN_WORD);
         String word = mCursor.getString(descriptionIndex);
         holder.word.setText(word);
-
-        final int id = mCursor.getInt(idIndex);
-        holder.itemView.setTag(id);
     }
 
     @Override
@@ -109,7 +106,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         @Override
         public void onClick(View v) {
             mCursor.moveToPosition(getAdapterPosition());
-            int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION);
+            int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry.COLUMN_WORD);
             String word = mCursor.getString(descriptionIndex);
             clickListener.onItemClickListener(word);
         }

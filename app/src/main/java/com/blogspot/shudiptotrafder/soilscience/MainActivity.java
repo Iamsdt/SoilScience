@@ -1,5 +1,6 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,12 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
-import com.blogspot.shudiptotrafder.soilscience.adapter.MainRecyclerViewAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.DataBaseProvider;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 
@@ -29,12 +30,13 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        MainRecyclerViewAdapter.onItemClickListener,
+        CustomCursorAdapter.ClickListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int TASK_LOADER_ID = 0;
     private CustomCursorAdapter mAdapter;
-    private DataBaseProvider provider;
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        provider = new DataBaseProvider(MainActivity.this);
+        //initializedDatabase();
 
         //assign view
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(manager);
 
-        mAdapter = new CustomCursorAdapter(this);
+        mAdapter = new CustomCursorAdapter(this,this);
 
         recyclerView.setAdapter(mAdapter);
 
@@ -84,6 +86,30 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initializedDatabase() {
+
+        String key = "initialized";
+        DataBaseProvider provider = new DataBaseProvider(MainActivity.this);
+        preferences = getSharedPreferences(key,MODE_PRIVATE);
+        boolean state = preferences.getBoolean(key,false);
+
+        if (!state){
+            SharedPreferences.Editor editor = preferences.edit();
+            try {
+                provider.loadWords();
+                editor.putBoolean(key,true);
+                //TODO log
+                Log.e("initializedDatabase","initializedDatabase called");
+            } catch (IOException e) {
+                e.printStackTrace();
+                slet("Error to initialized data",e);
+                editor.putBoolean(key,false);
+            }
+            editor.apply();
+        }
+
     }
 
     @Override
@@ -128,10 +154,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void clickListener(String s) {
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
-    }
+
 
     //for loader
     @Override
@@ -145,12 +168,12 @@ public class MainActivity extends AppCompatActivity
             protected void onStartLoading() {
                 super.onStartLoading();
 
-                if (wordCursor != null){
+                if (wordCursor != null && wordCursor.getCount() > 0){
                     // Delivers any previously loaded data immediately
                     deliverResult(wordCursor);
                 } else {
                     // Force a new load
-                    onForceLoad();
+                    forceLoad();
                 }
 
             }
@@ -158,9 +181,17 @@ public class MainActivity extends AppCompatActivity
             // loadInBackground() performs asynchronous loading of data
             @Override
             public Cursor loadInBackground() {
-                return getContentResolver().query(MainWordDBContract.MainWordDBEntry.CONTENT_URI,
-                        null, MainWordDBContract.MainWordDBEntry.COLUMN_WORD,
-                        null, MainWordDBContract.MainWordDBEntry._ID+" ASC");
+
+                initializedDatabase();
+
+                Cursor cursor = getContentResolver().query(MainWordDBContract.MainWordDBEntry.CONTENT_URI,
+                        new String[]{MainWordDBContract.MainWordDBEntry.COLUMN_WORD},null,null,MainWordDBContract.MainWordDBEntry._ID + " ASC");
+
+                //TODO log
+                assert cursor != null;
+                Log.e("Cursor", cursor.toString());
+
+                return cursor;
             }
 
             // deliverResult sends the result of the load, a Cursor, to the registered listener
@@ -169,27 +200,33 @@ public class MainActivity extends AppCompatActivity
                 super.deliverResult(data);
             }
 
-            @Override
-            protected void onForceLoad() {
-                super.onForceLoad();
-                //start data loading
-                try {
-                    provider.loadWords();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         };
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
+        Log.e("Data",String.valueOf(data.getCount()));
         mAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    private static void slet(String s,Throwable t){
+        //show log with error message with throwable
+        //if debug mode enable
+        String Tag = "MainActivity";
+
+        if (BuildConfig.DEBUG){
+             Log.e(Tag,s,t);
+        }
+    }
+
+    @Override
+    public void onItemClickListener(String s) {
+        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
     }
 }

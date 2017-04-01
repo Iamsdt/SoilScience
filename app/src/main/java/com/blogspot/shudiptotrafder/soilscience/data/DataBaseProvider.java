@@ -45,6 +45,7 @@ public class DataBaseProvider {
 //    }
 
     public void loadWords() throws IOException{
+
         if (BuildConfig.DEBUG){
             Log.i("DataBaseProvider","Words start loading");
         }
@@ -59,7 +60,6 @@ public class DataBaseProvider {
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         try{
-
             String line;
 
             while ((line = reader.readLine())!= null){
