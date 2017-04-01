@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(manager);
 
-        mAdapter = new CustomCursorAdapter(this,this);
+        mAdapter = new CustomCursorAdapter(this);
 
         recyclerView.setAdapter(mAdapter);
 

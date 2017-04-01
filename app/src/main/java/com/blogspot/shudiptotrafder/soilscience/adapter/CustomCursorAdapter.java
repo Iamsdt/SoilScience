@@ -22,7 +22,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     // Class variables for the Cursor that holds task data and the Context
     private Cursor mCursor;
-    private Context mContext;
+    //private Context mContext;
 
     private ClickListener clickListener;
 
@@ -31,8 +31,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
      *
      * @param mContext the current Context
      */
-    public CustomCursorAdapter(Context mContext,ClickListener clickListener) {
-        this.mContext = mContext;
+    public CustomCursorAdapter(ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
