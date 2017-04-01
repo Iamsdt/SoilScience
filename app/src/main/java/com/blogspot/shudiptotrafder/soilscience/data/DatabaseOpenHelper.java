@@ -27,7 +27,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 MainWordDBContract.MainWordDBEntry.TABLE_NAME +" ( "+
                 MainWordDBContract.MainWordDBEntry._ID + " INTEGER PRIMARY KEY, "
                 + MainWordDBContract.MainWordDBEntry.COLUMN_WORD + " TEXT NOT NULL, "
-                + MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL);";
+                + MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL," +
+                " UNIQUE ( " + MainWordDBContract.MainWordDBEntry.COLUMN_WORD + ") ON CONFLICT REPLACE);";
 
         Log.e("Sql",CREATE_TABLE_SQL);
 
