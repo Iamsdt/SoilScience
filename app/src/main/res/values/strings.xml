@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Soil Science</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- used by Recycle View -->
+    <string name="rec_userName">User Name</string>
+
+</resources>
