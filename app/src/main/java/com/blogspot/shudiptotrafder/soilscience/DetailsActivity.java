@@ -36,6 +36,9 @@ public class DetailsActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        wordTV = (TextView) findViewById(R.id.details_word);
+        descriptionTV = (TextView) findViewById(R.id.details_description);
+
         try {
             mUri = getIntent().getData().normalizeScheme();
         } catch (Exception e) {
@@ -97,9 +100,6 @@ public class DetailsActivity extends AppCompatActivity implements
 
         String word = data.getString(WORD_ID);
         String description = data.getString(DESCRIPTION_ID);
-
-        wordTV = (TextView) findViewById(R.id.details_word);
-        descriptionTV = (TextView) findViewById(R.id.details_description);
 
         wordTV.setText(word);
         descriptionTV.setText(description);
