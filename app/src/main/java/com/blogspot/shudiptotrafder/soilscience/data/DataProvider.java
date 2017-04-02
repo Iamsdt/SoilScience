@@ -21,20 +21,12 @@ import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.M
 
 public class DataProvider  extends ContentProvider {
 
-    DatabaseOpenHelper openHelper;
-
     //use to get all data from this path
     public static final int TASKS = 100;
     //use to get single data from a single row
     public static final int TASK_WITH_ID = 101;
-
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-
-    @Override
-    public boolean onCreate() {
-        openHelper = new DatabaseOpenHelper(getContext());
-        return true;
-    }
+    DatabaseOpenHelper openHelper;
 
     public static UriMatcher buildUriMatcher() {
 
@@ -47,9 +39,15 @@ public class DataProvider  extends ContentProvider {
            The two calls below add matches for the task directory and a single item by ID.
          */
         uriMatcher.addURI(MainWordDBContract.AUTHORITY, MainWordDBContract.PATH_TASKS, TASKS);
-        uriMatcher.addURI(MainWordDBContract.AUTHORITY, MainWordDBContract.PATH_TASKS + "/#", TASK_WITH_ID);
+        uriMatcher.addURI(MainWordDBContract.AUTHORITY, MainWordDBContract.PATH_TASKS + "/*", TASK_WITH_ID);
 
         return uriMatcher;
+    }
+
+    @Override
+    public boolean onCreate() {
+        openHelper = new DatabaseOpenHelper(getContext());
+        return true;
     }
 
     @Nullable
@@ -76,10 +74,10 @@ public class DataProvider  extends ContentProvider {
                 break;
             case TASK_WITH_ID:
                 // Get the id from the URI
-                String id = uri.getPathSegments().get(1);
+                String word = uri.getPathSegments().get(1);
                 // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
-                String mSelection = "_id = ?";
-                String[] mSelectionArg = new String[]{id};
+                String mSelection = MainWordDBContract.MainWordDBEntry.COLUMN_WORD + " = ?";
+                String[] mSelectionArg = new String[]{word};
 
                 // Construct a query as you would normally, passing in the selection/args
                 returnCursor = db.query(TABLE_NAME,

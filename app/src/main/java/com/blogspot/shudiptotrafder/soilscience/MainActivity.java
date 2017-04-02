@@ -1,7 +1,10 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,7 +23,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.DataBaseProvider;
@@ -34,9 +36,23 @@ public class MainActivity extends AppCompatActivity
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int TASK_LOADER_ID = 0;
-    private CustomCursorAdapter mAdapter;
-
+    private final String key = "initialized";
     SharedPreferences preferences;
+    //it's also show when data base are loading
+    ProgressDialog progressDialog;
+    private CustomCursorAdapter mAdapter;
+    //its indicate that's database initialized or not
+    private boolean state;
+
+    private static void slet(String s, Throwable t) {
+        //show log with error message with throwable
+        //if debug mode enable
+        String Tag = "MainActivity";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(Tag, s, t);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +62,10 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //initializedDatabase();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait a while");
+        progressDialog.setCancelable(false);
 
         //assign view
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
@@ -59,6 +79,9 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new CustomCursorAdapter(this);
 
         recyclerView.setAdapter(mAdapter);
+
+        preferences = getSharedPreferences(key, MODE_PRIVATE);
+        state = preferences.getBoolean(key, false);
 
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
@@ -90,10 +113,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initializedDatabase() {
 
-        String key = "initialized";
         DataBaseProvider provider = new DataBaseProvider(MainActivity.this);
-        preferences = getSharedPreferences(key,MODE_PRIVATE);
-        boolean state = preferences.getBoolean(key,false);
 
         if (!state){
             SharedPreferences.Editor editor = preferences.edit();
@@ -154,8 +174,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-
     //for loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -167,6 +185,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             protected void onStartLoading() {
                 super.onStartLoading();
+                //if database is not initialize then show a progress dialog
+                if (!state) {
+                    if (progressDialog != null) {
+                        progressDialog.show();
+                    }
+                }
 
                 if (wordCursor != null && wordCursor.getCount() > 0){
                     // Delivers any previously loaded data immediately
@@ -205,6 +229,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+
         // Update the data that the adapter uses to create ViewHolders
         Log.e("Data",String.valueOf(data.getCount()));
         mAdapter.swapCursor(data);
@@ -213,20 +242,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
-    }
-
-    private static void slet(String s,Throwable t){
-        //show log with error message with throwable
-        //if debug mode enable
-        String Tag = "MainActivity";
-
-        if (BuildConfig.DEBUG){
-             Log.e(Tag,s,t);
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
     }
 
     @Override
     public void onItemClickListener(String s) {
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        Uri wordUri = MainWordDBContract.MainWordDBEntry.buildUriWithWord(s);
+        intent.setData(wordUri);
+        startActivity(intent);
     }
 }

@@ -33,6 +33,11 @@ public class MainWordDBContract {
         //columns name
         public static final String COLUMN_WORD = "word";
         public static final String COLUMN_DESCRIPTION = "description";
+
+        public static Uri buildUriWithWord(String s) {
+            return CONTENT_URI.buildUpon().appendPath(s).build();
+        }
+
     }
 
 }

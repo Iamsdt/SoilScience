@@ -8,5 +8,13 @@
 
     <!-- used by Recycle View -->
     <string name="rec_userName">User Name</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_developer">DeveloperActivity</string>
+
+    <!-- details fragment -->
+    <string name="details_word_label">Word: </string>
+    <string name="details_des_label">Description: </string>
+
 
 </resources>
