@@ -39,6 +39,7 @@ public class DetailsActivity extends AppCompatActivity implements
         wordTV = (TextView) findViewById(R.id.details_word);
         descriptionTV = (TextView) findViewById(R.id.details_description);
 
+        notifyAll();
         try {
             mUri = getIntent().getData().normalizeScheme();
         } catch (Exception e) {
