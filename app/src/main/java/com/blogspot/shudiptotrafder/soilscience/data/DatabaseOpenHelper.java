@@ -3,7 +3,6 @@ package com.blogspot.shudiptotrafder.soilscience.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * SoilScience
@@ -30,7 +29,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 + MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL," +
                 " UNIQUE ( " + MainWordDBContract.MainWordDBEntry.COLUMN_WORD + ") ON CONFLICT REPLACE);";
 
-        Log.e("Sql",CREATE_TABLE_SQL);
+        //Log.e("Sql",CREATE_TABLE_SQL);
 
         db.execSQL(CREATE_TABLE_SQL);
     }

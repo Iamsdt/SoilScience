@@ -21,6 +21,10 @@ import java.io.InputStreamReader;
  * Created by Shudipto Trafder on 4/1/2017.
  */
 
+/**
+ * Class for make database
+ * in runtime
+ */
 public class DataBaseProvider {
 
     private Context context;
@@ -44,6 +48,12 @@ public class DataBaseProvider {
 //        }).start();
 //    }
 
+
+    /** methods for load words in database
+     *  with content provider
+     * @throws IOException if file not found in raw
+     */
+
     public void loadWords() throws IOException{
 
         if (BuildConfig.DEBUG){
@@ -51,12 +61,12 @@ public class DataBaseProvider {
         }
 
         final Resources resources = context.getResources();
-
-        //TODO resource id
+        //resource i
         int rawId = R.raw.ssnewdb;
 
         InputStream stream = resources.openRawResource(rawId);
 
+        //read data
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         try{
@@ -69,16 +79,20 @@ public class DataBaseProvider {
                     continue;
                 }
 
+                //those data saved in a array
+                //first position for array is word
+                //second position for array is description
+
                 ContentValues values = new ContentValues();
 
+                //we use trim() for trim unexpected value
                 values.put(MainWordDBContract.MainWordDBEntry.COLUMN_WORD,strings[0].trim());
                 values.put(MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION,strings[1].trim());
 
                 Uri uri = context.getContentResolver().insert(MainWordDBContract.MainWordDBEntry.CONTENT_URI,values);
 
-
-                if (uri != null){
-                    Log.e("Data status:","successfull");
+                if (uri != null) {
+                    sle("Data status:" + "successfull");
                 }
 
 
@@ -91,13 +105,34 @@ public class DataBaseProvider {
 
     }
 
-    private static void slet(String s,Throwable t){
+    /**
+     * log message methods that's display log only debug mode
+     *
+     * @param string message that to display
+     */
+    private static void sle(String string) {
+        //show log with error message
+        //if debug mode enable
+        String Tag = "DataBaseProvider";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(Tag, string);
+        }
+    }
+
+    /**
+     * log message methods that's display log only debug mode
+     *
+     * @param s message that to display
+     * @param t throwable that's throw if exception happen
+     */
+    private static void slet(String s, Throwable t) {
         //show log with error message with throwable
         //if debug mode enable
         String Tag = "DataBaseProvider";
 
-        if (BuildConfig.DEBUG){
-             Log.e(Tag,s,t);
+        if (BuildConfig.DEBUG) {
+            Log.e(Tag, s, t);
         }
     }
 

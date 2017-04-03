@@ -35,7 +35,9 @@ public class MainActivity extends AppCompatActivity
         CustomCursorAdapter.ClickListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    //loaders id that initialized that's one loader is running
     private static final int TASK_LOADER_ID = 0;
+    //sp key
     private final String key = "initialized";
     SharedPreferences preferences;
     //it's also show when data base are loading
@@ -43,16 +45,6 @@ public class MainActivity extends AppCompatActivity
     private CustomCursorAdapter mAdapter;
     //its indicate that's database initialized or not
     private boolean state;
-
-    private static void slet(String s, Throwable t) {
-        //show log with error message with throwable
-        //if debug mode enable
-        String Tag = "MainActivity";
-
-        if (BuildConfig.DEBUG) {
-            Log.e(Tag, s, t);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +55,7 @@ public class MainActivity extends AppCompatActivity
 
         //initializedDatabase();
 
+        //progress dialog for force wait user for database ready
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait a while");
         progressDialog.setCancelable(false);
@@ -80,7 +73,10 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setAdapter(mAdapter);
 
+        //SharedPreferences preferences for database initialize
+        // for first time value
         preferences = getSharedPreferences(key, MODE_PRIVATE);
+        //sate of database is initialized or not
         state = preferences.getBoolean(key, false);
 
         /*
@@ -111,6 +107,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * this methods for database initialize
+     * it's only called for the first time of the app run
+     * or update of any data base
+     */
     private void initializedDatabase() {
 
         DataBaseProvider provider = new DataBaseProvider(MainActivity.this);
@@ -120,8 +121,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 provider.loadWords();
                 editor.putBoolean(key,true);
-                //TODO log
-                Log.e("initializedDatabase","initializedDatabase called");
+                sle("initializedDatabase called");
             } catch (IOException e) {
                 e.printStackTrace();
                 slet("Error to initialized data",e);
@@ -208,14 +208,8 @@ public class MainActivity extends AppCompatActivity
 
                 initializedDatabase();
 
-                Cursor cursor = getContentResolver().query(MainWordDBContract.MainWordDBEntry.CONTENT_URI,
+                return getContentResolver().query(MainWordDBContract.MainWordDBEntry.CONTENT_URI,
                         new String[]{MainWordDBContract.MainWordDBEntry.COLUMN_WORD},null,null,MainWordDBContract.MainWordDBEntry._ID + " ASC");
-
-                //TODO log
-                assert cursor != null;
-                Log.e("Cursor", cursor.toString());
-
-                return cursor;
             }
 
             // deliverResult sends the result of the load, a Cursor, to the registered listener
@@ -247,11 +241,47 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /** onClick listener for recycler view
+     * called if click any item on recycler view
+     * @param word is the selected word from data base
+     */
     @Override
-    public void onItemClickListener(String s) {
+    public void onItemClickListener(String word) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        Uri wordUri = MainWordDBContract.MainWordDBEntry.buildUriWithWord(s);
+        Uri wordUri = MainWordDBContract.MainWordDBEntry.buildUriWithWord(word);
         intent.setData(wordUri);
         startActivity(intent);
     }
+
+    /**
+     * log message methods that's display log only debug mode
+     *
+     * @param string message that to display
+     */
+    private static void sle(String string) {
+        //show log with error message
+        //if debug mode enable
+        String Tag = "MainActivity";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(Tag, string);
+        }
+    }
+
+    /**
+     * log message methods that's display log only debug mode
+     *
+     * @param s message that to display
+     * @param t throwable that's throw if exception happen
+     */
+    private static void slet(String s, Throwable t) {
+        //show log with error message with throwable
+        //if debug mode enable
+        String Tag = "MainActivity";
+
+        if (BuildConfig.DEBUG) {
+            Log.e(Tag, s, t);
+        }
+    }
+    
 }

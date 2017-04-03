@@ -34,6 +34,15 @@ public class MainWordDBContract {
         public static final String COLUMN_WORD = "word";
         public static final String COLUMN_DESCRIPTION = "description";
 
+        /**
+         * build uri with word
+         * we send a word(database column from a particular row) and its build
+         *
+         * @param s word from a slected item in Recycler view and make uri
+         *          to send to details activity
+         * @return new uri with given word
+         */
+
         public static Uri buildUriWithWord(String s) {
             return CONTENT_URI.buildUpon().appendPath(s).build();
         }

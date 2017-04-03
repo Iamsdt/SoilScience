@@ -18,14 +18,19 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 public class DetailsActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    //loader id
     private static final int ID_DETAIL_LOADER = 321;
+    //for select data column from database
     private static final String[] projection = {
             MainWordDBContract.MainWordDBEntry.COLUMN_WORD,
             MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION
     };
+    //id or position for return array
     private static final int WORD_ID = 0;
     private static final int DESCRIPTION_ID = 1;
+    //uri from previous activity
     private Uri mUri = null;
+    //view
     private TextView wordTV;
     private TextView descriptionTV;
 
@@ -36,9 +41,11 @@ public class DetailsActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //assign view
         wordTV = (TextView) findViewById(R.id.details_word);
         descriptionTV = (TextView) findViewById(R.id.details_description);
 
+        //set uri
         try {
             mUri = getIntent().getData().normalizeScheme();
         } catch (Exception e) {
@@ -59,6 +66,7 @@ public class DetailsActivity extends AppCompatActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        //ini loader
         getSupportLoaderManager().initLoader(ID_DETAIL_LOADER, null, this);
 
     }
@@ -75,7 +83,10 @@ public class DetailsActivity extends AppCompatActivity implements
         switch (id) {
             case ID_DETAIL_LOADER:
                 return new CursorLoader(this, mUri,
+                        //number of column select
                         projection,
+                        //we don't need selection agr
+                        //we do it on DataProvider
                         null, null, null);
 
             default:
