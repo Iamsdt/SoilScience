@@ -21,11 +21,12 @@ import java.io.InputStreamReader;
  * Created by Shudipto Trafder on 4/1/2017.
  */
 
-/**
- * Class for make database
- * in runtime
- */
 public class DataBaseProvider {
+
+    /**
+     * Class for make database
+     * in runtime
+     */
 
     private Context context;
 
@@ -86,10 +87,10 @@ public class DataBaseProvider {
                 ContentValues values = new ContentValues();
 
                 //we use trim() for trim unexpected value
-                values.put(MainWordDBContract.MainWordDBEntry.COLUMN_WORD,strings[0].trim());
-                values.put(MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION,strings[1].trim());
+                values.put(MainWordDBContract.Entry.COLUMN_WORD,strings[0].trim());
+                values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION,strings[1].trim());
 
-                Uri uri = context.getContentResolver().insert(MainWordDBContract.MainWordDBEntry.CONTENT_URI,values);
+                Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI,values);
 
                 if (uri != null) {
                     sle("Data status:" + "successfull");

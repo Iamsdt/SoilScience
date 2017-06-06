@@ -2,34 +2,58 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_favourite"
+            android:icon="@drawable/ic_lover"
+            android:title="@string/favourite" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/action_settings" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_add"
+            android:title="@string/add" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/about">
+        <menu>
+            <item
+                android:id="@+id/nav_developer"
+                android:icon="@drawable/ic_web_development"
+                android:title="@string/developer" />
+            <item
+                android:id="@+id/nav_copyright"
+                android:icon="@drawable/ic_copyright"
+                android:title="@string/copyright" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_icon"
+                android:title="@string/about" />
+            <item
+                android:id="@+id/nav_legal"
+                android:icon="@drawable/ic_law"
+                android:title="@string/legal" />
+        </menu>
+    </item>
+
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/send" />
         </menu>
     </item>
 

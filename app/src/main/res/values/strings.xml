@@ -16,5 +16,51 @@
     <string name="details_word_label">Word: </string>
     <string name="details_des_label">Description: </string>
 
+    <!-- for settings -->
+    <!-- ***************START************* -->
+    <!-- text size -->
+    <string name="sTextSmallLabel">Small</string>
+    <string name="sTextMediumLabel">Medium</string>
+    <string name="sTextModerateLabel">Moderate</string>
+    <string name="sTextLargeLabel">Large</string>
+    <string name="sTextExtraLargeLabel">Extra Large</string>
+
+    <!-- text size value-->
+    <string name="sTextSmallValue">15</string>
+    <string name="sTextMediumValue">17</string>
+    <string name="sTextModerateValue">20</string>
+    <string name="sTextLargeValue">23</string>
+    <string name="sTextExtraLargeValue">26</string>
+
+    <string name="textSizeKey" translatable="false">textSize</string>
+    <string name="textSizeLabel">Text Size</string>
+
+    <string name="switchKey">SwitchKey</string>
+    <string name="switchLabel">Night Mode</string>
+    <string name="switchON">Night Mode ON</string>
+    <string name="switchOFF">Night Mode OFF</string>
+
+    <!-- ***************FINISH************* -->
+
+
+    <!-- option menu -->
+    <string name="action_search">Search</string>
+    <string name="action_sst">Speech to Text</string>
+
+    <!-- nab bar -->
+    <!-- communicate -->
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <!-- main -->
+    <string name="home">Home</string>
+    <string name="favourite">Favourite</string>
+    <string name="add">Add New</string>
+    <!-- about -->
+    <string name="legal">Legal Notice</string>
+    <string name="about">About</string>
+    <string name="copyright">Copyright</string>
+    <string name="developer">Developer</string>
+    <string name="details_txt_label">Word:</string>
 
 </resources>

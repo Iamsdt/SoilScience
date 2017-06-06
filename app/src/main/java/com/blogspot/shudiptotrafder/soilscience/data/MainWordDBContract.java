@@ -21,7 +21,7 @@ public class MainWordDBContract {
     // This is the path for the "tasks" directory
     public static final String PATH_TASKS = "main_ss";
 
-    public static final class MainWordDBEntry implements BaseColumns{
+    public static final class Entry implements BaseColumns{
 
         //content uri
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
@@ -33,6 +33,8 @@ public class MainWordDBContract {
         //columns name
         public static final String COLUMN_WORD = "word";
         public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_FAVOURITE = "favourite";
+        public static final String COLUMN_USER = "user";
 
         /**
          * build uri with word

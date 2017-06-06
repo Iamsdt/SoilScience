@@ -3,14 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/mainRecycleView_Card"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="?attr/listPreferredItemHeight"
         tools:text="@string/app_name"
+        android:gravity="center_vertical"
         android:id="@+id/mainRecycleView_TV"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:padding="@dimen/list_tv"/>
+        android:padding="8dp"/>
 
 </android.support.v7.widget.CardView>

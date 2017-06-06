@@ -1,29 +1,41 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
+import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+
+import java.util.Locale;
 
 public class DetailsActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>,
+        TextToSpeech.OnInitListener {
 
     //loader id
     private static final int ID_DETAIL_LOADER = 321;
     //for select data column from database
     private static final String[] projection = {
-            MainWordDBContract.MainWordDBEntry.COLUMN_WORD,
-            MainWordDBContract.MainWordDBEntry.COLUMN_DESCRIPTION
+            MainWordDBContract.Entry.COLUMN_WORD,
+            MainWordDBContract.Entry.COLUMN_DESCRIPTION
     };
     //id or position for return array
     private static final int WORD_ID = 0;
@@ -33,6 +45,13 @@ public class DetailsActivity extends AppCompatActivity implements
     //view
     private TextView wordTV;
     private TextView descriptionTV;
+
+    private TextToSpeech toSpeech;
+    String wordForTTS = null;
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +63,8 @@ public class DetailsActivity extends AppCompatActivity implements
         //assign view
         wordTV = (TextView) findViewById(R.id.details_word);
         descriptionTV = (TextView) findViewById(R.id.details_description);
+
+        toSpeech = new TextToSpeech(this,this);
 
         //set uri
         try {
@@ -57,8 +78,7 @@ public class DetailsActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                setTTS(wordForTTS);
             }
         });
 
@@ -71,10 +91,64 @@ public class DetailsActivity extends AppCompatActivity implements
 
     }
 
+    private void setTTS(String selectedWord) {
+
+        if (selectedWord == null){
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toSpeech.speak(selectedWord,TextToSpeech.QUEUE_FLUSH,null,null);
+
+        } else {
+            toSpeech.speak(selectedWord,TextToSpeech.QUEUE_FLUSH,null);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (toSpeech != null) {
+            toSpeech.stop();
+            toSpeech.shutdown();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         getSupportLoaderManager().restartLoader(ID_DETAIL_LOADER, null, this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.details,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            onBackPressed();
+
+        } else if (id == R.id.action_settings){
+            startActivity(new Intent(this, SettingsActivity.class));
+
+        } else if (id == R.id.action_favourite){
+            ContentValues values = new ContentValues();
+            values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE,true);
+            int update = getContentResolver().update(mUri,values,null,null);
+
+            if (update != -1){
+                Toast.makeText(this, "Add to favourite", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -112,12 +186,56 @@ public class DetailsActivity extends AppCompatActivity implements
         String word = data.getString(WORD_ID);
         String description = data.getString(DESCRIPTION_ID);
 
+        wordForTTS = word;
+
         wordTV.setText(word);
         descriptionTV.setText(description);
+
+        //set Size
+        descriptionTV.setTextSize(getDesTextSize());
+        wordTV.setTextSize(Utility.getTextSize(this));
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        //nothing to do
+    }
+
+    @Override
+    public void onInit(int status) {
+
+        if (status != TextToSpeech.ERROR){
+
+            int result = toSpeech.setLanguage(Locale.UK);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA ||
+                    result == TextToSpeech.LANG_NOT_SUPPORTED||
+                    result == TextToSpeech.ERROR_NOT_INSTALLED_YET){
+
+                Intent installIntent = new Intent();
+                installIntent.setAction(
+                        TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+
+            }
+
+        }
+    }
+
+    private int getDesTextSize(){
+
+        int size = Utility.getTextSize(this);
+
+        if (size >= 20){
+            size = size - 3;
+
+        } else if (size == 17){
+            size = size - 2;
+
+        } else {
+            size = size - 1;
+        }
+        return size;
 
     }
 }

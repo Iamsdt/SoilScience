@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.MainWordDBEntry.TABLE_NAME;
+import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.TABLE_NAME;
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.PATH_TASKS;
 
 /**
@@ -99,8 +99,8 @@ public class DataProvider extends ContentProvider {
             case TASK_WITH_ID:
                 // Get the id from the URI
                 String word = uri.getPathSegments().get(1);
-                // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
-                String mSelection = MainWordDBContract.MainWordDBEntry.COLUMN_WORD + " = ?";
+                // Selection is the word column = ?, and the Selection args = the word from the URI
+                String mSelection = MainWordDBContract.Entry.COLUMN_WORD + " = ?";
                 String[] mSelectionArg = new String[]{word};
 
                 // Construct a query as you would normally, passing in the selection/args
@@ -120,7 +120,7 @@ public class DataProvider extends ContentProvider {
     }
 
     //we are not exported our database
-    //for education purpose we fill this methods
+    //for practice purpose we fill this methods
 
     /**
      * This methods used for exported database
@@ -167,7 +167,7 @@ public class DataProvider extends ContentProvider {
                 long id = db.insert(TABLE_NAME, null, values);
                 if (id > 0) {
                     //success
-                    returnUri = ContentUris.withAppendedId(MainWordDBContract.MainWordDBEntry.CONTENT_URI, id);
+                    returnUri = ContentUris.withAppendedId(MainWordDBContract.Entry.CONTENT_URI, id);
                 } else {
                     throw new SQLException("Failed to Insert data" + uri);
                 }
@@ -203,11 +203,11 @@ public class DataProvider extends ContentProvider {
 
                 // Get the id from the URI
                 String word = uri.getPathSegments().get(1);
-                // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
-                String mSelection = MainWordDBContract.MainWordDBEntry.COLUMN_WORD + " = ?";
+
+                String mSelection = MainWordDBContract.Entry.COLUMN_WORD + " = ?";
                 String[] mSelectionArg = new String[]{word};
 
-                deleteNumber = db.delete(MainWordDBContract.MainWordDBEntry.TABLE_NAME, mSelection, mSelectionArg);
+                deleteNumber = db.delete(MainWordDBContract.Entry.TABLE_NAME, mSelection, mSelectionArg);
 
                 break;
             default:
@@ -223,7 +223,7 @@ public class DataProvider extends ContentProvider {
         return deleteNumber;
     }
 
-    //we don't allow user to update data
+    //we just modify favourite data
     //for education purpose we fill this methods
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
@@ -242,11 +242,10 @@ public class DataProvider extends ContentProvider {
 
                 // Get the id from the URI
                 String word = uri.getPathSegments().get(1);
-                // Selection is the _ID column = ?, and the Selection args = the row ID from the URI
-                String mSelection = MainWordDBContract.MainWordDBEntry.COLUMN_WORD + " = ?";
+                String mSelection = MainWordDBContract.Entry.COLUMN_WORD + " = ?";
                 String[] mSelectionArg = new String[]{word};
 
-                updateNumber = db.update(MainWordDBContract.MainWordDBEntry.TABLE_NAME, values, mSelection, mSelectionArg);
+                updateNumber = db.update(MainWordDBContract.Entry.TABLE_NAME, values, mSelection, mSelectionArg);
 
                 break;
             default:

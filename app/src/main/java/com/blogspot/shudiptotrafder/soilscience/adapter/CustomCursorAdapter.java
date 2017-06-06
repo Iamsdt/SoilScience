@@ -1,6 +1,5 @@
 package com.blogspot.shudiptotrafder.soilscience.adapter;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -62,7 +61,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry.COLUMN_WORD);
+        int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.Entry.COLUMN_WORD);
         String word = mCursor.getString(descriptionIndex);
         holder.word.setText(word);
     }
@@ -93,7 +92,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
          *
          * @param itemView The view inflated in onCreateViewHolder
          */
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
 
             word = (TextView) itemView.findViewById(R.id.mainRecycleView_TV);
@@ -105,7 +104,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         @Override
         public void onClick(View v) {
             mCursor.moveToPosition(getAdapterPosition());
-            int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.MainWordDBEntry.COLUMN_WORD);
+            int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.Entry.COLUMN_WORD);
             String word = mCursor.getString(descriptionIndex);
             clickListener.onItemClickListener(word);
         }
