@@ -1,15 +1,17 @@
 package com.blogspot.shudiptotrafder.soilscience.adapter;
 
+import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blogspot.shudiptotrafder.soilscience.MainActivity;
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 /**
  * SoilScience
@@ -25,13 +27,16 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     private ClickListener clickListener;
 
+    private Context mContext;
+
     /**
      * Constructor for the CustomCursorAdapter that initializes the Context.
      *
-     * @param mContext the current Context
+     * @param context the current Context
      */
-    public CustomCursorAdapter(ClickListener clickListener) {
+    public CustomCursorAdapter(ClickListener clickListener,Context context) {
         this.clickListener = clickListener;
+        mContext = context;
     }
 
     public Cursor swapCursor(Cursor c) {
@@ -61,9 +66,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.Entry.COLUMN_WORD);
-        String word = mCursor.getString(descriptionIndex);
+        String word = mCursor.getString(MainActivity.INDEX_WORD);
         holder.word.setText(word);
+        holder.word.setTextSize(Utility.getTextSize(mContext));
     }
 
     @Override
@@ -85,7 +90,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         // Class variables for the task description and priority TextViews
         TextView word;
-        CardView cardView;
+        //CardView cardView;
 
         /**
          * Constructor for the TaskViewHolders.
@@ -96,9 +101,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             super(itemView);
 
             word = (TextView) itemView.findViewById(R.id.mainRecycleView_TV);
-            cardView = (CardView) itemView.findViewById(R.id.mainRecycleView_Card);
+            //cardView = (CardView) itemView.findViewById(R.id.mainRecycleView_Card);
 
-            cardView.setOnClickListener(this);
+            word.setOnClickListener(this);
         }
 
         @Override

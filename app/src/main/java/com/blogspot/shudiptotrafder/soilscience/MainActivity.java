@@ -36,10 +36,6 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.io.IOException;
 
-import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.COLUMN_WORD;
-import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
-
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         CustomCursorAdapter.ClickListener,
@@ -57,12 +53,13 @@ public class MainActivity extends AppCompatActivity
     private boolean state;
 
     public static final String[] projection = new String[]
-            {COLUMN_WORD};
+            {MainWordDBContract.Entry.COLUMN_WORD};
 
     //for words index
     public static final int INDEX_WORD = 0;
 
     static {
+        //complete add vector drawable support
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(manager);
 
-        mAdapter = new CustomCursorAdapter(this);
+        mAdapter = new CustomCursorAdapter(this,this);
 
         recyclerView.setAdapter(mAdapter);
 
@@ -115,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                Uri wordUri = buildUriWithWord("Shudipto T");
+                Uri wordUri = MainWordDBContract.Entry.buildUriWithWord("Shudipto T");
                 intent.setData(wordUri);
                 startActivity(intent);
             }
@@ -123,7 +120,8 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         //deprecated
         //drawer.setDrawerListener(toggle);
         //fix in this way
@@ -137,7 +135,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        if (state){
+        if (!state){
             initializedDatabase();
         }
     }
@@ -178,6 +176,10 @@ public class MainActivity extends AppCompatActivity
                 //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
                 if (key.equals(getString(R.string.switchKey))) {
                     recreate();
+                }
+
+                if (key.equalsIgnoreCase(getString(R.string.textSizeKey))){
+                    mAdapter.notifyDataSetChanged();
                 }
             }
         });

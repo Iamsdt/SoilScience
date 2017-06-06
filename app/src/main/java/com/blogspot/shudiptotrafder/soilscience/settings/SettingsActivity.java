@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
@@ -20,8 +19,6 @@ public class SettingsActivity extends AppCompatActivity {
         setNightMode();
 
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         //is switch preference changed then recreate activity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -52,8 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
             onBackPressed();
         }
 
-
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     //set night mode

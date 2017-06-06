@@ -12,46 +12,54 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <provider
-            android:name=".data.DataProvider"
-            android:authorities="com.blogspot.shudiptotrafder.soilscience"
-            android:exported="false" />
-
         <activity
             android:name=".DetailsActivity"
             android:label="@string/title_activity_details"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+
         <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
-        </activity>
+            android:name=".settings.SettingsActivity"/>
+
         <activity
             android:name=".DeveloperActivity"
             android:label="@string/title_activity_developer"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".FavouriteActivity"
+            android:label="@string/title_activity_favourite"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
         </activity>
+        <activity
+            android:name=".UserAddActivity"
+            android:label="@string/title_activity_user_add"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
+        </activity>
+
+        <!-- provider -->
+        <provider
+            android:name=".data.DataProvider"
+            android:authorities="com.blogspot.shudiptotrafder.soilscience"
+            android:exported="false"
+            android:enabled="true"/>
+
     </application>
 
 </manifest>

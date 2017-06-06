@@ -8,9 +8,9 @@
 
     <!-- used by Recycle View -->
     <string name="rec_userName">User Name</string>
-    <string name="title_activity_details">DetailsActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_developer">DeveloperActivity</string>
+    <string name="title_activity_details">Details</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_developer">Developer</string>
 
     <!-- details fragment -->
     <string name="details_word_label">Word: </string>
@@ -62,5 +62,10 @@
     <string name="copyright">Copyright</string>
     <string name="developer">Developer</string>
     <string name="details_txt_label">Word:</string>
+    <string name="title_activity_favourite">FavouriteActivity</string>
+    <string name="title_activity_user_add">UserAddActivity</string>
+    <string name="hintWord">word</string>
+    <string name="hintdescription">write a description of word</string>
+    <string name="button">Add word</string>
 
 </resources>

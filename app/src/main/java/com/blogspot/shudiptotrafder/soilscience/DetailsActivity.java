@@ -154,6 +154,10 @@ public class DetailsActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
+        if (mUri==null){
+            finish();
+        }
+
         switch (id) {
             case ID_DETAIL_LOADER:
                 return new CursorLoader(this, mUri,

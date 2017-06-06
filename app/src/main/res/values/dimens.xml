@@ -6,4 +6,8 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="list_tv">10dp</dimen>
+
+    <dimen name="universal_padding">10dp</dimen>
+
+    <dimen name="add_user_text_input_margin">8dp</dimen>
 </resources>
