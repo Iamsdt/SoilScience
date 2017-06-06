@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/no_favouriteTv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textSize="25sp"
+    android:layout_margin="@dimen/universal_padding"
+    android:textColor="?attr/colorAccent"
+    android:gravity="center_vertical"
+    android:text="@string/noWordAdd" />

@@ -55,6 +55,9 @@ public class DetailsActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setNightMode();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -241,5 +244,19 @@ public class DetailsActivity extends AppCompatActivity implements
         }
         return size;
 
+    }
+
+    //set night mode
+    private void setNightMode() {
+
+        boolean isEnabled = Utility.getNightModeEnabled(this);
+
+        if (isEnabled) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 }

@@ -64,8 +64,14 @@
     <string name="details_txt_label">Word:</string>
     <string name="title_activity_favourite">FavouriteActivity</string>
     <string name="title_activity_user_add">UserAddActivity</string>
+
+    <!-- hint oftion for add by user -->
     <string name="hintWord">word</string>
     <string name="hintdescription">write a description of word</string>
     <string name="button">Add word</string>
+
+    <string name="noWordAdd">you don\'t add any favourite word yet.
+        You can add your favourite word from word details. That\'s are listed here</string>
+    <string name="add_your_own_word">Add your own word</string>
 
 </resources>

@@ -138,6 +138,22 @@ public class MainActivity extends AppCompatActivity
         if (!state){
             initializedDatabase();
         }
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
+                if (key.equals(getString(R.string.switchKey))) {
+                    recreate();
+
+                }
+
+                if (key.equalsIgnoreCase(getString(R.string.textSizeKey))){
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     /**
@@ -168,21 +184,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
-                if (key.equals(getString(R.string.switchKey))) {
-                    recreate();
-                }
-
-                if (key.equalsIgnoreCase(getString(R.string.textSizeKey))){
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        });
 
         // re-queries for all tasks
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);

@@ -30,6 +30,9 @@ public class FavouriteActivity extends AppCompatActivity
     //adapter
     CustomCursorAdapter mAdapter;
 
+    //views
+    private View noFavourite;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +41,11 @@ public class FavouriteActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.favouriteRecycleView);
+        recyclerView = (RecyclerView) findViewById(R.id.favouriteRecycleView);
+        noFavourite = findViewById(R.id.no_favouriteLayout);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager manager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setHasFixedSize(true);
 
@@ -96,7 +101,8 @@ public class FavouriteActivity extends AppCompatActivity
         if (data != null && data.getCount() > 0){
             mAdapter.swapCursor(data);
         } else {
-            // FIXME: 5/21/2017 implements a layout for blank data
+            recyclerView.setVisibility(View.GONE);
+            noFavourite.setVisibility(View.VISIBLE);
         }
     }
 
