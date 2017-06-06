@@ -41,6 +41,4 @@ dependencies {
     //support vector drawable
     compile 'com.android.support:support-vector-drawable:25.3.1'
 
-    //MaterialSearchView
-    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 }

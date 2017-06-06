@@ -29,5 +29,14 @@ public class DeveloperActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
+    
+    //left in this project
+    // TODO: 6/7/2017 add theme 
+    // TODO: 6/7/2017 add search view 
+    // TODO: 6/7/2017 add voice search view
+    // TODO: 6/7/2017 add random search view
+    
+    // TODO: 6/7/2017 add app intro 
+    // TODO: 6/7/2017 add item animator 
 
 }

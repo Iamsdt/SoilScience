@@ -13,6 +13,8 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
+import java.util.Random;
+
 /**
  * SoilScience
  * com.blogspot.shudiptotrafder.soilscience.adapter
@@ -28,6 +30,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private ClickListener clickListener;
 
     private Context mContext;
+
 
     /**
      * Constructor for the CustomCursorAdapter that initializes the Context.
@@ -79,6 +82,27 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         }
 
         return mCursor.getCount();
+    }
+
+    public String getRandomWord(){
+
+        String word = null;
+
+        if (mCursor != null){
+
+            int size = mCursor.getCount();
+
+            Random random = new Random();
+            int position = random.nextInt(size);
+            if (position == 0){
+                mCursor.moveToPosition(1);
+            } else {
+                mCursor.moveToPosition(position);
+            }
+
+            word = mCursor.getString(MainActivity.INDEX_WORD);
+        }
+        return word;
     }
 
     public interface ClickListener{

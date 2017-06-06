@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         //assign view
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
 
-        LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        final LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setHasFixedSize(true);
 
@@ -112,7 +112,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                Uri wordUri = MainWordDBContract.Entry.buildUriWithWord("Shudipto T");
+
+                String s = mAdapter.getRandomWord();
+
+                Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(s);
                 intent.setData(wordUri);
                 startActivity(intent);
             }
