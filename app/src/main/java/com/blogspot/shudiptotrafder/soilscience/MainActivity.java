@@ -85,13 +85,13 @@ public class MainActivity extends AppCompatActivity
         //assign view
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
 
-        final LinearLayoutManager manager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        final LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(manager);
 
-        mAdapter = new CustomCursorAdapter(this,this);
+        mAdapter = new CustomCursorAdapter(this, this);
 
         recyclerView.setAdapter(mAdapter);
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
          */
         getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +121,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 1)
+                    fab.hide();
+                else if (dy < 1)
+                    fab.show();
+            }
+        });
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
@@ -131,14 +142,18 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (!state){
+        if (!state) {
             initializedDatabase();
         }
 
@@ -152,7 +167,7 @@ public class MainActivity extends AppCompatActivity
 
                 }
 
-                if (key.equalsIgnoreCase(getString(R.string.textSizeKey))){
+                if (key.equalsIgnoreCase(getString(R.string.textSizeKey))) {
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -168,16 +183,16 @@ public class MainActivity extends AppCompatActivity
 
         DataBaseProvider provider = new DataBaseProvider(MainActivity.this);
 
-        if (!state){
+        if (!state) {
             SharedPreferences.Editor editor = preferences.edit();
             try {
                 provider.loadWords();
-                editor.putBoolean(key,true);
+                editor.putBoolean(key, true);
                 sle("initializedDatabase called");
             } catch (IOException e) {
                 e.printStackTrace();
-                slet("Error to initialized data",e);
-                editor.putBoolean(key,false);
+                slet("Error to initialized data", e);
+                editor.putBoolean(key, false);
             }
             editor.apply();
         }
@@ -211,13 +226,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_favourite) {
-            startActivity(new Intent(this,FavouriteActivity.class));
+            startActivity(new Intent(this, FavouriteActivity.class));
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this,SettingsActivity.class));
+            startActivity(new Intent(this, SettingsActivity.class));
 
         } else if (id == R.id.nav_add) {
-            startActivity(new Intent(this,UserAddActivity.class));
+            startActivity(new Intent(this, UserAddActivity.class));
 
         } else if (id == R.id.nav_share) {
             showDummyText();
@@ -243,7 +258,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    void showDummyText(){
+    void showDummyText() {
         Toast.makeText(this, "Not available yet", Toast.LENGTH_SHORT).show();
     }
 
@@ -277,7 +292,7 @@ public class MainActivity extends AppCompatActivity
     //for loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,projection,null,null,null);
+        return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI, projection, null, null, null);
     }
 
     @Override
@@ -288,7 +303,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Update the data that the adapter uses to create ViewHolders
-        Log.e("Data",String.valueOf(data.getCount()));
+        Log.e("Data", String.valueOf(data.getCount()));
         mAdapter.swapCursor(data);
     }
 
@@ -300,8 +315,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /** onClick listener for recycler view
+    /**
+     * onClick listener for recycler view
      * called if click any item on recycler view
+     *
      * @param word is the selected word from data base
      */
     @Override
@@ -356,5 +373,5 @@ public class MainActivity extends AppCompatActivity
                     AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
-    
+
 }

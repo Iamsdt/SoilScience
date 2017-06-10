@@ -1,5 +1,6 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
@@ -22,7 +24,9 @@ import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.E
 
 public class FavouriteActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>,
-        CustomCursorAdapter.ClickListener{
+        CustomCursorAdapter.ClickListener {
+
+    //TODO android circular review
 
     //Loader id
     private static final int LOADER_ID = 122;
@@ -45,18 +49,50 @@ public class FavouriteActivity extends AppCompatActivity
         noFavourite = findViewById(R.id.no_favouriteLayout);
 
         LinearLayoutManager manager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL,false);
+                LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(manager);
 
-        mAdapter = new CustomCursorAdapter(this,this);
+        mAdapter = new CustomCursorAdapter(this, this);
 
         recyclerView.setAdapter(mAdapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.favouriteFab);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.START|ItemTouchHelper.END) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+                String word = (String) viewHolder.itemView.getTag();
+
+                Uri uri = MainWordDBContract.Entry.buildUriWithWord(word);
+
+                ContentValues values = new ContentValues();
+                values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, false);
+                int update = getContentResolver().update(uri, values, null, null);
+
+                if (update != -1) {
+                    Snackbar.make(viewHolder.itemView, "word removed from favourite",
+                            Snackbar.LENGTH_SHORT).show();
+
+                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition()
+                            , mAdapter.getItemCount());
+
+                    getSupportLoaderManager().restartLoader(LOADER_ID, null, FavouriteActivity.this);
+                }
+
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.favouriteFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,40 +101,50 @@ public class FavouriteActivity extends AppCompatActivity
             }
         });
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 1)
+                    fab.hide();
+                else if (dy < 1)
+                    fab.show();
+            }
+        });
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        getSupportLoaderManager().initLoader(LOADER_ID,null,this);
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportLoaderManager().restartLoader(LOADER_ID,null,this);
+        getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        switch (id){
+        switch (id) {
             case LOADER_ID:
 
-                String selection = MainWordDBContract.Entry.COLUMN_FAVOURITE+ " = ? ";
+                String selection = MainWordDBContract.Entry.COLUMN_FAVOURITE + " = ? ";
                 String[] selectionArg = new String[]{"1"};
 
                 return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,
                         MainActivity.projection,
-                        selection,selectionArg, MainWordDBContract.Entry._ID);
+                        selection, selectionArg, MainWordDBContract.Entry._ID);
 
             default:
-                throw new RuntimeException("Loader not initialize "+id);
+                throw new RuntimeException("Loader not initialize " + id);
         }
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.getCount() > 0){
+        if (data != null && data.getCount() > 0) {
             mAdapter.swapCursor(data);
         } else {
             recyclerView.setVisibility(View.GONE);

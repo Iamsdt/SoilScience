@@ -35,6 +35,7 @@ public class DeveloperActivity extends AppCompatActivity {
     // TODO: 6/7/2017 add search view 
     // TODO: 6/7/2017 add voice search view
     // TODO: 6/7/2017 add random search view
+    // TODO: 6/7/2017 circular view add for random word
     
     // TODO: 6/7/2017 add app intro 
     // TODO: 6/7/2017 add item animator 

@@ -14,6 +14,8 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +71,8 @@ public class DetailsActivity extends AppCompatActivity implements
 
         toSpeech = new TextToSpeech(this,this);
 
+        setupWindowAnimations();
+
         //set uri
         try {
             mUri = getIntent().getData().normalizeScheme();
@@ -91,14 +95,25 @@ public class DetailsActivity extends AppCompatActivity implements
 
         //ini loader
         getSupportLoaderManager().initLoader(ID_DETAIL_LOADER, null, this);
+    }
+
+    //enter
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fade = new Fade();
+            fade.setDuration(1000);
+            getWindow().setEnterTransition(fade);
+
+            Slide slide = new Slide();
+            slide.setDuration(1000);
+            getWindow().setReturnTransition(slide);
+        }
 
     }
 
+
     private void setTTS(String selectedWord) {
 
-        if (selectedWord == null){
-            return;
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toSpeech.speak(selectedWord,TextToSpeech.QUEUE_FLUSH,null,null);
@@ -163,7 +178,6 @@ public class DetailsActivity extends AppCompatActivity implements
                         //number of column select
                         projection,
                         //we don't need selection agr
-                        //we do it on DataProvider
                         null, null, null);
 
             default:
@@ -179,7 +193,6 @@ public class DetailsActivity extends AppCompatActivity implements
         if (data != null && data.moveToFirst()) {
             cursorHasValidateData = true;
         }
-
 
         if (!cursorHasValidateData) {
             //nothing to display
@@ -209,7 +222,7 @@ public class DetailsActivity extends AppCompatActivity implements
 
         if (status != TextToSpeech.ERROR){
 
-            int result = toSpeech.setLanguage(Locale.UK);
+            int result = toSpeech.setLanguage(Locale.getDefault());
 
             if (result == TextToSpeech.LANG_MISSING_DATA ||
                     result == TextToSpeech.LANG_NOT_SUPPORTED||
@@ -225,6 +238,7 @@ public class DetailsActivity extends AppCompatActivity implements
         }
     }
 
+    //set text size
     private int getDesTextSize(){
 
         int size = Utility.getTextSize(this);
