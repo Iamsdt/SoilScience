@@ -10,4 +10,7 @@
     <dimen name="universal_padding">10dp</dimen>
 
     <dimen name="add_user_text_input_margin">8dp</dimen>
+
+
+    <dimen name="splash_screen_margin_top">88dp</dimen>
 </resources>

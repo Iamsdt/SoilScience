@@ -9,11 +9,4 @@
         android:icon="@drawable/ic_settings"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_favourite"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_lover"
-        app:showAsAction="ifRoom|collapseActionView" />
-
 </menu>

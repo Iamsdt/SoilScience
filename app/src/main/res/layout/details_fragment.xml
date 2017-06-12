@@ -21,7 +21,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:padding="@dimen/list_tv"
-            android:text="@string/details_txt_label"
+            android:text="@string/details_word_label"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

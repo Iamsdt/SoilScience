@@ -19,4 +19,27 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <!-- pink theme -->
+    <style name="pink" parent="AppTheme">
+        <item name="colorPrimary">@color/pink_primary</item>
+        <item name="colorPrimaryDark">@color/pink_primary_dark</item>
+        <item name="colorAccent">@color/pink_accent</item>
+    </style>
+
+    <!-- purple theme -->
+    <style name="purple" parent="AppTheme">
+        <item name="colorPrimary">@color/purple_primary</item>
+        <item name="colorPrimaryDark">@color/purple_primary_dark</item>
+        <item name="colorAccent">@color/purple_accent</item>
+    </style>
+
+    <!-- deep orange theme -->
+    <style name="deepOrange" parent="AppTheme">
+        <item name="colorPrimary">@color/dOrange_primary</item>
+        <item name="colorPrimaryDark">@color/dOrange_primary_dark</item>
+        <item name="colorAccent">@color/dOrange_accent</item>
+    </style>
+
+
 </resources>

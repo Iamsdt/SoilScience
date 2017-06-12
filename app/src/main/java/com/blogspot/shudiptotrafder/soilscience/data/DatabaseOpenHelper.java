@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.COLUMN_WORD;
-import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.TABLE_NAME;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 
 /**
  * SoilScience
@@ -15,12 +14,8 @@ import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.E
 
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "soilscience.db";
-    private static final int DB_VERSION = 1;
-
-
      DatabaseOpenHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+        super(context, ConstantUtills.DB_NAME, null, ConstantUtills.DB_VERSION);
     }
 
     @Override
@@ -32,7 +27,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
                 + MainWordDBContract.Entry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
                 + MainWordDBContract.Entry.COLUMN_FAVOURITE + " BOOLEAN, "
                 + MainWordDBContract.Entry.COLUMN_USER + " BOOLEAN, "
-                + " UNIQUE ( " + COLUMN_WORD + ") ON CONFLICT REPLACE);";
+                + " UNIQUE ( " + MainWordDBContract.Entry.COLUMN_WORD + ") ON CONFLICT REPLACE);";
 
         //Log.e("Sql",CREATE_TABLE_SQL);
 
@@ -41,7 +36,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MainWordDBContract.Entry.TABLE_NAME);
         onCreate(db);
     }
 

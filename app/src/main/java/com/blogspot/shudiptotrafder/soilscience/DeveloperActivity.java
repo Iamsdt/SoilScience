@@ -12,6 +12,7 @@ public class DeveloperActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_developer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,7 +35,7 @@ public class DeveloperActivity extends AppCompatActivity {
     // TODO: 6/7/2017 add theme 
     // TODO: 6/7/2017 add search view 
     // TODO: 6/7/2017 add voice search view
-    // TODO: 6/7/2017 add random search view
+    // complete: 6/7/2017 add random search view
     // TODO: 6/7/2017 circular view add for random word
     
     // TODO: 6/7/2017 add app intro 

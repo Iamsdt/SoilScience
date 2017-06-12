@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Soil Science</string>
+    <string name="splash_str">a complete Dictionary App</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -11,6 +12,8 @@
     <string name="title_activity_details">Details</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_developer">Developer</string>
+    <string name="title_activity_favourite">Favourite</string>
+    <string name="title_activity_user_add">Add Own word</string>
 
     <!-- details fragment -->
     <string name="details_word_label">Word: </string>
@@ -61,9 +64,6 @@
     <string name="about">About</string>
     <string name="copyright">Copyright</string>
     <string name="developer">Developer</string>
-    <string name="details_txt_label">Word:</string>
-    <string name="title_activity_favourite">FavouriteActivity</string>
-    <string name="title_activity_user_add">UserAddActivity</string>
 
     <!-- hint oftion for add by user -->
     <string name="hintWord">word</string>
@@ -73,5 +73,6 @@
     <string name="noWordAdd">you don\'t add any favourite word yet.
         You can add your favourite word from word details. That\'s are listed here</string>
     <string name="add_your_own_word">Add your own word</string>
+    <string name="search">Search...</string>
 
 </resources>

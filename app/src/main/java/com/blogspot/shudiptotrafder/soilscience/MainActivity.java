@@ -1,12 +1,14 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -29,12 +31,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
-import com.blogspot.shudiptotrafder.soilscience.data.DataBaseProvider;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -43,15 +46,17 @@ public class MainActivity extends AppCompatActivity
 
     //loaders id that initialized that's one loader is running
     private static final int TASK_LOADER_ID = 0;
-    //sp key
-    private final String key = "initialized";
-    SharedPreferences preferences;
+
+    //speech to text
+    private static final int REQ_CODE_SPEECH_INPUT = 100;
+
+
     //it's also show when data base are loading
     ProgressDialog progressDialog;
-    private CustomCursorAdapter mAdapter;
-    //its indicate that's database initialized or not
-    private boolean state;
 
+    private CustomCursorAdapter mAdapter;
+
+    //selected column form database
     public static final String[] projection = new String[]
             {MainWordDBContract.Entry.COLUMN_WORD};
 
@@ -65,41 +70,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setNightMode();
-
         super.onCreate(savedInstanceState);
+
+        Utility.setNightMode(this);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //initializedDatabase();
-
         //progress dialog for force wait user for database ready
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait a while");
         progressDialog.setCancelable(false);
-        progressDialog.show();
 
         //assign view
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
-
-        final LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
+        final LinearLayoutManager manager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(manager);
 
         mAdapter = new CustomCursorAdapter(this, this);
-
         recyclerView.setAdapter(mAdapter);
-
-        //SharedPreferences preferences for database initialize
-        // for first time value
-        preferences = getSharedPreferences(key, MODE_PRIVATE);
-        //sate of database is initialized or not
-        state = preferences.getBoolean(key, false);
 
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
@@ -121,6 +114,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //fab hide with recycler view scroll
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -149,13 +143,27 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
+        //SharedPreferences for database initializing state
+        // for first time value
+
+        SharedPreferences preferences = getSharedPreferences(
+                ConstantUtills.DATABASE_INIT_SP_KEY, MODE_PRIVATE);
+        //sate of database is initialized or not
+        boolean state = preferences.getBoolean(
+                ConstantUtills.DATABASE_INIT_SP_KEY, false);
+
         if (!state) {
-            initializedDatabase();
+            progressDialog.show();
+            Utility.initializedDatabase(this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -163,8 +171,8 @@ public class MainActivity extends AppCompatActivity
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
                 if (key.equals(getString(R.string.switchKey))) {
+                    sle("recreated");
                     recreate();
-
                 }
 
                 if (key.equalsIgnoreCase(getString(R.string.textSizeKey))) {
@@ -172,36 +180,6 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-    }
-
-    /**
-     * this methods for database initialize
-     * it's only called for the first time of the app run
-     * or update of any data base
-     */
-    private void initializedDatabase() {
-
-        DataBaseProvider provider = new DataBaseProvider(MainActivity.this);
-
-        if (!state) {
-            SharedPreferences.Editor editor = preferences.edit();
-            try {
-                provider.loadWords();
-                editor.putBoolean(key, true);
-                sle("initializedDatabase called");
-            } catch (IOException e) {
-                e.printStackTrace();
-                slet("Error to initialized data", e);
-                editor.putBoolean(key, false);
-            }
-            editor.apply();
-        }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         // re-queries for all tasks
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
@@ -282,17 +260,77 @@ public class MainActivity extends AppCompatActivity
                 //openSearch();
                 return true;
             case R.id.action_stt:
-                Toast.makeText(this, "Voice Search option is Coming soon", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Voice Search option is Coming soon", Toast.LENGTH_SHORT).show();
+                askSpeechInput();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    // Showing google speech input dialog
+
+    private void askSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Speak your desire word");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            a.printStackTrace();
+            slet("Activity not found", a);
+            Toast.makeText(this, "Sorry Speech To Text is not " +
+                    "supported in your device", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Receiving speech input
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+                    boolean contain = mAdapter.getAllWord().contains(result.get(0).toUpperCase());
+
+                    if (contain){
+                        Uri uri = MainWordDBContract.Entry.buildUriWithWord(result.get(0));
+
+                        Intent intent = new Intent(MainActivity.this,
+                                DetailsActivity.class);
+                        intent.setData(uri);
+
+                        startActivity(intent);
+
+                    } else {
+                        Toast.makeText(this, "Sorry word not found", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                break;
+            }
+
+        }
+    }
+
     //for loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI, projection, null, null,
+                MainWordDBContract.Entry.COLUMN_WORD);
     }
 
     @Override
@@ -357,20 +395,6 @@ public class MainActivity extends AppCompatActivity
 
         if (BuildConfig.DEBUG) {
             Log.e(Tag, s, t);
-        }
-    }
-
-    //set night mode
-    private void setNightMode() {
-
-        boolean isEnabled = Utility.getNightModeEnabled(this);
-
-        if (isEnabled) {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 

@@ -19,6 +19,7 @@ import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,15 +58,15 @@ public class DetailsActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setNightMode();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //assign view
+
+        ScrollView scrollView = (ScrollView) findViewById(R.id.detailsScrollView);
+
         wordTV = (TextView) findViewById(R.id.details_word);
         descriptionTV = (TextView) findViewById(R.id.details_description);
 
@@ -92,6 +93,8 @@ public class DetailsActivity extends AppCompatActivity implements
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        scrollView.setSmoothScrollingEnabled(true);
 
         //ini loader
         getSupportLoaderManager().initLoader(ID_DETAIL_LOADER, null, this);
@@ -222,7 +225,7 @@ public class DetailsActivity extends AppCompatActivity implements
 
         if (status != TextToSpeech.ERROR){
 
-            int result = toSpeech.setLanguage(Locale.getDefault());
+            int result = toSpeech.setLanguage(Locale.US);
 
             if (result == TextToSpeech.LANG_MISSING_DATA ||
                     result == TextToSpeech.LANG_NOT_SUPPORTED||
@@ -254,19 +257,5 @@ public class DetailsActivity extends AppCompatActivity implements
         }
         return size;
 
-    }
-
-    //set night mode
-    private void setNightMode() {
-
-        boolean isEnabled = Utility.getNightModeEnabled(this);
-
-        if (isEnabled) {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(
-                    AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 }

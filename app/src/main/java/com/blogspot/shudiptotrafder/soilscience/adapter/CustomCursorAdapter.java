@@ -16,6 +16,7 @@ import com.blogspot.shudiptotrafder.soilscience.animation.AnimationUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -46,20 +47,14 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         mContext = context;
     }
 
-    public Cursor swapCursor(Cursor c) {
-        // check if this cursor is the same as the previous cursor (mCursor)
-        if (mCursor == c) {
-            return null;
-            // bc nothing has changed
-        }
-        Cursor tempCursor = mCursor;
-        this.mCursor = c; // new cursor value assigned
+    public void swapCursor(Cursor cursor) {
+
+        mCursor = cursor;
 
         //check if this is a valid cursor, then update the cursor
-        if (c != null) {
+        if (cursor != null) {
             this.notifyDataSetChanged();
         }
-        return tempCursor;
     }
 
     @Override
@@ -122,6 +117,27 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         }
         return word;
     }
+
+    public ArrayList<String> getAllWord(){
+
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        if (mCursor != null){
+
+            mCursor.moveToFirst();
+
+            for (int i = 0; i < mCursor.getCount(); i++) {
+                String word = mCursor.getString(MainActivity.INDEX_WORD);
+                arrayList.add(word);
+            }
+
+        }
+
+        return arrayList;
+    }
+
+
+
 
     public interface ClickListener{
         void onItemClickListener(String s);

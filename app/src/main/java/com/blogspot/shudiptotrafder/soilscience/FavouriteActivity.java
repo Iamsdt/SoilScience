@@ -15,10 +15,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
 
@@ -38,12 +42,16 @@ public class FavouriteActivity extends AppCompatActivity
     private View noFavourite;
     private RecyclerView recyclerView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Utility.setNightMode(this);
+
         setContentView(R.layout.activity_favourite);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         recyclerView = (RecyclerView) findViewById(R.id.favouriteRecycleView);
         noFavourite = findViewById(R.id.no_favouriteLayout);
@@ -111,6 +119,7 @@ public class FavouriteActivity extends AppCompatActivity
             }
         });
 
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -118,11 +127,37 @@ public class FavouriteActivity extends AppCompatActivity
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.favourite,menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            onBackPressed();
+
+        } else if (id == R.id.action_settings){
+            startActivity(new Intent(this, SettingsActivity.class));
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -135,7 +170,7 @@ public class FavouriteActivity extends AppCompatActivity
 
                 return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,
                         MainActivity.projection,
-                        selection, selectionArg, MainWordDBContract.Entry._ID);
+                        selection, selectionArg, MainWordDBContract.Entry.COLUMN_WORD);
 
             default:
                 throw new RuntimeException("Loader not initialize " + id);

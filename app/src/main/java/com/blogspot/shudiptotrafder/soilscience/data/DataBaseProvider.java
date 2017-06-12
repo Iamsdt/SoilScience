@@ -99,7 +99,7 @@ public class DataBaseProvider {
 
             }
         } catch (IOException e){
-            slet("Error in load word",e);
+            slet(e);
         } finally {
             reader.close();
         }
@@ -124,16 +124,15 @@ public class DataBaseProvider {
     /**
      * log message methods that's display log only debug mode
      *
-     * @param s message that to display
      * @param t throwable that's throw if exception happen
      */
-    private static void slet(String s, Throwable t) {
+    private static void slet(Throwable t) {
         //show log with error message with throwable
         //if debug mode enable
         String Tag = "DataBaseProvider";
 
         if (BuildConfig.DEBUG) {
-            Log.e(Tag, s, t);
+            Log.e(Tag, "Error in load word", t);
         }
     }
 
