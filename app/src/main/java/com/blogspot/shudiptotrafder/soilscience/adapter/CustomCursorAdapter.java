@@ -10,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.blogspot.shudiptotrafder.soilscience.MainActivity;
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.animation.AnimationUtils;
-import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -69,7 +67,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         mCursor.moveToPosition(position);
-        String word = mCursor.getString(MainActivity.INDEX_WORD);
+        String word = mCursor.getString(ConstantUtills.INDEX_ONLY_WORD);
         holder.word.setText(word);
         holder.word.setTextSize(Utility.getTextSize(mContext));
 
@@ -113,30 +111,10 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
                 mCursor.moveToPosition(position);
             }
 
-            word = mCursor.getString(MainActivity.INDEX_WORD);
+            word = mCursor.getString(ConstantUtills.INDEX_ONLY_WORD);
         }
         return word;
     }
-
-    public ArrayList<String> getAllWord(){
-
-        ArrayList<String> arrayList = new ArrayList<>();
-
-        if (mCursor != null){
-
-            mCursor.moveToFirst();
-
-            for (int i = 0; i < mCursor.getCount(); i++) {
-                String word = mCursor.getString(MainActivity.INDEX_WORD);
-                arrayList.add(word);
-            }
-
-        }
-
-        return arrayList;
-    }
-
-
 
 
     public interface ClickListener{
@@ -173,8 +151,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         @Override
         public void onClick(View v) {
             mCursor.moveToPosition(getAdapterPosition());
-            int descriptionIndex = mCursor.getColumnIndex(MainWordDBContract.Entry.COLUMN_WORD);
-            String word = mCursor.getString(descriptionIndex);
+            String word = mCursor.getString(ConstantUtills.INDEX_ONLY_WORD);
             clickListener.onItemClickListener(word);
         }
     }

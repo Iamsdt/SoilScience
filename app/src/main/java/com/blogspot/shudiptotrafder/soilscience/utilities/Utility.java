@@ -71,11 +71,11 @@ public class Utility {
             if (!state) {
                 provider.loadWords();
                 editor.putBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, true);
-                sle("initializedDatabase called");
+                showLog("initializedDatabase called");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            slet("Error to initialized data", e);
+            showLogThrowable("Error to initialized data", e);
             editor.putBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, false);
         }
         editor.apply();
@@ -86,7 +86,7 @@ public class Utility {
      *
      * @param message String show on log
      */
-    private static void sle(String message) {
+    public static void showLog(String message) {
 
         final String TAG = "Utility";
 
@@ -102,7 +102,7 @@ public class Utility {
      * @param t       throwable that's show on log
      */
 
-    private static void slet(String message, Throwable t) {
+    public static void showLogThrowable(String message, Throwable t) {
 
         final String TAG = "Utility";
 
@@ -110,4 +110,5 @@ public class Utility {
             Log.e(TAG, message, t);
         }
     }
+
 }

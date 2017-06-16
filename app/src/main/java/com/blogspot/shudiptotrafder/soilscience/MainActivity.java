@@ -1,6 +1,5 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +22,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,30 +38,25 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import br.com.mauker.materialsearchview.MaterialSearchView;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         CustomCursorAdapter.ClickListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    //loaders id that initialized that's one loader is running
-    private static final int TASK_LOADER_ID = 0;
 
-    //speech to text
-    private static final int REQ_CODE_SPEECH_INPUT = 100;
-
-
-    //it's also show when data base are loading
-    ProgressDialog progressDialog;
-
+    //recycler view adapter
     private CustomCursorAdapter mAdapter;
 
-    //selected column form database
-    public static final String[] projection = new String[]
-            {MainWordDBContract.Entry.COLUMN_WORD};
+    //material search view
+    private MaterialSearchView searchView;
 
-    //for words index
-    public static final int INDEX_WORD = 0;
+    //floating action button
+    private FloatingActionButton fab;
 
+
+    //to support vector drawables for lower api
     static {
         //complete add vector drawable support
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -70,21 +64,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         Utility.setNightMode(this);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //progress dialog for force wait user for database ready
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait a while");
-        progressDialog.setCancelable(false);
 
         //assign view
+
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
         final LinearLayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
@@ -94,13 +87,18 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new CustomCursorAdapter(this, this);
         recyclerView.setAdapter(mAdapter);
 
+
+        //set all search action
+        setAllSearchOption();
+
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
          created, otherwise the last created loader is re-used.
          */
-        getSupportLoaderManager().initLoader(TASK_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(ConstantUtills.MAIN_LOADER_ID, null, this);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        //todo add circular review animation with fab
+        fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,28 +140,93 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    //search operation
+    private void setAllSearchOption() {
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //SharedPreferences for database initializing state
-        // for first time value
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
 
-        SharedPreferences preferences = getSharedPreferences(
-                ConstantUtills.DATABASE_INIT_SP_KEY, MODE_PRIVATE);
-        //sate of database is initialized or not
-        boolean state = preferences.getBoolean(
-                ConstantUtills.DATABASE_INIT_SP_KEY, false);
+                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
+                Cursor cursor = getContentResolver().query(uri,
+                        ConstantUtills.projectionOnlyWord, null, null, null);
 
-        if (!state) {
-            progressDialog.show();
-            Utility.initializedDatabase(this);
-        }
+                if (cursor != null && cursor.getCount() > 0) {
+                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                    intent.setData(uri);
+                    startActivity(intent);
+                    searchView.closeSearch();
+                    searchView.setCloseOnTintClick(false);
+                }
+
+                if (cursor != null) {
+                    cursor.close();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if (newText.length() > 0) {
+                    String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
+                    //if you are try to search from any position of word
+                    //then use
+                    //String[] selectionArg = new String[]{"%"+newText+"%"};
+                    //if you try to search from start of word the use this line
+                    String[] selectionArg = new String[]{newText + "%"};
+
+                    Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
+                            ConstantUtills.projectionOnlyWord, selection, selectionArg, null);
+
+                    if (cursor != null && cursor.getCount() > 0) {
+                        mAdapter.swapCursor(cursor);
+                    }
+
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewOpened() {
+
+                if (fab.isShown()) {
+                    fab.hide();
+                }
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                if (!fab.isShown()) {
+                    fab.show();
+                }
+            }
+        });
+
+
+//        searchView.setTintAlpha(200);
+        searchView.adjustTintAlpha(0.8f);
+
+
+        searchView.setOnVoiceClickedListener(new MaterialSearchView.OnVoiceClickedListener() {
+            @Override
+            public void onVoiceClicked() {
+                askSpeechInput();
+            }
+        });
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // FIXME: 6/16/2017 set with navigation drawer button
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -171,7 +234,7 @@ public class MainActivity extends AppCompatActivity
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
                 if (key.equals(getString(R.string.switchKey))) {
-                    sle("recreated");
+                    Utility.showLog("recreated");
                     recreate();
                 }
 
@@ -181,8 +244,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        searchView.activityResumed();
+
         // re-queries for all tasks
-        getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
+        getSupportLoaderManager().restartLoader(ConstantUtills.MAIN_LOADER_ID, null, this);
     }
 
     @Override
@@ -190,6 +255,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
+        } else if (searchView.isOpen()){
+            searchView.closeSearch();
+
         } else {
             super.onBackPressed();
         }
@@ -236,6 +305,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //dummy methods
     void showDummyText() {
         Toast.makeText(this, "Not available yet", Toast.LENGTH_SHORT).show();
     }
@@ -252,24 +322,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
             case R.id.action_search:
-                Toast.makeText(this, "Text Search option is Coming soon", Toast.LENGTH_SHORT).show();
-                //openSearch();
-                return true;
-            case R.id.action_stt:
-                //Toast.makeText(this, "Voice Search option is Coming soon", Toast.LENGTH_SHORT).show();
-                askSpeechInput();
-                return true;
+                searchView.openSearch();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     // Showing google speech input dialog
-
     private void askSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
@@ -280,10 +341,10 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 "Speak your desire word");
         try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+            startActivityForResult(intent, MaterialSearchView.REQUEST_VOICE);
         } catch (ActivityNotFoundException a) {
             a.printStackTrace();
-            slet("Activity not found", a);
+            Utility.showLogThrowable("Activity not found", a);
             Toast.makeText(this, "Sorry Speech To Text is not " +
                     "supported in your device", Toast.LENGTH_SHORT).show();
         }
@@ -293,64 +354,61 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode) {
+        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                String searchWrd = matches.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) {
 
-            case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
+                    //Todo more accurate on settings
+                    searchView.setQuery(searchWrd, false);
+                    Uri uri = MainWordDBContract.Entry.
+                            buildUriWithWord(searchWrd.toUpperCase());
 
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    Cursor cursor = getContentResolver().query(uri,
+                            ConstantUtills.projectionOnlyWord, null, null, null);
 
-                    boolean contain = mAdapter.getAllWord().contains(result.get(0).toUpperCase());
-
-                    if (contain){
-                        Uri uri = MainWordDBContract.Entry.buildUriWithWord(result.get(0));
-
+                    if (cursor != null && cursor.getCount() > 0) {
                         Intent intent = new Intent(MainActivity.this,
                                 DetailsActivity.class);
                         intent.setData(uri);
-
                         startActivity(intent);
-
-                    } else {
-                        Toast.makeText(this, "Sorry word not found", Toast.LENGTH_SHORT).show();
+                        searchView.closeSearch();
+                        searchView.setCloseOnTintClick(false);
                     }
 
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
-
-                break;
             }
 
+            return;
         }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     //for loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI, projection, null, null,
+        return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,
+                ConstantUtills.projectionOnlyWord, null, null,
                 MainWordDBContract.Entry.COLUMN_WORD);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-
         // Update the data that the adapter uses to create ViewHolders
-        Log.e("Data", String.valueOf(data.getCount()));
+        Utility.showLog("Cursor data: "+data.getCount());
         mAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
     }
 
     /**
@@ -365,37 +423,6 @@ public class MainActivity extends AppCompatActivity
         Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(word);
         intent.setData(wordUri);
         startActivity(intent);
+        searchView.closeSearch();
     }
-
-    /**
-     * log message methods that's display log only debug mode
-     *
-     * @param string message that to display
-     */
-    private static void sle(String string) {
-        //show log with error message
-        //if debug mode enable
-        String Tag = "MainActivity";
-
-        if (BuildConfig.DEBUG) {
-            Log.e(Tag, string);
-        }
-    }
-
-    /**
-     * log message methods that's display log only debug mode
-     *
-     * @param s message that to display
-     * @param t throwable that's throw if exception happen
-     */
-    private static void slet(String s, Throwable t) {
-        //show log with error message with throwable
-        //if debug mode enable
-        String Tag = "MainActivity";
-
-        if (BuildConfig.DEBUG) {
-            Log.e(Tag, s, t);
-        }
-    }
-
 }

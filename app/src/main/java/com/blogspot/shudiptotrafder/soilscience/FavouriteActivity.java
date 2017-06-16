@@ -22,6 +22,7 @@ import android.view.View;
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
@@ -30,10 +31,6 @@ public class FavouriteActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>,
         CustomCursorAdapter.ClickListener {
 
-    //TODO android circular review
-
-    //Loader id
-    private static final int LOADER_ID = 122;
 
     //adapter
     CustomCursorAdapter mAdapter;
@@ -68,6 +65,8 @@ public class FavouriteActivity extends AppCompatActivity
         recyclerView.setAdapter(mAdapter);
 
 
+        //todo set a undo button for this
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.START|ItemTouchHelper.END) {
             @Override
@@ -94,7 +93,7 @@ public class FavouriteActivity extends AppCompatActivity
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition()
                             , mAdapter.getItemCount());
 
-                    getSupportLoaderManager().restartLoader(LOADER_ID, null, FavouriteActivity.this);
+                    getSupportLoaderManager().restartLoader(ConstantUtills.FAVOURITE_LOADER_ID, null, FavouriteActivity.this);
                 }
 
             }
@@ -124,14 +123,15 @@ public class FavouriteActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(ConstantUtills.FAVOURITE_LOADER_ID, null, this);
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
+        getSupportLoaderManager().restartLoader(
+                ConstantUtills.FAVOURITE_LOADER_ID, null, this);
     }
 
     @Override
@@ -163,13 +163,13 @@ public class FavouriteActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         switch (id) {
-            case LOADER_ID:
+            case ConstantUtills.FAVOURITE_LOADER_ID:
 
                 String selection = MainWordDBContract.Entry.COLUMN_FAVOURITE + " = ? ";
                 String[] selectionArg = new String[]{"1"};
 
                 return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,
-                        MainActivity.projection,
+                        ConstantUtills.projectionOnlyWord,
                         selection, selectionArg, MainWordDBContract.Entry.COLUMN_WORD);
 
             default:

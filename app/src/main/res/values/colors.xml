@@ -22,5 +22,9 @@
     <color name="dOrange_primary_dark">#E64A19</color>
     <color name="dOrange_accent">#CDDC39</color>
 
+    <!-- material color -->
+    <color name="mSearchWhite">#e0e0e0</color>
+    <color name="mSearchBlack">#212121</color>
+    <color name="mSearchGray">#757575</color>
 
 </resources>

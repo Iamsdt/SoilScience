@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.Locale;
@@ -33,8 +34,7 @@ public class DetailsActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
         TextToSpeech.OnInitListener {
 
-    //loader id
-    private static final int ID_DETAIL_LOADER = 321;
+
     //for select data column from database
     private static final String[] projection = {
             MainWordDBContract.Entry.COLUMN_WORD,
@@ -97,7 +97,7 @@ public class DetailsActivity extends AppCompatActivity implements
         scrollView.setSmoothScrollingEnabled(true);
 
         //ini loader
-        getSupportLoaderManager().initLoader(ID_DETAIL_LOADER, null, this);
+        getSupportLoaderManager().initLoader(ConstantUtills.DETAILS_LOADER_ID, null, this);
     }
 
     //enter
@@ -139,7 +139,7 @@ public class DetailsActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportLoaderManager().restartLoader(ID_DETAIL_LOADER, null, this);
+        getSupportLoaderManager().restartLoader(ConstantUtills.DETAILS_LOADER_ID, null, this);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class DetailsActivity extends AppCompatActivity implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         switch (id) {
-            case ID_DETAIL_LOADER:
+            case ConstantUtills.DETAILS_LOADER_ID:
                 return new CursorLoader(this, mUri,
                         //number of column select
                         projection,
