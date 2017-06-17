@@ -48,6 +48,7 @@
 
     <!-- option menu -->
     <string name="action_search">Search</string>
+    <string name="action_night">Night Mode</string>
     <string name="action_sst">Speech to Text</string>
 
     <!-- nab bar -->
