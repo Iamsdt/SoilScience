@@ -34,6 +34,8 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.ftinc.scoop.Scoop;
+import com.ftinc.scoop.ui.ScoopSettingsActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         CustomCursorAdapter.ClickListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
+
+    private static final int THEME_CHENGER_CODE = 111;
 
     //recycler view adapter
     private CustomCursorAdapter mAdapter;
@@ -67,12 +71,13 @@ public class MainActivity extends AppCompatActivity
 
         Utility.setNightMode(this);
 
+        Scoop.getInstance().apply(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         //assign view
 
@@ -107,6 +112,10 @@ public class MainActivity extends AppCompatActivity
                 String s = mAdapter.getRandomWord();
 
                 Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(s);
+
+                Bundle b = new Bundle();
+                b.putString("s", wordUri.toString());
+
                 intent.setData(wordUri);
                 startActivity(intent);
             }
@@ -278,6 +287,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
 
+        } else if (id == R.id.nav_choose_theme) {
+            startActivityForResult(ScoopSettingsActivity
+                    .createIntent(this, "Choose theme"), THEME_CHENGER_CODE);
+
         } else if (id == R.id.nav_add) {
             startActivity(new Intent(this, UserAddActivity.class));
 
@@ -315,6 +328,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -322,8 +336,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+
             case R.id.action_search:
                 searchView.openSearch();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -384,8 +400,10 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
-            return;
+        } else if (requestCode == THEME_CHENGER_CODE && resultCode == RESULT_OK) {
+            recreate();
         }
+
         super.onActivityResult(requestCode, resultCode, data);
 
     }

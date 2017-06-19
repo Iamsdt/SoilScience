@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.ftinc.scoop.Scoop;
+
 public class DeveloperActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Scoop.getInstance().apply(this);
 
         setContentView(R.layout.activity_developer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

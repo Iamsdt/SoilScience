@@ -23,7 +23,7 @@ import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.ftinc.scoop.Scoop;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
 
@@ -44,7 +44,9 @@ public class FavouriteActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Utility.setNightMode(this);
+        Scoop.getInstance().apply(this);
+
+        //Utility.setNightMode(this);
 
         setContentView(R.layout.activity_favourite);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);

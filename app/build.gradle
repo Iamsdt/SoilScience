@@ -14,8 +14,13 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            ext.alwaysUpdateBuildId = false
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -42,4 +47,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:25.3.1'
 
     compile 'br.com.mauker.materialsearchview:materialsearchview:1.2.2'
+
+    //theme change
+    compile 'com.52inc:scoops:1.0.0'
 }

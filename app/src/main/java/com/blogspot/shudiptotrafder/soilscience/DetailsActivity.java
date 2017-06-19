@@ -27,6 +27,7 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.ftinc.scoop.Scoop;
 
 import java.util.Locale;
 
@@ -59,6 +60,9 @@ public class DetailsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Scoop.getInstance().apply(this);
+
         setContentView(R.layout.activity_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

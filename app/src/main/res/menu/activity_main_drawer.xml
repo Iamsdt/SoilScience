@@ -14,14 +14,24 @@
             android:title="@string/favourite" />
 
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/action_settings" />
-        <item
             android:id="@+id/nav_add"
             android:icon="@drawable/ic_add"
             android:title="@string/add" />
     </group>
+
+    <item android:title="@string/about">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/action_settings" />
+
+            <item
+                android:id="@+id/nav_choose_theme"
+                android:icon="@drawable/ic_wb_sunny_black_24dp"
+                android:title="@string/nav_choose_theme" />
+        </menu>
+    </item>
 
     <item android:title="@string/about">
         <menu>

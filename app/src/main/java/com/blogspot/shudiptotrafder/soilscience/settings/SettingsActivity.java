@@ -4,11 +4,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
-import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.ftinc.scoop.Scoop;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -16,9 +17,13 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Utility.setNightMode(this);
+        Scoop.getInstance().apply(this);
+
+        //setTheme(R.style.amber);
 
         setContentView(R.layout.activity_settings);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
+        setSupportActionBar(toolbar);
 
         //is switch preference changed then recreate activity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

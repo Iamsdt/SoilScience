@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.ftinc.scoop.Scoop;
 
 public class UserAddActivity extends AppCompatActivity {
 
@@ -23,6 +24,9 @@ public class UserAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Scoop.getInstance().apply(this);
+
         setContentView(R.layout.activity_user_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
