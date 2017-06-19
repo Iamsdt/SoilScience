@@ -26,16 +26,15 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
+import com.blogspot.shudiptotrafder.soilscience.theme.ColorActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
-import com.ftinc.scoop.Scoop;
-import com.ftinc.scoop.ui.ScoopSettingsActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -47,8 +46,7 @@ public class MainActivity extends AppCompatActivity
         CustomCursorAdapter.ClickListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-
-    private static final int THEME_CHENGER_CODE = 111;
+    private static final int THEME_CHANGER_REQUEST_CODE = 111;
 
     //recycler view adapter
     private CustomCursorAdapter mAdapter;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         Utility.setNightMode(this);
 
-        Scoop.getInstance().apply(this);
+        setTheme(ThemeUtils.getThemeId(this));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -104,21 +102,15 @@ public class MainActivity extends AppCompatActivity
 
         //todo add circular review animation with fab
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
 
-                String s = mAdapter.getRandomWord();
+            String s = mAdapter.getRandomWord();
 
-                Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(s);
+            Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(s);
 
-                Bundle b = new Bundle();
-                b.putString("s", wordUri.toString());
-
-                intent.setData(wordUri);
-                startActivity(intent);
-            }
+            intent.setData(wordUri);
+            startActivity(intent);
         });
 
         //fab hide with recycler view scroll
@@ -265,7 +257,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
-        } else if (searchView.isOpen()){
+        } else if (searchView.isOpen()) {
             searchView.closeSearch();
 
         } else {
@@ -288,8 +280,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
 
         } else if (id == R.id.nav_choose_theme) {
-            startActivityForResult(ScoopSettingsActivity
-                    .createIntent(this, "Choose theme"), THEME_CHENGER_CODE);
+            startActivityForResult(ColorActivity
+                    .createIntent(this, null), THEME_CHANGER_REQUEST_CODE);
 
         } else if (id == R.id.nav_add) {
             startActivity(new Intent(this, UserAddActivity.class));
@@ -301,10 +293,9 @@ public class MainActivity extends AppCompatActivity
             showDummyText();
 
         } else if (id == R.id.nav_developer) {
-            showDummyText();
+            startActivity(new Intent(this, ColorActivity.class));
 
         } else if (id == R.id.nav_copyright) {
-            showDummyText();
 
         } else if (id == R.id.nav_about) {
             showDummyText();
@@ -400,7 +391,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
-        } else if (requestCode == THEME_CHENGER_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == THEME_CHANGER_REQUEST_CODE && resultCode == RESULT_OK) {
             recreate();
         }
 
@@ -420,7 +411,7 @@ public class MainActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         // Update the data that the adapter uses to create ViewHolders
-        Utility.showLog("Cursor data: "+data.getCount());
+        Utility.showLog("Cursor data: " + data.getCount());
         mAdapter.swapCursor(data);
     }
 

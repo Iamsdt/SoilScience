@@ -18,7 +18,6 @@ import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +25,8 @@ import android.widget.Toast;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
-import com.ftinc.scoop.Scoop;
 
 import java.util.Locale;
 
@@ -61,7 +60,7 @@ public class DetailsActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Scoop.getInstance().apply(this);
+        setTheme(ThemeUtils.getThemeId(this));
 
         setContentView(R.layout.activity_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -87,12 +86,7 @@ public class DetailsActivity extends AppCompatActivity implements
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.details_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setTTS(wordForTTS);
-            }
-        });
+        fab.setOnClickListener(view -> setTTS(wordForTTS));
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

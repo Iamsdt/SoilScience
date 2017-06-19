@@ -23,7 +23,8 @@ import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.ftinc.scoop.Scoop;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
 
@@ -33,7 +34,7 @@ public class FavouriteActivity extends AppCompatActivity
 
 
     //adapter
-    CustomCursorAdapter mAdapter;
+    private CustomCursorAdapter mAdapter;
 
     //views
     private View noFavourite;
@@ -44,9 +45,9 @@ public class FavouriteActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Scoop.getInstance().apply(this);
+        Utility.setNightMode(this);
 
-        //Utility.setNightMode(this);
+        setTheme(ThemeUtils.getThemeId(this));
 
         setContentView(R.layout.activity_favourite);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -102,13 +103,8 @@ public class FavouriteActivity extends AppCompatActivity
         }).attachToRecyclerView(recyclerView);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.favouriteFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override

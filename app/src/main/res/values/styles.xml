@@ -20,27 +20,27 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- deep orange theme -->
-    <style name="deepOrange_scoop" parent="Theme.Scoop.Light">
-        <item name="colorPrimary">@color/dOrange_primary</item>
-        <item name="colorPrimaryDark">@color/dOrange_primary_dark</item>
-        <item name="colorAccent">@color/dOrange_accent</item>
-    </style>
-
-    <style name="deepOrange" parent="AppTheme.NoActionBar">
-        <item name="colorPrimary">@color/dOrange_primary</item>
-        <item name="colorPrimaryDark">@color/dOrange_primary_dark</item>
-        <item name="colorAccent">@color/dOrange_accent</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
-    </style>
-
-    <style name="amber" parent="AppTheme">
+    <!-- deep amber theme -->
+    <style name="amber" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/amber_500</item>
         <item name="colorPrimaryDark">@color/amber_700</item>
         <item name="colorAccent">@color/dOrange_accent</item>
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
     </style>
 
+    <style name="amber_dark" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/amber_700</item>
+        <item name="colorPrimaryDark">@color/amber_900</item>
+        <item name="colorAccent">@color/dOrange_accent</item>
+        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+    </style>
+
+    <style name="purple_dark" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/purple_700</item>
+        <item name="colorPrimaryDark">@color/purple_900</item>
+        <item name="colorAccent">@color/dOrange_accent</item>
+        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+    </style>
 
     <!-- material searchView -->
     <style name="MaterialSearchViewStyle">

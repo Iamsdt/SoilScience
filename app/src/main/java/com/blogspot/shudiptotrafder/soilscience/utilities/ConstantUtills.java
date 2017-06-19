@@ -9,6 +9,8 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 public class ConstantUtills {
     //sp key
     public static final String DATABASE_INIT_SP_KEY = "initialized";
+    public static final String THEME_SP_KEY = "theme";
+
 
     //database
     public static final String DB_NAME = "soilscience.db";

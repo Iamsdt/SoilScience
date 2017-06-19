@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.ftinc.scoop.Scoop;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
 
 public class UserAddActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class UserAddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Scoop.getInstance().apply(this);
+        ThemeUtils.initilize(this);
 
         setContentView(R.layout.activity_user_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -40,13 +40,7 @@ public class UserAddActivity extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.submitBtn);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addWord();
-            }
-        });
-
+        button.setOnClickListener(v -> addWord());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

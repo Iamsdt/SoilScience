@@ -28,11 +28,19 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+            <!--
+            <br.com.mauker.materialsearchview.MaterialSearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/MaterialSearchViewStyle"/> -->
+
             <br.com.mauker.materialsearchview.MaterialSearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/MaterialSearchViewStyle"/>
+
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

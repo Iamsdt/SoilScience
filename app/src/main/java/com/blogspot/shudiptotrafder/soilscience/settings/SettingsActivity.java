@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
-import com.ftinc.scoop.Scoop;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -17,9 +17,9 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Scoop.getInstance().apply(this);
+        //Scoop.getInstance().apply(this);
 
-        //setTheme(R.style.amber);
+        setTheme(ThemeUtils.getThemeId(this));
 
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);

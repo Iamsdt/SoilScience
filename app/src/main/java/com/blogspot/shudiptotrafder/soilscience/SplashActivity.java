@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
-import com.ftinc.scoop.Scoop;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,7 +18,6 @@ public class SplashActivity extends AppCompatActivity {
 
         //Utility.setNightMode(this);
 
-        Scoop.getInstance().apply(this);
 
         //fixme add a progress dialog
 
