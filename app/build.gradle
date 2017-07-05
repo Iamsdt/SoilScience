@@ -60,6 +60,8 @@ dependencies {
     //searchView
     compile 'br.com.mauker.materialsearchview:materialsearchview:1.2.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation 'com.google.firebase:firebase-core:11.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
