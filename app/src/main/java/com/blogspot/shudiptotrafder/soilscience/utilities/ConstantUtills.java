@@ -32,4 +32,8 @@ public class ConstantUtills {
 
     //for words index
     public static final int INDEX_ONLY_WORD = 0;
+
+
+    //firebase database key for remote config
+    public static final String FB_REMOTE_STORAGE_KEY = "storage_key";
 }

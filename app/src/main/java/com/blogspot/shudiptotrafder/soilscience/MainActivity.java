@@ -2,11 +2,9 @@ package com.blogspot.shudiptotrafder.soilscience;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -141,109 +139,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //search operation
-    private void setAllSearchOption() {
-
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
-                Cursor cursor = getContentResolver().query(uri,
-                        ConstantUtills.projectionOnlyWord, null, null, null);
-
-                if (cursor != null && cursor.getCount() > 0) {
-                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                    intent.setData(uri);
-                    startActivity(intent);
-                    searchView.closeSearch();
-                    searchView.setCloseOnTintClick(false);
-                }
-
-                if (cursor != null) {
-                    cursor.close();
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                if (newText.length() > 0) {
-                    String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
-                    //if you are try to search from any position of word
-                    //then use
-                    //String[] selectionArg = new String[]{"%"+newText+"%"};
-                    //if you try to search from start of word the use this line
-                    String[] selectionArg = new String[]{newText + "%"};
-
-                    Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
-                            ConstantUtills.projectionOnlyWord, selection, selectionArg, null);
-
-                    if (cursor != null && cursor.getCount() > 0) {
-                        mAdapter.swapCursor(cursor);
-                    }
-
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-
-        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewOpened() {
-
-                if (fab.isShown()) {
-                    fab.hide();
-                }
-
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                if (!fab.isShown()) {
-                    fab.show();
-                }
-            }
-        });
-
-
-//        searchView.setTintAlpha(200);
-        searchView.adjustTintAlpha(0.8f);
-
-
-        searchView.setOnVoiceClickedListener(new MaterialSearchView.OnVoiceClickedListener() {
-            @Override
-            public void onVoiceClicked() {
-                askSpeechInput();
-            }
-        });
-    }
-
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        // FIXME: 6/16/2017 set with navigation drawer button
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                //Toast.makeText(SettingActivity.this, "change deced", Toast.LENGTH_SHORT).show();
-                if (key.equals(getString(R.string.switchKey))) {
-                    Utility.showLog("recreated");
-                    recreate();
-                }
-
-                if (key.equalsIgnoreCase(getString(R.string.textSizeKey))) {
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        });
 
         searchView.activityResumed();
 
@@ -337,6 +236,87 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    //search operation
+    private void setAllSearchOption() {
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
+                Cursor cursor = getContentResolver().query(uri,
+                        ConstantUtills.projectionOnlyWord, null, null, null);
+
+                if (cursor != null && cursor.getCount() > 0) {
+                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                    intent.setData(uri);
+                    startActivity(intent);
+                    searchView.closeSearch();
+                    searchView.setCloseOnTintClick(false);
+                }
+
+                if (cursor != null) {
+                    cursor.close();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if (newText.length() > 0) {
+                    String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
+                    //if you are try to search from any position of word
+                    //then use
+                    //String[] selectionArg = new String[]{"%"+newText+"%"};
+                    //if you try to search from start of word the use this line
+                    String[] selectionArg = new String[]{newText + "%"};
+
+                    Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
+                            ConstantUtills.projectionOnlyWord, selection, selectionArg, null);
+
+                    if (cursor != null && cursor.getCount() > 0) {
+                        mAdapter.swapCursor(cursor);
+                    }
+
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewOpened() {
+
+                if (fab.isShown()) {
+                    fab.hide();
+                }
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                if (!fab.isShown()) {
+                    fab.show();
+                }
+            }
+        });
+
+
+//        searchView.setTintAlpha(200);
+        searchView.adjustTintAlpha(0.8f);
+
+
+        searchView.setOnVoiceClickedListener(new MaterialSearchView.OnVoiceClickedListener() {
+            @Override
+            public void onVoiceClicked() {
+                askSpeechInput();
+            }
+        });
+    }
+
     // Showing google speech input dialog
     private void askSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -358,7 +338,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Receiving speech input
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.blogspot.shudiptotrafder.soilscience.utilities.DatabaseUtills;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -36,8 +36,10 @@ public class SplashActivity extends AppCompatActivity {
                 ConstantUtills.DATABASE_INIT_SP_KEY, false);
 
         if (!state) {
-            Utility.initializedDatabase(this);
+            DatabaseUtills.addRemoteData(this);
         }
+
+        DatabaseUtills.addRemoteData(this);
 
         final Thread checkForData = new Thread(){
             @Override
@@ -51,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
                             null,null,null);
 
                     if (cursor == null || cursor.getCount() == 0){
-                        Utility.initializedDatabase(SplashActivity.this);
+                        DatabaseUtills.initializedDatabase(SplashActivity.this);
                     }
 
                     if (cursor != null) {

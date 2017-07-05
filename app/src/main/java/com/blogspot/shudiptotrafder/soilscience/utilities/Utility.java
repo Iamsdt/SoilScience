@@ -8,9 +8,6 @@ import android.util.Log;
 
 import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
 import com.blogspot.shudiptotrafder.soilscience.R;
-import com.blogspot.shudiptotrafder.soilscience.data.DataBaseProvider;
-
-import java.io.IOException;
 
 /**
  * Created by Shudipto on 6/6/2017.
@@ -51,42 +48,13 @@ public class Utility {
     }
 
     /**
-     * this methods for database initialize
-     * it's only called for the first time of the app run
-     * or update of any data base
-     */
-    public static void initializedDatabase(Context context) {
-
-        DataBaseProvider provider = new DataBaseProvider(context);
-
-        //SharedPreferences preferences for database initialize
-        // for first time value
-        SharedPreferences preferences = context.getSharedPreferences(ConstantUtills.DATABASE_INIT_SP_KEY,
-                Context.MODE_PRIVATE);
-        //sate of database is initialized or not
-        boolean state = preferences.getBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, false);
-
-        SharedPreferences.Editor editor = preferences.edit();
-        try {
-            if (!state) {
-                provider.loadWords();
-                editor.putBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, true);
-                showLog("initializedDatabase called");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            showLogThrowable("Error to initialized data", e);
-            editor.putBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, false);
-        }
-        editor.apply();
-    }
-
-    /**
      * This methods show log error message with throwable
      *
      * @param message String show on log
      */
     public static void showLog(String message) {
+
+        //TODO add analytics data
 
         final String TAG = "Utility";
 
@@ -105,6 +73,7 @@ public class Utility {
     public static void showLogThrowable(String message, Throwable t) {
 
         final String TAG = "Utility";
+        //TODO add analytics data
 
         if (BuildConfig.DEBUG) {
             Log.e(TAG, message, t);
