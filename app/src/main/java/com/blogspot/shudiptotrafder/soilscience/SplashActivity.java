@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
+import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 public class SplashActivity extends AppCompatActivity {
@@ -26,9 +26,9 @@ public class SplashActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         //SharedPreferences for database initializing state
         // for first time value
-
         SharedPreferences preferences = getSharedPreferences(
                 ConstantUtils.DATABASE_INIT_SP_KEY, MODE_PRIVATE);
         //sate of database is initialized or not
@@ -36,10 +36,17 @@ public class SplashActivity extends AppCompatActivity {
                 ConstantUtils.DATABASE_INIT_SP_KEY, false);
 
         if (!state) {
-            DatabaseUtils.addRemoteData(this);
+            DatabaseUtils.initializedDatabase(this);
         }
 
-        DatabaseUtils.addRemoteData(this);
+        //DatabaseUtils.addRemoteData(this);
+
+        if(Utility.isNetworkAvailable(this)){
+            Intent intent = new Intent(this,DataService.class);
+            startService(intent);
+        }
+
+
 
         final Thread checkForData = new Thread(){
             @Override
@@ -71,5 +78,6 @@ public class SplashActivity extends AppCompatActivity {
 
         checkForData.start();
     }
+
 
 }

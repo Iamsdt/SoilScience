@@ -263,6 +263,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(String newText) {
 
                 if (newText.length() > 0) {
+                    // TODO: 7/6/2017 add settings for user choice that user want search
+
                     String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
                     //if you are try to search from any position of word
                     //then use
@@ -307,12 +309,8 @@ public class MainActivity extends AppCompatActivity
         searchView.adjustTintAlpha(0.8f);
 
 
-        searchView.setOnVoiceClickedListener(new MaterialSearchView.OnVoiceClickedListener() {
-            @Override
-            public void onVoiceClicked() {
-                askSpeechInput();
-            }
-        });
+        searchView.setOnVoiceClickedListener(this::askSpeechInput);
+
     }
 
     // Showing google speech input dialog

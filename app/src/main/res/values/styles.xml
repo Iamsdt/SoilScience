@@ -9,6 +9,7 @@
         <!-- must add this line or app will crash -->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

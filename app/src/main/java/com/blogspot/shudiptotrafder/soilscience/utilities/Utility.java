@@ -2,6 +2,8 @@ package com.blogspot.shudiptotrafder.soilscience.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
@@ -14,6 +16,15 @@ import com.blogspot.shudiptotrafder.soilscience.R;
  */
 
 public class Utility {
+
+    public static boolean isNetworkAvailable(Context context){
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(
+                Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo info = manager.getActiveNetworkInfo();
+
+        return info != null && info.isConnectedOrConnecting();
+    }
 
     /**
      * set nightMode to activity
@@ -76,7 +87,6 @@ public class Utility {
      * @param message String show on log
      * @param t       throwable that's show on log
      */
-
     public static void showLogThrowable(String message, Throwable t) {
 
         final String TAG = "Utility";

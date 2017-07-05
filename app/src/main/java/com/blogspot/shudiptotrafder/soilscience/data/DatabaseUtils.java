@@ -1,9 +1,9 @@
 package com.blogspot.shudiptotrafder.soilscience.data;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -38,7 +38,7 @@ public class DatabaseUtils {
      * @param context for access content resolver
      */
 
-    public static void addRemoteData(Activity context) {
+    public static void addRemoteData(Context context) {
 
         boolean state = getRemoteConfigStatus(context);
 
@@ -54,7 +54,7 @@ public class DatabaseUtils {
             final File file = File.createTempFile("ssdata", "txt");
 
             pathReference.getFile(file)
-                    .addOnSuccessListener(context, taskSnapshot -> {
+                    .addOnSuccessListener(taskSnapshot -> {
 
                         Utility.showLog("Success storage");
 
@@ -65,27 +65,31 @@ public class DatabaseUtils {
                             String line;
 
                             while ((line = reader.readLine()) != null) {
+
                                 String[] strings = TextUtils.split(line, "=");
 
-                                if (strings.length < 1) {
+                                boolean check = checkDataExist(context, strings[0].trim());
+
+                                if (check) {
+                                    Utility.showLog("loop continue");
                                     continue;
                                 }
 
                                 //those data saved in a array
                                 //first position for array is word
                                 //second position for array is description
-
                                 ContentValues values = new ContentValues();
 
                                 //we use trim() for trim unexpected value
                                 values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
                                 values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
 
+                                //context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+
                                 Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
                                 if (uri != null) {
-                                    Utility.showLog("remote Data status:" + "successfull" + uri.toString());
-
+                                    //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
                                 }
                             }
 
@@ -96,7 +100,7 @@ public class DatabaseUtils {
                         }
 
                     })
-                    .addOnFailureListener(context, e ->
+                    .addOnFailureListener(e ->
                             Utility.showLogThrowable(e.getMessage(), e));
 
 
@@ -107,6 +111,38 @@ public class DatabaseUtils {
     }
 
     /**
+     * Check data  check word is already exist or not
+     *
+     * @param context for access content resolver
+     * @param word check exist of not
+     * @return result of data existence
+     */
+
+    private static boolean checkDataExist(Context context, String word) {
+
+        boolean status = false;
+
+        Uri uri = MainWordDBContract.Entry.buildUriWithWord(word);
+
+        Utility.showLog(uri.toString());
+
+        Cursor cursor = context.getContentResolver().query(uri,
+                ConstantUtils.projectionOnlyWord, null, null, null);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            status = true;
+            Utility.showLog("check data status:" + true);
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        Utility.showLog("check data status:" + status);
+        return status;
+    }
+
+    /**
      * This methods for check status of database
      * we set it from firebase
      * if we saved new data then we set it from firebase
@@ -114,7 +150,7 @@ public class DatabaseUtils {
      * @param activity from where activity
      * @return status true or false
      */
-    private static boolean getRemoteConfigStatus(Activity activity) {
+    private static boolean getRemoteConfigStatus(Context activity) {
 
         boolean state;
 
@@ -138,13 +174,15 @@ public class DatabaseUtils {
 
         final Task<Void> fetch = remoteConfig.fetch(cacheExpiration);
 
-        fetch.addOnSuccessListener(activity, aVoid -> remoteConfig.activateFetched());
-        fetch.addOnFailureListener(activity, e -> {
+        fetch.addOnSuccessListener(aVoid -> remoteConfig.activateFetched());
+        fetch.addOnFailureListener(e -> {
             //todo analytics data
-            Utility.showLogThrowable("Remote config data failed",e);
+            Utility.showLogThrowable("Remote config data failed", e);
         });
 
         state = remoteConfig.getBoolean(ConstantUtils.FB_REMOTE_CONFIG_STORAGE_KEY);
+
+        Utility.showLog("StateData:" + state);
 
         return state;
     }
