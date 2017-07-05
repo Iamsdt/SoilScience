@@ -10,6 +10,13 @@ import android.support.v7.widget.RecyclerView;
 
 public class AnimationUtils {
 
+    /**
+     * This methods for animate recycler item
+     * when recycler view scroll to top or down
+     * @param viewHolder recycler view item
+     * @param goToDown is going down or up
+     */
+
     public static void animate(RecyclerView.ViewHolder viewHolder,
                                boolean goToDown){
 

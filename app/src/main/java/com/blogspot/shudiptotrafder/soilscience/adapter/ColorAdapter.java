@@ -68,27 +68,53 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
         holder.primaryColorDark.setBackground(getDrawAbles(primaryDark));
         holder.accentColor.setBackground(getDrawAbles(accent));
 
+    }
+
+    /**
+     * This methods for create a new drawable
+     * we take a color id and show color through drawable
+     *
+     * @param id color id for selected color
+     */
+
+    private Drawable getDrawAbles(@ColorInt int id) {
+        ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
+
+        shapeDrawable.setIntrinsicWidth(floatToInt());
+
+        shapeDrawable.setIntrinsicHeight(floatToInt());
+        shapeDrawable.setColorFilter(id, PorterDuff.Mode.SRC_ATOP);
+
+        return shapeDrawable;
 
     }
 
-    private Drawable getDrawAbles(@ColorInt int primary) {
-        ShapeDrawable d = new ShapeDrawable(new OvalShape());
-        d.setIntrinsicWidth(dipToPx(32));
-        d.setIntrinsicHeight(dipToPx(32));
-        d.setColorFilter(primary, PorterDuff.Mode.SRC_ATOP);
-
-        return d;
-
-    }
-
-    private float dpToPx(float dp) {
+    /**
+     * This methods convert dp to px
+     *
+     * @param dp float to convert
+     * @return converted value in px
+     */
+    private float dpToPxConverter(float dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 context.getResources().getDisplayMetrics());
     }
 
-    private int dipToPx(float dp) {
-        return (int) dpToPx(dp);
+    /**
+     * this methods will convert float to int
+     *
+     * @return float value to int value
+     */
+    private int floatToInt() {
+        return (int) dpToPxConverter((float) 32);
     }
+
+    /**
+     * This methods for find color id through theme
+     * @param stylesID theme id of any theme
+     * @param attrId color type id like color primary, accent color
+     * @return given color id from theme in the basis of colorAttr
+     */
 
     private int getThemeAttr(int stylesID, @AttrRes int attrId) {
 

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:minHeight="?attr/listPreferredItemHeight"
-    android:paddingEnd="6dp"
+    android:paddingEnd="0dp"
     android:paddingStart="10dp"
     android:foreground="@drawable/main_list_presed"
     android:textAppearance="@style/TextAppearance.AppCompat.Medium"

@@ -6,12 +6,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
+
 public class DeveloperActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_developer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

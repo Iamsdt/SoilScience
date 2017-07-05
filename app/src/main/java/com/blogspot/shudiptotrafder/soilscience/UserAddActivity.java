@@ -12,26 +12,28 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 public class UserAddActivity extends AppCompatActivity {
 
     //Edit text
     private EditText wordEt, desEt;
     //TextInputLayout
-    private TextInputLayout wordLayout,desLayout;
+    private TextInputLayout wordLayout, desLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ThemeUtils.initilize(this);
+        Utility.setNightMode(this);
+        ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_user_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // views
         wordEt = (EditText) findViewById(R.id.addWordEt);
         desEt = (EditText) findViewById(R.id.addDesEt);
 
@@ -40,6 +42,7 @@ public class UserAddActivity extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.submitBtn);
 
+        //button click listener
         button.setOnClickListener(v -> addWord());
 
         if (getSupportActionBar() != null) {
@@ -48,31 +51,49 @@ public class UserAddActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method will add user word into offline and real time data base
+     * before add we need to check word is validate
+     */
     private void addWord() {
 
-        if (!validateWord()){
+        //validation rule for word
+        if (!validateWord()) {
             return;
         }
 
-        if (!validateDes()){
+        //validation rule for description
+        if (!validateDes()) {
             return;
         }
 
+        //get text form edit text
         String word = wordEt.getText().toString().trim();
         String des = desEt.getText().toString().trim();
 
+        //put those value into offline data base
         ContentValues values = new ContentValues();
-        values.put(MainWordDBContract.Entry.COLUMN_WORD,word);
-        values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION,des);
-        values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE,false);
-        values.put(MainWordDBContract.Entry.COLUMN_USER,true);
+        values.put(MainWordDBContract.Entry.COLUMN_WORD, word);
+        values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, des);
+        values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, false);
+        values.put(MainWordDBContract.Entry.COLUMN_USER, true);
 
-        Uri uri = getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI,values);
+        Uri uri = getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
-        if (uri != null){
+        //if uri is not null -> data inserted successfully
+        // if operation successfull the leave this activity
+        if (uri != null) {
             finish();
         }
+
+        //todo also add word to real time database
     }
+
+    /**
+     * This method for validate word
+     * if word length is lower than 1
+     * then it will be show an error message
+     */
 
     private boolean validateWord() {
 
@@ -89,6 +110,11 @@ public class UserAddActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method for validate description
+     * if word length is lower than 5
+     * then it will be show an error message
+     */
     private boolean validateDes() {
 
         String des = desEt.getText().toString().trim();
@@ -104,8 +130,15 @@ public class UserAddActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This methods for request focus on edit text
+     * if user input is not valid
+     * then it shown
+     *
+     * @param view this vies will be focused
+     */
     private void requestFocus(View view) {
-        if (view.requestFocus()){
+        if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }

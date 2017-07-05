@@ -6,34 +6,40 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
  * Created by Shudipto on 6/12/2017.
  */
 
-public class ConstantUtills {
-    //sp key
+public class ConstantUtils {
+
+    /*SharedPreference Key*/
+    //database key
     public static final String DATABASE_INIT_SP_KEY = "initialized";
+    //theme key
     public static final String THEME_SP_KEY = "theme";
 
 
-    //database
+    /*Database name and id*/
+    //database name
     public static final String DB_NAME = "soilscience.db";
+    //database version
     public static final int DB_VERSION = 1;
 
-    //all loaders id
+    /*All loaders ids*/
     //main loaders id
-    public static final int MAIN_LOADER_ID = 0;
+    public static final int MAIN_LOADER_ID = 123;
     //Details loader id
     public static final int DETAILS_LOADER_ID = 321;
     //favourite loader id
-    //Loader id
-    public static final int FAVOURITE_LOADER_ID = 122;
+    public static final int FAVOURITE_LOADER_ID = 132;
 
 
+    /*Database column select*/
     //selected column form database
     public static final String[] projectionOnlyWord = new String[]
             {MainWordDBContract.Entry.COLUMN_WORD};
 
-    //for words index
+    /*Database selected column Index*/
     public static final int INDEX_ONLY_WORD = 0;
 
 
+    /*Firebase key*/
     //firebase database key for remote config
-    public static final String FB_REMOTE_STORAGE_KEY = "storage_key";
+    public static final String FB_REMOTE_CONFIG_STORAGE_KEY = "storage_key";
 }

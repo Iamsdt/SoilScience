@@ -8,18 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.DatabaseUtills;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //Utility.setNightMode(this);
-
-
-        //fixme add a progress dialog
+        Utility.setNightMode(this);
+        ThemeUtils.initialize(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
@@ -30,16 +30,16 @@ public class SplashActivity extends AppCompatActivity {
         // for first time value
 
         SharedPreferences preferences = getSharedPreferences(
-                ConstantUtills.DATABASE_INIT_SP_KEY, MODE_PRIVATE);
+                ConstantUtils.DATABASE_INIT_SP_KEY, MODE_PRIVATE);
         //sate of database is initialized or not
         boolean state = preferences.getBoolean(
-                ConstantUtills.DATABASE_INIT_SP_KEY, false);
+                ConstantUtils.DATABASE_INIT_SP_KEY, false);
 
         if (!state) {
-            DatabaseUtills.addRemoteData(this);
+            DatabaseUtils.addRemoteData(this);
         }
 
-        DatabaseUtills.addRemoteData(this);
+        DatabaseUtils.addRemoteData(this);
 
         final Thread checkForData = new Thread(){
             @Override
@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
                             null,null,null);
 
                     if (cursor == null || cursor.getCount() == 0){
-                        DatabaseUtills.initializedDatabase(SplashActivity.this);
+                        DatabaseUtils.initializedDatabase(SplashActivity.this);
                     }
 
                     if (cursor != null) {

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 
 /**
  * SoilScience
@@ -15,7 +15,7 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
 class DatabaseOpenHelper extends SQLiteOpenHelper {
 
      DatabaseOpenHelper(Context context) {
-        super(context, ConstantUtills.DB_NAME, null, ConstantUtills.DB_VERSION);
+        super(context, ConstantUtils.DB_NAME, null, ConstantUtils.DB_VERSION);
     }
 
     @Override

@@ -42,6 +42,14 @@
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
     </style>
 
+    <style name="orange" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/orange_500</item>
+        <item name="colorPrimaryDark">@color/orange_700</item>
+        <item name="colorAccent">@color/light_green_200</item>
+        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+    </style>
+
+
     <!-- material searchView -->
     <style name="MaterialSearchViewStyle">
         <item name="searchBackground">@color/mSearchWhite</item>

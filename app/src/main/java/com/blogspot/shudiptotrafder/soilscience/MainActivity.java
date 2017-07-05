@@ -30,8 +30,8 @@ import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.theme.ColorActivity;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.ArrayList;
@@ -66,8 +66,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         Utility.setNightMode(this);
-
-        setTheme(ThemeUtils.getThemeId(this));
+        ThemeUtils.initialize(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
          created, otherwise the last created loader is re-used.
          */
-        getSupportLoaderManager().initLoader(ConstantUtills.MAIN_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(ConstantUtils.MAIN_LOADER_ID, null, this);
 
         //todo add circular review animation with fab
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
@@ -139,7 +138,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -147,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         searchView.activityResumed();
 
         // re-queries for all tasks
-        getSupportLoaderManager().restartLoader(ConstantUtills.MAIN_LOADER_ID, null, this);
+        getSupportLoaderManager().restartLoader(ConstantUtils.MAIN_LOADER_ID, null, this);
     }
 
     @Override
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_choose_theme) {
             startActivityForResult(ColorActivity
-                    .createIntent(this, null), THEME_CHANGER_REQUEST_CODE);
+                    .createIntent(this), THEME_CHANGER_REQUEST_CODE);
 
         } else if (id == R.id.nav_add) {
             startActivity(new Intent(this, UserAddActivity.class));
@@ -245,7 +243,7 @@ public class MainActivity extends AppCompatActivity
 
                 Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
                 Cursor cursor = getContentResolver().query(uri,
-                        ConstantUtills.projectionOnlyWord, null, null, null);
+                        ConstantUtils.projectionOnlyWord, null, null, null);
 
                 if (cursor != null && cursor.getCount() > 0) {
                     Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
@@ -273,7 +271,7 @@ public class MainActivity extends AppCompatActivity
                     String[] selectionArg = new String[]{newText + "%"};
 
                     Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
-                            ConstantUtills.projectionOnlyWord, selection, selectionArg, null);
+                            ConstantUtils.projectionOnlyWord, selection, selectionArg, null);
 
                     if (cursor != null && cursor.getCount() > 0) {
                         mAdapter.swapCursor(cursor);
@@ -353,7 +351,7 @@ public class MainActivity extends AppCompatActivity
                             buildUriWithWord(searchWrd.toUpperCase());
 
                     Cursor cursor = getContentResolver().query(uri,
-                            ConstantUtills.projectionOnlyWord, null, null, null);
+                            ConstantUtils.projectionOnlyWord, null, null, null);
 
                     if (cursor != null && cursor.getCount() > 0) {
                         Intent intent = new Intent(MainActivity.this,
@@ -382,7 +380,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,
-                ConstantUtills.projectionOnlyWord, null, null,
+                ConstantUtils.projectionOnlyWord, null, null,
                 MainWordDBContract.Entry.COLUMN_WORD);
     }
 

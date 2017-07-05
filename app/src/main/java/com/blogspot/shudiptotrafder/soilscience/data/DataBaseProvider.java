@@ -34,32 +34,14 @@ public class DataBaseProvider {
         this.context = context;
     }
 
-//    public void loadDictionary(){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try{
-//                    loadWords();
-//                } catch (IOException e){
-//                    slet("Error in loadind Dictionary on " +
-//                            "Called methods loadwords",e);
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }).start();
-//    }
-
-
-    /** methods for load words in database
-     *  with content provider
+    /**
+     * methods for load words in database
+     * with content provider
+     *
      * @throws IOException if file not found in raw
      */
 
-    public void loadWords() throws IOException{
-
-        if (BuildConfig.DEBUG){
-            Log.i("DataBaseProvider","Words start loading");
-        }
+    public void loadWords() throws IOException {
 
         final Resources resources = context.getResources();
         //resource i
@@ -70,11 +52,11 @@ public class DataBaseProvider {
         //read data
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-        try{
+        try {
             String line;
 
-            while ((line = reader.readLine())!= null){
-                String[] strings = TextUtils.split(line,"=");
+            while ((line = reader.readLine()) != null) {
+                String[] strings = TextUtils.split(line, "=");
 
                 if (strings.length < 1) {
                     continue;
@@ -87,10 +69,10 @@ public class DataBaseProvider {
                 ContentValues values = new ContentValues();
 
                 //we use trim() for trim unexpected value
-                values.put(MainWordDBContract.Entry.COLUMN_WORD,strings[0].trim());
-                values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION,strings[1].trim());
+                values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
 
-                Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI,values);
+                Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
                 if (uri != null) {
                     sle("Data status:" + "successfull");
@@ -98,42 +80,29 @@ public class DataBaseProvider {
 
 
             }
-        } catch (IOException e){
-            slet(e);
+        } catch (IOException e) {
+            sle(e.getMessage());
         } finally {
             reader.close();
         }
 
     }
 
+    //TODO log messages removed
+
     /**
-     * log message methods that's display log only debug mode
+     * This methods show log error message with throwable
      *
-     * @param string message that to display
+     * @param message String show on log
      */
-    private static void sle(String string) {
-        //show log with error message
-        //if debug mode enable
-        String Tag = "DataBaseProvider";
+    private static void sle(String message) {
+
+        final String TAG = "DataBaseProvider";
 
         if (BuildConfig.DEBUG) {
-            Log.e(Tag, string);
+            Log.e(TAG, message);
         }
     }
 
-    /**
-     * log message methods that's display log only debug mode
-     *
-     * @param t throwable that's throw if exception happen
-     */
-    private static void slet(Throwable t) {
-        //show log with error message with throwable
-        //if debug mode enable
-        String Tag = "DataBaseProvider";
-
-        if (BuildConfig.DEBUG) {
-            Log.e(Tag, "Error in load word", t);
-        }
-    }
 
 }

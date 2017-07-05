@@ -22,8 +22,8 @@ import android.view.View;
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
@@ -47,7 +47,7 @@ public class FavouriteActivity extends AppCompatActivity
 
         Utility.setNightMode(this);
 
-        setTheme(ThemeUtils.getThemeId(this));
+        ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_favourite);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -96,7 +96,7 @@ public class FavouriteActivity extends AppCompatActivity
                     mAdapter.notifyItemChanged(viewHolder.getAdapterPosition()
                             , mAdapter.getItemCount());
 
-                    getSupportLoaderManager().restartLoader(ConstantUtills.FAVOURITE_LOADER_ID, null, FavouriteActivity.this);
+                    getSupportLoaderManager().restartLoader(ConstantUtils.FAVOURITE_LOADER_ID, null, FavouriteActivity.this);
                 }
 
             }
@@ -121,7 +121,7 @@ public class FavouriteActivity extends AppCompatActivity
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        getSupportLoaderManager().initLoader(ConstantUtills.FAVOURITE_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(ConstantUtils.FAVOURITE_LOADER_ID, null, this);
     }
 
 
@@ -129,7 +129,7 @@ public class FavouriteActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         getSupportLoaderManager().restartLoader(
-                ConstantUtills.FAVOURITE_LOADER_ID, null, this);
+                ConstantUtils.FAVOURITE_LOADER_ID, null, this);
     }
 
     @Override
@@ -161,13 +161,13 @@ public class FavouriteActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         switch (id) {
-            case ConstantUtills.FAVOURITE_LOADER_ID:
+            case ConstantUtils.FAVOURITE_LOADER_ID:
 
                 String selection = MainWordDBContract.Entry.COLUMN_FAVOURITE + " = ? ";
                 String[] selectionArg = new String[]{"1"};
 
                 return new CursorLoader(this, MainWordDBContract.Entry.CONTENT_URI,
-                        ConstantUtills.projectionOnlyWord,
+                        ConstantUtils.projectionOnlyWord,
                         selection, selectionArg, MainWordDBContract.Entry.COLUMN_WORD);
 
             default:

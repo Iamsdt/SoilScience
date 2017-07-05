@@ -15,18 +15,19 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 
 public class Utility {
 
-//    private static boolean getNightModeEnabled(Context context) {
-//
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//
-//        return preferences.getBoolean(context.getString(R.string.switchKey),false);
-//    }
-
+    /**
+     * set nightMode to activity
+     * Check user settings first
+     *
+     * @param context for get shared preference
+     */
     public static void setNightMode(Context context) {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
 
-        boolean isEnabled = preferences.getBoolean(context.getString(R.string.switchKey), false);
+        boolean isEnabled = preferences.getBoolean(context.getString(R.string.switchKey),
+                false);
 
         if (isEnabled) {
             AppCompatDelegate.setDefaultNightMode(
@@ -37,6 +38,12 @@ public class Utility {
         }
     }
 
+    /**
+     * Get text size from user settings
+     *
+     * @param context access Shared preference
+     * @return text size
+     */
     public static int getTextSize(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -73,7 +80,7 @@ public class Utility {
     public static void showLogThrowable(String message, Throwable t) {
 
         final String TAG = "Utility";
-        //TODO add analytics data
+        //TODO add crash report data
 
         if (BuildConfig.DEBUG) {
             Log.e(TAG, message, t);

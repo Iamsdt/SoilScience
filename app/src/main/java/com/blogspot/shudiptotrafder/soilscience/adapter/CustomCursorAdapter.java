@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.animation.AnimationUtils;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.Random;
@@ -45,6 +45,11 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         mContext = context;
     }
 
+    /**
+     * set cursor from other activity
+     * @param cursor new cursor for replace previous cursor
+     */
+
     public void swapCursor(Cursor cursor) {
 
         mCursor = cursor;
@@ -67,7 +72,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         mCursor.moveToPosition(position);
-        String word = mCursor.getString(ConstantUtills.INDEX_ONLY_WORD);
+
+        String word = mCursor.getString(ConstantUtils.INDEX_ONLY_WORD);
         holder.word.setText(word);
         holder.word.setTextSize(Utility.getTextSize(mContext));
 
@@ -94,7 +100,10 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         return mCursor.getCount();
     }
 
-    //return a random word
+    /**
+     * This method for select word from database randomly
+     * @return random word form database
+     */
     public String getRandomWord(){
 
         String word = null;
@@ -111,7 +120,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
                 mCursor.moveToPosition(position);
             }
 
-            word = mCursor.getString(ConstantUtills.INDEX_ONLY_WORD);
+            word = mCursor.getString(ConstantUtils.INDEX_ONLY_WORD);
         }
         return word;
     }
@@ -151,7 +160,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         @Override
         public void onClick(View v) {
             mCursor.moveToPosition(getAdapterPosition());
-            String word = mCursor.getString(ConstantUtills.INDEX_ONLY_WORD);
+            String word = mCursor.getString(ConstantUtils.INDEX_ONLY_WORD);
             clickListener.onItemClickListener(word);
         }
     }

@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -17,9 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Scoop.getInstance().apply(this);
-
-        setTheme(ThemeUtils.getThemeId(this));
+        ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
@@ -27,12 +24,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         //is switch preference changed then recreate activity
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                recreate();
-                Log.e("setting","recreated");
-            }
+        preferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            recreate();
+            //Log.e("setting","recreated");
         });
 
 

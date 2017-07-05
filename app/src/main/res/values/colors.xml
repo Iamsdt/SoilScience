@@ -27,6 +27,8 @@
     <color name="mSearchBlack">#212121</color>
     <color name="mSearchGray">#757575</color>
 
+
+    <!-- all color code -->
     <color name="amber_100">#ffecb3</color>
     <color name="amber_200">#ffe082</color>
     <color name="amber_300">#ffd54f</color>

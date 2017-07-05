@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/mainRecycleView_Card"
     android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
     card_view:cardElevation="6dp"
     card_view:cardCornerRadius="1dp"
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingStart="10dp"
-        android:paddingEnd="6dp"
+        android:paddingEnd="0dp"
         android:minHeight="?attr/listPreferredItemHeight"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         tools:text="Acid Soil" />

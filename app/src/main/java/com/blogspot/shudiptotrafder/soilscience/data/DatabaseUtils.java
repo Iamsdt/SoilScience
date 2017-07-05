@@ -1,4 +1,4 @@
-package com.blogspot.shudiptotrafder.soilscience.utilities;
+package com.blogspot.shudiptotrafder.soilscience.data;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
-import com.blogspot.shudiptotrafder.soilscience.data.DataBaseProvider;
-import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
@@ -27,13 +27,22 @@ import java.util.Map;
  * Created by Shudipto on 7/5/2017.
  */
 
-public class DatabaseUtills{
+public class DatabaseUtils {
 
-    public static void addRemoteData(Activity context){
+    /**
+     * This method for add data from remote
+     * we add new data into a file and change remote config
+     * so add add a temp file and from that file we add this data
+     * into database
+     *
+     * @param context for access content resolver
+     */
+
+    public static void addRemoteData(Activity context) {
 
         boolean state = getRemoteConfigStatus(context);
 
-        if (!state){
+        if (!state) {
             return;
         }
 
@@ -45,7 +54,7 @@ public class DatabaseUtills{
             final File file = File.createTempFile("ssdata", "txt");
 
             pathReference.getFile(file)
-                    .addOnSuccessListener(context,taskSnapshot -> {
+                    .addOnSuccessListener(context, taskSnapshot -> {
 
                         Utility.showLog("Success storage");
 
@@ -82,23 +91,30 @@ public class DatabaseUtills{
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Utility.showLogThrowable(e.getMessage(),e);
+                            Utility.showLogThrowable(e.getMessage(), e);
 
                         }
 
                     })
-                    .addOnFailureListener(context,e ->
-                            Utility.showLogThrowable(e.getMessage(),e));
+                    .addOnFailureListener(context, e ->
+                            Utility.showLogThrowable(e.getMessage(), e));
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            Utility.showLogThrowable("File exception",e);
+            Utility.showLogThrowable("File exception", e);
         }
     }
 
-
-    private static boolean getRemoteConfigStatus(Activity activity){
+    /**
+     * This methods for check status of database
+     * we set it from firebase
+     * if we saved new data then we set it from firebase
+     *
+     * @param activity from where activity
+     * @return status true or false
+     */
+    private static boolean getRemoteConfigStatus(Activity activity) {
 
         boolean state;
 
@@ -111,7 +127,7 @@ public class DatabaseUtills{
         remoteConfig.setConfigSettings(remoteSetting);
 
         Map<String, Object> objectMap = new HashMap<>();
-        objectMap.put(ConstantUtills.FB_REMOTE_STORAGE_KEY, false);
+        objectMap.put(ConstantUtils.FB_REMOTE_CONFIG_STORAGE_KEY, false);
 
         remoteConfig.setDefaults(objectMap);
 
@@ -122,12 +138,13 @@ public class DatabaseUtills{
 
         final Task<Void> fetch = remoteConfig.fetch(cacheExpiration);
 
-        fetch.addOnSuccessListener(activity,aVoid -> remoteConfig.activateFetched());
-        fetch.addOnFailureListener(activity,e -> {
+        fetch.addOnSuccessListener(activity, aVoid -> remoteConfig.activateFetched());
+        fetch.addOnFailureListener(activity, e -> {
             //todo analytics data
+            Utility.showLogThrowable("Remote config data failed",e);
         });
 
-        state = remoteConfig.getBoolean(ConstantUtills.FB_REMOTE_STORAGE_KEY);
+        state = remoteConfig.getBoolean(ConstantUtils.FB_REMOTE_CONFIG_STORAGE_KEY);
 
         return state;
     }
@@ -143,22 +160,22 @@ public class DatabaseUtills{
 
         //SharedPreferences preferences for database initialize
         // for first time value
-        SharedPreferences preferences = context.getSharedPreferences(ConstantUtills.DATABASE_INIT_SP_KEY,
+        SharedPreferences preferences = context.getSharedPreferences(ConstantUtils.DATABASE_INIT_SP_KEY,
                 Context.MODE_PRIVATE);
         //sate of database is initialized or not
-        boolean state = preferences.getBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, false);
+        boolean state = preferences.getBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, false);
 
         SharedPreferences.Editor editor = preferences.edit();
         try {
             if (!state) {
                 provider.loadWords();
-                editor.putBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, true);
+                editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
                 Utility.showLog("initializedDatabase called");
             }
         } catch (IOException e) {
             e.printStackTrace();
             Utility.showLogThrowable("Error to initialized data", e);
-            editor.putBoolean(ConstantUtills.DATABASE_INIT_SP_KEY, false);
+            editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, false);
         }
         editor.apply();
     }

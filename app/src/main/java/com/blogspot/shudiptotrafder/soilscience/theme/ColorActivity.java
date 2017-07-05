@@ -4,31 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.adapter.ColorAdapter;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 
 import java.util.ArrayList;
 
 public class ColorActivity extends AppCompatActivity implements
         ColorAdapter.ColorClickListener {
 
-    private static final String EXTRA_TITLE = "ColorsActivity";
+    private ArrayList<ThemesContract> themes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(ThemeUtils.getThemeId(this));
+        ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_color);
         Toolbar toolbar = (Toolbar) findViewById(R.id.color_toolbar);
@@ -42,7 +39,10 @@ public class ColorActivity extends AppCompatActivity implements
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
 
-        ColorAdapter colorAdapter = new ColorAdapter(this, getColorIds(), this);
+        //fill themes array with id before send to colorAdapter
+        fillThemeIds();
+
+        ColorAdapter colorAdapter = new ColorAdapter(this, themes, this);
         recyclerView.setAdapter(colorAdapter);
 
         if (getSupportActionBar() != null) {
@@ -51,18 +51,22 @@ public class ColorActivity extends AppCompatActivity implements
 
     }
 
-    private ArrayList<ThemesContract> getColorIds() {
+    /**
+     * This method is for add new theme in arrayList
+     * array list contain theme name and it's id
+     */
 
-        ArrayList<ThemesContract> arrayList = new ArrayList<>();
+    private void fillThemeIds() {
 
-        // FIXME: 6/19/2017 add more theme
+        themes = new ArrayList<>();
+
+        // TODO: 6/19/2017 add more theme
         //fill array with styles ids
-        arrayList.add(new ThemesContract("Default", R.style.AppTheme_NoActionBar));
-        arrayList.add(new ThemesContract("Amber", R.style.amber));
-        arrayList.add(new ThemesContract("Amber Dark", R.style.amber_dark));
-        arrayList.add(new ThemesContract("Purple Dark", R.style.purple_dark));
+        themes.add(new ThemesContract("Default", R.style.AppTheme_NoActionBar));
+        themes.add(new ThemesContract("Amber", R.style.amber));
+        themes.add(new ThemesContract("Amber2", R.style.amber_dark));
+        themes.add(new ThemesContract("Purple", R.style.purple_dark));
 
-        return arrayList;
     }
 
     @Override
@@ -81,20 +85,20 @@ public class ColorActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public void onColorItemClick(int id) {
 
-        // FIXME: 6/19/2017 add one array this don't use two arraylist
-        ArrayList<ThemesContract> arrayList = getColorIds();
+        // complete: 6/19/2017 add one array this don't use two array list
 
-        ThemesContract themeCont = arrayList.get(id);
+        ThemesContract themeCont = themes.get(id);
 
-        SharedPreferences preferences = getSharedPreferences(ConstantUtills.THEME_SP_KEY, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(ConstantUtils.THEME_SP_KEY, Context.MODE_PRIVATE);
 
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putInt(ConstantUtills.THEME_SP_KEY, themeCont.getId());
+        editor.putInt(ConstantUtils.THEME_SP_KEY, themeCont.getId());
 
         editor.apply();
 
@@ -105,10 +109,8 @@ public class ColorActivity extends AppCompatActivity implements
         overridePendingTransition(0, 0);
     }
 
-    public static Intent createIntent(Context context, @Nullable String title) {
-        Intent intent = new Intent(context, ColorActivity.class);
-        if (!TextUtils.isEmpty(title)) intent.putExtra(EXTRA_TITLE, title);
-        return intent;
+    public static Intent createIntent(Context context) {
+        return new Intent(context, ColorActivity.class);
     }
 
 }

@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -18,14 +19,13 @@ import android.transition.Fade;
 import android.transition.Slide;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtills;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.Locale;
@@ -40,18 +40,24 @@ public class DetailsActivity extends AppCompatActivity implements
             MainWordDBContract.Entry.COLUMN_WORD,
             MainWordDBContract.Entry.COLUMN_DESCRIPTION
     };
+
     //id or position for return array
     private static final int WORD_ID = 0;
     private static final int DESCRIPTION_ID = 1;
+
     //uri from previous activity
     private Uri mUri = null;
+
     //view
     private TextView wordTV;
     private TextView descriptionTV;
 
     private TextToSpeech toSpeech;
+
+    //selected word from Main activity
     String wordForTTS = null;
 
+    //vector support
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
@@ -60,15 +66,15 @@ public class DetailsActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTheme(ThemeUtils.getThemeId(this));
+        ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_details);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //assign view
-
-        ScrollView scrollView = (ScrollView) findViewById(R.id.detailsScrollView);
+        NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.detailsScrollView);
 
         wordTV = (TextView) findViewById(R.id.details_word);
         descriptionTV = (TextView) findViewById(R.id.details_description);
@@ -92,10 +98,21 @@ public class DetailsActivity extends AppCompatActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        scrollView.setSmoothScrollingEnabled(true);
+        //initialize loader
+        getSupportLoaderManager().initLoader(ConstantUtils.DETAILS_LOADER_ID, null, this);
 
-        //ini loader
-        getSupportLoaderManager().initLoader(ConstantUtills.DETAILS_LOADER_ID, null, this);
+        scrollView.setSmoothScrollingEnabled(true);
+        scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
+                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+
+            if (scrollY > 1){
+                fab.hide();
+            } else if (scrollY < 1){
+                fab.show();
+            }
+
+        });
+
     }
 
     //enter
@@ -114,7 +131,6 @@ public class DetailsActivity extends AppCompatActivity implements
 
 
     private void setTTS(String selectedWord) {
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toSpeech.speak(selectedWord,TextToSpeech.QUEUE_FLUSH,null,null);
@@ -137,7 +153,7 @@ public class DetailsActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportLoaderManager().restartLoader(ConstantUtills.DETAILS_LOADER_ID, null, this);
+        getSupportLoaderManager().restartLoader(ConstantUtils.DETAILS_LOADER_ID, null, this);
     }
 
     @Override
@@ -174,7 +190,7 @@ public class DetailsActivity extends AppCompatActivity implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         switch (id) {
-            case ConstantUtills.DETAILS_LOADER_ID:
+            case ConstantUtils.DETAILS_LOADER_ID:
                 return new CursorLoader(this, mUri,
                         //number of column select
                         projection,

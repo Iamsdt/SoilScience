@@ -40,7 +40,7 @@ public class MainWordDBContract {
          * build uri with word
          * we send a word(database column from a particular row) and its build
          *
-         * @param s word from a slected item in Recycler view and make uri
+         * @param s word from a selected item in Recycler view and make uri
          *          to send to details activity
          * @return new uri with given word
          */
