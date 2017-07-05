@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+repositories {
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -57,6 +61,5 @@ dependencies {
     compile 'br.com.mauker.materialsearchview:materialsearchview:1.2.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
-repositories {
-    mavenCentral()
-}
+
+apply plugin: 'com.google.gms.google-services'

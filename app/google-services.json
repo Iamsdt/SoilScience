@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "452826784286",
+    "firebase_url": "https://soil-science-ec63a.firebaseio.com",
+    "project_id": "soil-science-ec63a",
+    "storage_bucket": "soil-science-ec63a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452826784286:android:ce2128a3c3816bba",
+        "android_client_info": {
+          "package_name": "com.blogspot.shudiptotrafder.soilscience"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452826784286-nq0n4jik59vvttg79lf538ep8qvrkh78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blogspot.shudiptotrafder.soilscience",
+            "certificate_hash": "18df61867cfda312eb6af70b7089f63e47b82635"
+          }
+        },
+        {
+          "client_id": "452826784286-s3l02elk2i9r59je5mq4suq53f5susgl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs6UCLt1wFlGjUTL1MWUKstxGm_KhcrHQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452826784286-s3l02elk2i9r59je5mq4suq53f5susgl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
