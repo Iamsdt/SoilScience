@@ -1,5 +1,6 @@
 package com.blogspot.shudiptotrafder.soilscience.data;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,12 +40,6 @@ public class DatabaseUtils {
      */
 
     public static void addRemoteData(Context context) {
-
-        boolean state = getRemoteConfigStatus(context);
-
-        if (!state) {
-            return;
-        }
 
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference pathReference = firebaseStorage.getReference().child("data/ssdata.txt");
@@ -150,7 +145,7 @@ public class DatabaseUtils {
      * @param activity from where activity
      * @return status true or false
      */
-    private static boolean getRemoteConfigStatus(Context activity) {
+    public static boolean getRemoteConfigStatus(Activity activity) {
 
         boolean state;
 
@@ -174,8 +169,8 @@ public class DatabaseUtils {
 
         final Task<Void> fetch = remoteConfig.fetch(cacheExpiration);
 
-        fetch.addOnSuccessListener(aVoid -> remoteConfig.activateFetched());
-        fetch.addOnFailureListener(e -> {
+        fetch.addOnSuccessListener(activity,aVoid -> remoteConfig.activateFetched());
+        fetch.addOnFailureListener(activity,e -> {
             //todo analytics data
             Utility.showLogThrowable("Remote config data failed", e);
         });

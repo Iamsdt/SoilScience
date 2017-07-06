@@ -27,6 +27,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
                 + MainWordDBContract.Entry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
                 + MainWordDBContract.Entry.COLUMN_FAVOURITE + " BOOLEAN, "
                 + MainWordDBContract.Entry.COLUMN_USER + " BOOLEAN, "
+                + MainWordDBContract.Entry.COLUMN_UPLOAD + " BOOLEAN, "
                 + " UNIQUE ( " + MainWordDBContract.Entry.COLUMN_WORD + ") ON CONFLICT REPLACE);";
 
         //Log.e("Sql",CREATE_TABLE_SQL);

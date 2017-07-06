@@ -78,9 +78,13 @@
 
         <!-- services -->
         <service
-            android:name=".DataService"
+            android:name=".services.DataService"
             android:enabled="true"
             android:exported="false" />
+
+        <service android:name=".services.UploadServices"
+            android:enabled="true"
+            android:exported="false"/>
 
     </application>
 

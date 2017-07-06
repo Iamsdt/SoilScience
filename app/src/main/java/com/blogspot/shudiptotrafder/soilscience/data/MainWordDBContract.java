@@ -35,6 +35,8 @@ public class MainWordDBContract {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_FAVOURITE = "favourite";
         public static final String COLUMN_USER = "user";
+        public static final String COLUMN_UPLOAD = "Upload";
+
 
         /**
          * build uri with word

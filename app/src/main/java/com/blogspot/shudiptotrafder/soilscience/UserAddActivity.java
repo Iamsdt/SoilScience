@@ -2,6 +2,7 @@ package com.blogspot.shudiptotrafder.soilscience;
 
 import android.content.ContentValues;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.data.RealTimeDataStructure;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class UserAddActivity extends AppCompatActivity {
 
@@ -41,6 +45,7 @@ public class UserAddActivity extends AppCompatActivity {
         desLayout = (TextInputLayout) findViewById(R.id.addDesLayout);
 
         Button button = (Button) findViewById(R.id.submitBtn);
+
 
         //button click listener
         button.setOnClickListener(v -> addWord());
@@ -78,6 +83,30 @@ public class UserAddActivity extends AppCompatActivity {
         values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, false);
         values.put(MainWordDBContract.Entry.COLUMN_USER, true);
 
+        //todo also add word to real time database
+        //if you don't use push then you data will be replaced
+        if (Utility.isUploadEnabled(this)){
+
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference mDatabaseReference = firebaseDatabase.getReference().child("User");
+
+            RealTimeDataStructure dataStructure = new RealTimeDataStructure(word, des);
+            mDatabaseReference.child(Build.MODEL).push()
+                    .setValue(dataStructure, (databaseError, databaseReference) -> {
+                        if (databaseError != null){
+                            //failed
+                            values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, false);
+                        } else {
+                            //success full
+                            values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, true);
+                        }
+                    });
+        } else {
+            //if user don't want to upload his word
+            //this will consider as uploaded
+            values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, true);
+        }
+
         Uri uri = getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
         //if uri is not null -> data inserted successfully
@@ -85,8 +114,6 @@ public class UserAddActivity extends AppCompatActivity {
         if (uri != null) {
             finish();
         }
-
-        //todo also add word to real time database
     }
 
     /**

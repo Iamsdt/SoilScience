@@ -17,6 +17,10 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 
 public class Utility {
 
+    public static boolean isUploadEnabled(Context context){
+        return true;
+    }
+
     public static boolean isNetworkAvailable(Context context){
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(
                 Context.CONNECTIVITY_SERVICE);

@@ -1,4 +1,4 @@
-package com.blogspot.shudiptotrafder.soilscience;
+package com.blogspot.shudiptotrafder.soilscience.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -22,6 +22,7 @@ public class DataService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         Utility.showLog("Service called");
         DatabaseUtils.addRemoteData(this);
 
