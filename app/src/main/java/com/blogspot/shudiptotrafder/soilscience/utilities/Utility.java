@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
 import com.blogspot.shudiptotrafder.soilscience.R;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Created by Shudipto on 6/6/2017.
@@ -17,7 +19,7 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 
 public class Utility {
 
-    public static boolean isUploadEnabled(Context context){
+    public static boolean isUploadEnabled(Context context) {
 
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
@@ -27,14 +29,14 @@ public class Utility {
                 true);
 
 
-        if (!isNetworkAvailable(context)){
+        if (!isNetworkAvailable(context)) {
             isEnabled = false;
         }
 
         return isEnabled;
     }
 
-    public static boolean isNetworkAvailable(Context context){
+    public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(
                 Context.CONNECTIVITY_SERVICE);
 
@@ -89,13 +91,24 @@ public class Utility {
      */
     public static void showLog(String message) {
 
-        //TODO add analytics data
-
         final String TAG = "Utility";
 
         if (BuildConfig.DEBUG) {
             Log.e(TAG, message);
         }
+
+
+    }
+
+    public static void setAnalyticsData(Context context, String type, String message) {
+
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+        Bundle b = new Bundle();
+        b.putString(type, message);
+
+        mFirebaseAnalytics.logEvent(message, b);
+
     }
 
     /**
