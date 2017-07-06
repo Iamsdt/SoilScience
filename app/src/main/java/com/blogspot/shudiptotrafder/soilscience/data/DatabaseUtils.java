@@ -50,9 +50,6 @@ public class DatabaseUtils {
 
             pathReference.getFile(file)
                     .addOnSuccessListener(taskSnapshot -> {
-
-                        Utility.showLog("Success storage");
-
                         try {
 
                             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -85,22 +82,27 @@ public class DatabaseUtils {
 
                                 if (uri != null) {
                                     //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
+                                    Utility.setAnalyticsData(context,"remote storage",
+                                            "remote data add into database");
                                 }
                             }
 
                         } catch (IOException e) {
                             e.printStackTrace();
+                            //TODO crash report
                             Utility.showLogThrowable(e.getMessage(), e);
 
                         }
 
                     })
                     .addOnFailureListener(e ->
+                            //TODO crash report
                             Utility.showLogThrowable(e.getMessage(), e));
 
 
         } catch (Exception e) {
             e.printStackTrace();
+            //TODO crash report
             Utility.showLogThrowable("File exception", e);
         }
     }
@@ -127,6 +129,8 @@ public class DatabaseUtils {
         if (cursor != null && cursor.getCount() > 0) {
             status = true;
             Utility.showLog("check data status:" + true);
+            Utility.setAnalyticsData(context,"Remote Storage data existence",
+                    "Remote data already exist");
         }
 
         if (cursor != null) {
@@ -162,7 +166,11 @@ public class DatabaseUtils {
 
         remoteConfig.setDefaults(objectMap);
 
-        final long cacheExpiration = 0; // 1 hour in seconds
+        long cacheExpiration = 3600; // 1 hour in seconds
+
+        if (remoteSetting.isDeveloperModeEnabled()){
+            cacheExpiration = 0;
+        }
 
         // If developer mode is enabled reduce cacheExpiration to 0 so that each fetch goes to the
         // server. This should not be used in release builds.
@@ -171,7 +179,7 @@ public class DatabaseUtils {
 
         fetch.addOnSuccessListener(activity,aVoid -> remoteConfig.activateFetched());
         fetch.addOnFailureListener(activity,e -> {
-            //todo analytics data
+            //todo crash report
             Utility.showLogThrowable("Remote config data failed", e);
         });
 
@@ -199,6 +207,7 @@ public class DatabaseUtils {
         boolean state = preferences.getBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, false);
 
         SharedPreferences.Editor editor = preferences.edit();
+
         try {
             if (!state) {
                 provider.loadWords();
@@ -211,6 +220,7 @@ public class DatabaseUtils {
             e.printStackTrace();
             Utility.showLogThrowable("Error to initialized data", e);
             editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, false);
+            //TODO crash report
         }
         editor.apply();
     }
