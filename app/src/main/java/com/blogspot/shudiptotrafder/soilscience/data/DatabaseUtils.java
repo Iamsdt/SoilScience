@@ -204,6 +204,8 @@ public class DatabaseUtils {
                 provider.loadWords();
                 editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
                 Utility.showLog("initializedDatabase called");
+                Utility.setAnalyticsData(context,"Offline database",
+                        "created successfully");
             }
         } catch (IOException e) {
             e.printStackTrace();
