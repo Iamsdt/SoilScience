@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.data.RealTimeDataStructure;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,7 +23,7 @@ public class UploadServices extends IntentService {
      * Creates an IntentService.  Invoked by your subclass's constructor.
      */
     public UploadServices() {
-        super("Upload data");
+        super("Upload_data");
     }
 
     @Override
@@ -34,7 +35,7 @@ public class UploadServices extends IntentService {
                 new String[]{MainWordDBContract.Entry.COLUMN_WORD,
                         MainWordDBContract.Entry.COLUMN_DESCRIPTION},
                 //selection
-                MainWordDBContract.Entry.COLUMN_UPLOAD + " =? ",
+                MainWordDBContract.Entry.COLUMN_UPLOAD + " = ? ",
                 //selection Arg
                 new String[]{"0"},
                 null);
@@ -43,6 +44,7 @@ public class UploadServices extends IntentService {
         DatabaseReference mDatabaseReference = firebaseDatabase.getReference().child("User");
 
         ContentValues values = new ContentValues();
+        final boolean[] status = {false};
 
         if (cursor != null) {
 
@@ -53,21 +55,17 @@ public class UploadServices extends IntentService {
                 String word = cursor.getString(0);
                 String des = cursor.getString(1);
 
+                Uri uri = MainWordDBContract.Entry.buildUriWithWord(word);
+
+                Utility.showLog("Upload left: "+word);
+
                 RealTimeDataStructure dataStructure = new RealTimeDataStructure(word, des);
 
                 mDatabaseReference.child(Build.MODEL).push()
-                        .setValue(dataStructure, (databaseError, databaseReference) -> {
-                            if (databaseError != null) {
-                                //failed
-                                values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, false);
-                            } else {
-                                //success full
-                                values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, true);
-                            }
-                        });
+                        .setValue(dataStructure, (databaseError, databaseReference) ->
+                            status[0] = databaseError == null);
 
-                Uri uri = MainWordDBContract.Entry.buildUriWithWord(word);
-
+                values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, status[0]);
                 getContentResolver().update(uri,values,null,null);
 
             } while (cursor.moveToNext());

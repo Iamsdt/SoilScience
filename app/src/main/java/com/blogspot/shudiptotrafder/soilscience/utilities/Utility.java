@@ -18,7 +18,20 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 public class Utility {
 
     public static boolean isUploadEnabled(Context context){
-        return true;
+
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        //TOdo add settings
+        boolean isEnabled = preferences.getBoolean(context.getString(R.string.switchKey),
+                true);
+
+
+        if (!isNetworkAvailable(context)){
+            isEnabled = false;
+        }
+
+        return isEnabled;
     }
 
     public static boolean isNetworkAvailable(Context context){

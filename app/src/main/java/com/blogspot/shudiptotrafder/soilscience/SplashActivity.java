@@ -61,16 +61,18 @@ public class SplashActivity extends AppCompatActivity {
             //it safe user battery
             if(Utility.isNetworkAvailable(this)){
 
-                if (checkUploadLeft()){
-                    startService(new Intent(this, UploadServices.class));
-                }
-
+                //check remote config
                 if (DatabaseUtils.getRemoteConfigStatus(this)){
                     Intent intent = new Intent(this,DataService.class);
                     startService(intent);
                 }
+
+                //check if any thing left to upload
+                if (checkUploadLeft()){
+                    startService(new Intent(this, UploadServices.class));
+                }
             }
-            
+
             runThread(150);//1.5 sec
         }
 
@@ -99,6 +101,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean checkUploadLeft(){
+
+        if (!Utility.isUploadEnabled(this)){
+            return false;
+        }
 
         boolean state = false;
 
