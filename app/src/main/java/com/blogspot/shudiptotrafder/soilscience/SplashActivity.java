@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.services.DataService;
+import com.blogspot.shudiptotrafder.soilscience.services.UploadServices;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
@@ -52,15 +53,18 @@ public class SplashActivity extends AppCompatActivity {
                 if (dialog.isShowing()){
                     dialog.dismiss();
                 }
-                runThread(100);
+                runThread(100);//1s
             }
         } else {
-
-            if (checkUploadLeft()){
-                // TODO: 7/6/2017 start a service
-            }
-
+            //check network ability
+            //don't start services
+            //it safe user battery
             if(Utility.isNetworkAvailable(this)){
+
+                if (checkUploadLeft()){
+                    startService(new Intent(this, UploadServices.class));
+                }
+
                 if (DatabaseUtils.getRemoteConfigStatus(this)){
                     Intent intent = new Intent(this,DataService.class);
                     startService(intent);

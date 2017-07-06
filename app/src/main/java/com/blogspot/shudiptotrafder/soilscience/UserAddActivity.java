@@ -83,6 +83,8 @@ public class UserAddActivity extends AppCompatActivity {
         values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, false);
         values.put(MainWordDBContract.Entry.COLUMN_USER, true);
 
+        final boolean[] uploadWordStatus = {false};
+
         //todo also add word to real time database
         //if you don't use push then you data will be replaced
         if (Utility.isUploadEnabled(this)){
@@ -95,17 +97,19 @@ public class UserAddActivity extends AppCompatActivity {
                     .setValue(dataStructure, (databaseError, databaseReference) -> {
                         if (databaseError != null){
                             //failed
-                            values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, false);
+                            uploadWordStatus[0] = false;
                         } else {
                             //success full
-                            values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, true);
+                            uploadWordStatus[0] = true;
                         }
                     });
         } else {
             //if user don't want to upload his word
             //this will consider as uploaded
-            values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, true);
+            uploadWordStatus[0] = true;
         }
+
+        values.put(MainWordDBContract.Entry.COLUMN_UPLOAD, uploadWordStatus[0]);
 
         Uri uri = getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
