@@ -107,7 +107,7 @@ public class Utility {
         Bundle b = new Bundle();
         b.putString(type, message);
 
-        mFirebaseAnalytics.logEvent(message, b);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, b);
 
     }
 

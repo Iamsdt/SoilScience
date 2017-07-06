@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.adapter.ColorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -101,6 +102,8 @@ public class ColorActivity extends AppCompatActivity implements
         editor.putInt(ConstantUtils.THEME_SP_KEY, themeCont.getId());
 
         editor.apply();
+
+        FirebaseAnalytics.getInstance(this).logEvent("Theme_changed",null);
 
         Intent restartIntent = new Intent(this, ColorActivity.class);
         setResult(RESULT_OK);

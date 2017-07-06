@@ -27,6 +27,7 @@ import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Locale;
 
@@ -87,9 +88,11 @@ public class DetailsActivity extends AppCompatActivity implements
         try {
             mUri = getIntent().getData().normalizeScheme();
         } catch (Exception e) {
+            // TODO: 7/6/2017 crash report
             e.printStackTrace();
             throw new RuntimeException("Uri can not null");
         }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.details_fab);
         fab.setOnClickListener(view -> setTTS(wordForTTS));
@@ -220,6 +223,7 @@ public class DetailsActivity extends AppCompatActivity implements
         String description = data.getString(DESCRIPTION_ID);
 
         wordForTTS = word;
+        FirebaseAnalytics.getInstance(this).logEvent("Word_Details:"+wordForTTS,null);
 
         wordTV.setText(word);
         descriptionTV.setText(description);

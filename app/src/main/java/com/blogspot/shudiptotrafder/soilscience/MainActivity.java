@@ -33,6 +33,7 @@ import com.blogspot.shudiptotrafder.soilscience.theme.ColorActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        FirebaseAnalytics.getInstance(this).logEvent("Main_activity_started",null);
     }
 
     @Override

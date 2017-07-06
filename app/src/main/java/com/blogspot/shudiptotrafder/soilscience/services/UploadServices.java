@@ -59,6 +59,9 @@ public class UploadServices extends IntentService {
 
                 Utility.showLog("Upload left: "+word);
 
+                Utility.setAnalyticsData(this,"Data Upload:",
+                        "data upload to remote: "+word);
+
                 RealTimeDataStructure dataStructure = new RealTimeDataStructure(word, des);
 
                 mDatabaseReference.child(Build.MODEL).push()

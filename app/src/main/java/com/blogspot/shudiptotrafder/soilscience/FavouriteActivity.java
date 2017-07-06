@@ -25,6 +25,7 @@ import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
 
@@ -179,6 +180,7 @@ public class FavouriteActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.getCount() > 0) {
             mAdapter.swapCursor(data);
+            FirebaseAnalytics.getInstance(this).logEvent("Favourite_added",null);
         } else {
             recyclerView.setVisibility(View.GONE);
             noFavourite.setVisibility(View.VISIBLE);

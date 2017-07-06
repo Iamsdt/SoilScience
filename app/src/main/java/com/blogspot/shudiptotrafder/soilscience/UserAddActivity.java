@@ -16,6 +16,7 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.services.UploadServices;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class UserAddActivity extends AppCompatActivity {
 
@@ -73,6 +74,12 @@ public class UserAddActivity extends AppCompatActivity {
         //get text form edit text
         String word = wordEt.getText().toString().trim();
         String des = desEt.getText().toString().trim();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("Word",word);
+        bundle.putString("Description",des);
+
+        FirebaseAnalytics.getInstance(this).logEvent("User_Added_word",bundle);
 
         //put those value into offline data base
         ContentValues values = new ContentValues();
