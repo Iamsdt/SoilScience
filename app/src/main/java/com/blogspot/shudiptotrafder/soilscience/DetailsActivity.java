@@ -223,7 +223,10 @@ public class DetailsActivity extends AppCompatActivity implements
         String description = data.getString(DESCRIPTION_ID);
 
         wordForTTS = word;
-        FirebaseAnalytics.getInstance(this).logEvent("Word_Details:"+wordForTTS,null);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("Details_Word_",word);
+        FirebaseAnalytics.getInstance(this).logEvent("Word_Details",bundle);
 
         wordTV.setText(word);
         descriptionTV.setText(description);

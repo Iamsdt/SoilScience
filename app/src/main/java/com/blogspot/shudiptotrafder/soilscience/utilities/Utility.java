@@ -25,15 +25,20 @@ public class Utility {
                 .getDefaultSharedPreferences(context);
 
         //TOdo add settings
-        boolean isEnabled = preferences.getBoolean(context.getString(R.string.switchKey),
-                true);
+        boolean isEnabled = true;
 
+        return true;
+    }
 
-        if (!isNetworkAvailable(context)) {
-            isEnabled = false;
+    public static boolean runningUploadService(Context context){
+
+        boolean status = false;
+
+        if (isUploadEnabled(context) && isNetworkAvailable(context)){
+            status = true;
         }
 
-        return isEnabled;
+        return status;
     }
 
     public static boolean isNetworkAvailable(Context context) {
@@ -107,7 +112,7 @@ public class Utility {
         Bundle b = new Bundle();
         b.putString(type, message);
 
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, b);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, b);
 
     }
 

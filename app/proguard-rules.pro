@@ -26,3 +26,7 @@
 
 -keep class br.com.mauker.MsvAuthority
 -keepclassmembers class br.com.mauker.** { *; }
+
+#settings
+-keep class com.blogspot.shudiptotrafder.soilscience.settings;
+-keepclasseswithmembers class com.blogspot.shudiptotrafder.soilscience.SettingsFragment;

@@ -27,11 +27,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
+import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.services.DataService;
+import com.blogspot.shudiptotrafder.soilscience.services.UploadServices;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.theme.ColorActivity;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -137,7 +140,31 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FirebaseAnalytics.getInstance(this).logEvent("Main_activity_started",null);
+        FirebaseAnalytics.getInstance(this)
+                .logEvent(FirebaseAnalytics.Event.APP_OPEN,null);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //check network ability
+        //don't start services
+        //it safe user battery
+        if(Utility.isNetworkAvailable(this)){
+
+            //check remote config
+            if (DatabaseUtils.getRemoteConfigStatus(this)){
+                Intent intent = new Intent(this,DataService.class);
+                startService(intent);
+            }
+
+            //check if any thing left to upload
+            if (DatabaseUtils.checkUploadLeft(this)){
+                startService(new Intent(this, UploadServices.class));
+            }
+        }
     }
 
     @Override

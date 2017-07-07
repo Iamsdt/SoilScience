@@ -16,4 +16,15 @@
         android:summaryOn="@string/switchON"
         android:title="@string/switchLabel"/>
 
+    <PreferenceCategory android:title="Share Data">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/switchShare"
+            android:summaryOff="@string/switchShareOFF"
+            android:summaryOn="@string/switchShareON"
+            android:title="@string/switchShareLabel"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

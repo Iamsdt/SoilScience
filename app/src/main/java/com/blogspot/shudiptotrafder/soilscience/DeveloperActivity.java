@@ -43,8 +43,8 @@ public class DeveloperActivity extends AppCompatActivity {
     //TODO fill developer with animation
 
     //database
-    // TODO: 6/16/2017 Firebase database
-    // TODO: 6/16/2017 user add word will be real time database
+    // complete: 6/16/2017 Firebase database
+    // complete: 6/16/2017 user add word will be real time database
 
     // TODO: 6/16/2017 favourite swap will show a dialog
     // TODO: 6/16/2017 night mode move from settings to navigation drawer

@@ -79,7 +79,7 @@ public class UserAddActivity extends AppCompatActivity {
         bundle.putString("Word",word);
         bundle.putString("Description",des);
 
-        FirebaseAnalytics.getInstance(this).logEvent("User_Added_word",bundle);
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseAnalytics.Event.SELECT_CONTENT,bundle);
 
         //put those value into offline data base
         ContentValues values = new ContentValues();
@@ -104,7 +104,7 @@ public class UserAddActivity extends AppCompatActivity {
         // if operation successfull the leave this activity
         if (uri != null) {
 
-            if (Utility.isUploadEnabled(this)) {
+            if (Utility.runningUploadService(this)) {
                 startService(new Intent(this, UploadServices.class));
             }
 

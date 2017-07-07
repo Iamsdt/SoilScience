@@ -30,6 +30,33 @@ import java.util.Map;
 
 public class DatabaseUtils {
 
+    public static boolean checkUploadLeft(Context context){
+
+        if (!Utility.isUploadEnabled(context)){
+            return false;
+        }
+
+        boolean state = false;
+
+        Cursor cursor = context.getContentResolver().query(
+                MainWordDBContract.Entry.CONTENT_URI,
+                new String[]{MainWordDBContract.Entry.COLUMN_UPLOAD},
+                MainWordDBContract.Entry.COLUMN_UPLOAD +" =? ",
+                new String[]{"0"},
+                null);
+
+        if (cursor != null && cursor.getCount() > 0){
+            state = true;
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+
+        return state;
+    }
+
     /**
      * This method for add data from remote
      * we add new data into a file and change remote config

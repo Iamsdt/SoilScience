@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.blogspot.shudiptotrafder.soilscience.services.DataService;
-import com.blogspot.shudiptotrafder.soilscience.services.UploadServices;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
@@ -56,22 +54,6 @@ public class SplashActivity extends AppCompatActivity {
                 runThread(100);//1s
             }
         } else {
-            //check network ability
-            //don't start services
-            //it safe user battery
-            if(Utility.isNetworkAvailable(this)){
-
-                //check remote config
-                if (DatabaseUtils.getRemoteConfigStatus(this)){
-                    Intent intent = new Intent(this,DataService.class);
-                    startService(intent);
-                }
-
-                //check if any thing left to upload
-                if (checkUploadLeft()){
-                    startService(new Intent(this, UploadServices.class));
-                }
-            }
 
             runThread(150);//1.5 sec
         }
@@ -98,33 +80,6 @@ public class SplashActivity extends AppCompatActivity {
         };
 
         checkForData.start();
-    }
-
-    private boolean checkUploadLeft(){
-
-        if (!Utility.isUploadEnabled(this)){
-            return false;
-        }
-
-        boolean state = false;
-
-        Cursor cursor = getContentResolver().query(
-                MainWordDBContract.Entry.CONTENT_URI,
-                new String[]{MainWordDBContract.Entry.COLUMN_UPLOAD},
-                MainWordDBContract.Entry.COLUMN_UPLOAD +" =? ",
-                new String[]{"0"},
-                null);
-
-        if (cursor != null && cursor.getCount() > 0){
-            state = true;
-        }
-
-        if (cursor != null) {
-            cursor.close();
-        }
-
-
-        return state;
     }
 
     private boolean checkDataBaseStatus(){

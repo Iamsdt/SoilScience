@@ -19,33 +19,6 @@
     <string name="details_word_label">Word: </string>
     <string name="details_des_label">Description: </string>
 
-    <!-- for settings -->
-    <!-- ***************START************* -->
-    <!-- text size -->
-    <string name="sTextSmallLabel">Small</string>
-    <string name="sTextMediumLabel">Medium</string>
-    <string name="sTextModerateLabel">Moderate</string>
-    <string name="sTextLargeLabel">Large</string>
-    <string name="sTextExtraLargeLabel">Extra Large</string>
-
-    <!-- text size value-->
-    <string name="sTextSmallValue">15</string>
-    <string name="sTextMediumValue">17</string>
-    <string name="sTextModerateValue">20</string>
-    <string name="sTextLargeValue">23</string>
-    <string name="sTextExtraLargeValue">26</string>
-
-    <string name="textSizeKey" translatable="false">textSize</string>
-    <string name="textSizeLabel">Text Size</string>
-
-    <string name="switchKey">SwitchKey</string>
-    <string name="switchLabel">Night Mode</string>
-    <string name="switchON">Night Mode ON</string>
-    <string name="switchOFF">Night Mode OFF</string>
-
-    <!-- ***************FINISH************* -->
-
-
     <!-- option menu -->
     <string name="action_search">Search</string>
     <string name="action_night">Night Mode</string>
@@ -67,6 +40,7 @@
     <string name="developer">Developer</string>
 
     <!-- settings -->
+    <string name="nightMode">Set NightMode</string>
     <string name="nav_choose_theme">Choose Theme</string>
 
     <!-- hint option for add by user -->
@@ -87,5 +61,35 @@
     <string name="splash_pd_title">Database is preparing</string>
     <string name="splash_pd_meg">Please wait a while data base is preparing. This is first time only.</string>
 
+
+    <!-- for settings -->
+    <!-- ***************START************* -->
+    <!-- text size -->
+    <string name="sTextSmallLabel">Small</string>
+    <string name="sTextMediumLabel">Medium</string>
+    <string name="sTextModerateLabel">Moderate</string>
+    <string name="sTextLargeLabel">Large</string>
+    <string name="sTextExtraLargeLabel">Extra Large</string>
+
+    <!-- text size value-->
+    <string name="sTextSmallValue">15</string>
+    <string name="sTextMediumValue">17</string>
+    <string name="sTextModerateValue">20</string>
+    <string name="sTextLargeValue">23</string>
+    <string name="sTextExtraLargeValue">26</string>
+
+    <string name="textSizeKey" translatable="false">textSize</string>
+    <string name="textSizeLabel">Text Size</string>
+
+    <string name="switchKey">NightMode</string>
+    <string name="switchLabel">Night Mode</string>
+    <string name="switchON">Night Mode ON</string>
+    <string name="switchOFF">Night Mode OFF</string>
+
+    <string name="switchShare">ShareData</string>
+    <string name="switchShareLabel">Share you added word</string>
+    <string name="switchShareON">data will share</string>
+    <string name="switchShareOFF">Data keep private</string>
+    <!-- ***************FINISH************* -->
 
 </resources>

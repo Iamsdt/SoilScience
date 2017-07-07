@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group>
 
         <item
             android:id="@+id/nav_home"
@@ -19,17 +19,24 @@
             android:title="@string/add" />
     </group>
 
-    <item android:title="@string/about">
+    <item android:title="@string/action_settings">
         <menu>
+
             <item
-                android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_settings"
-                android:title="@string/action_settings" />
+                android:id="@+id/nav_nightMode"
+                android:icon="@drawable/ic_wb_sunny_black_24dp"
+                android:title="@string/nightMode"
+                android:checkable="true"/>
 
             <item
                 android:id="@+id/nav_choose_theme"
                 android:icon="@drawable/ic_wb_sunny_black_24dp"
                 android:title="@string/nav_choose_theme" />
+
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/action_settings" />
         </menu>
     </item>
 
