@@ -10,7 +10,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.blogspot.shudiptotrafder.soilscience.data.RealTimeDataStructure;
+import com.blogspot.shudiptotrafder.soilscience.data.BaseDataStructure;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -58,10 +58,10 @@ public class UploadServices extends Service {
 
                 Utility.showLog("Upload left: "+word);
 
-                Utility.setAnalyticsData(this,"Data Upload:",
+                Utility.setAnalyticsData(this,"Data_Upload:",
                         "data upload to remote: "+word);
 
-                RealTimeDataStructure dataStructure = new RealTimeDataStructure(word, des);
+                BaseDataStructure dataStructure = new BaseDataStructure(word, des);
 
                 mDatabaseReference.child(Build.MODEL).push()
                         .setValue(dataStructure, (databaseError, databaseReference) ->

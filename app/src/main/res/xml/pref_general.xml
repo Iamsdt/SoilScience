@@ -2,28 +2,87 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListPreference
-        android:defaultValue="@string/sTextModerateValue"
-        android:entries="@array/textSizeLabel"
-        android:entryValues="@array/textSizeValue"
-        android:key="@string/textSizeKey"
-        android:title="@string/textSizeLabel"/>
+    <PreferenceCategory android:title="Increase text size">
 
+        <ListPreference
+            android:defaultValue="@string/sTextModerateValue"
+            android:entries="@array/textSizeLabel"
+            android:entryValues="@array/textSizeValue"
+            android:key="@string/textSizeKey"
+            android:title="@string/textSizeLabel" />
+        <!--
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/switchKey"
         android:summaryOff="@string/switchOFF"
         android:summaryOn="@string/switchON"
-        android:title="@string/switchLabel"/>
+        android:title="@string/switchLabel"/> -->
+    </PreferenceCategory>
 
-    <PreferenceCategory android:title="Share Data">
+
+    <PreferenceCategory
+        android:summary="Your added word will be share with others."
+        android:title="Share Data">
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/switchShare"
             android:summaryOff="@string/switchShareOFF"
             android:summaryOn="@string/switchShareON"
-            android:title="@string/switchShareLabel"/>
+            android:title="@string/switchShareLabel" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:summary="Import and export your data.
+        You can backup your data into your SD Card"
+        android:title="Backup Data">
+
+        <PreferenceScreen android:key="@string/bps_key"
+            android:title="@string/bps_title"
+            android:summary="@string/bps_summery">
+            <Preference
+                android:key="favouriteBackup"
+                android:summary="Export your favourite list on your sd card"
+                android:title="Export Favourite List" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Advance Settings"
+        android:key="advance">
+
+        <PreferenceScreen android:title="Advance"
+            android:key="Advance"
+            android:summary="some advance settings">
+            <Preference
+                android:key="favouriteBackup"
+                android:summary="Import your added word list from your sd card"
+                android:title="Import Favourite List" />
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Links">
+
+        <Preference android:title="About">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.blogspot.shudiptotrafder.soilscience.AboutActivity"
+                android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
+
+        </Preference>
+
+        <Preference android:title="Developer">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.blogspot.shudiptotrafder.soilscience.DeveloperActivity"
+                android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
+
+        </Preference>
 
     </PreferenceCategory>
 

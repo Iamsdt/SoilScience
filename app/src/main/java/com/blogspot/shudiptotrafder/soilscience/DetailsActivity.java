@@ -35,7 +35,6 @@ public class DetailsActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
         TextToSpeech.OnInitListener {
 
-
     //for select data column from database
     private static final String[] projection = {
             MainWordDBContract.Entry.COLUMN_WORD,

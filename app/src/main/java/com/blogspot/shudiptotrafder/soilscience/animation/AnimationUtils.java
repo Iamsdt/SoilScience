@@ -17,6 +17,7 @@ public class AnimationUtils {
      * @param goToDown is going down or up
      */
 
+    //TODO post
     public static void animate(RecyclerView.ViewHolder viewHolder,
                                boolean goToDown){
 

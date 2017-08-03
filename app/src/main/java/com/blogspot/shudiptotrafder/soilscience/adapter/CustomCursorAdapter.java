@@ -123,7 +123,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             word = mCursor.getString(ConstantUtils.INDEX_ONLY_WORD);
         }
 
-        Utility.setAnalyticsData(mContext,"Random Word",word);
+        Utility.setAnalyticsData(mContext,"Random_Word",word);
 
         return word;
     }

@@ -64,6 +64,8 @@
 
     <!-- for settings -->
     <!-- ***************START************* -->
+
+    <!-- ***************General Preference Screen************* -->
     <!-- text size -->
     <string name="sTextSmallLabel">Small</string>
     <string name="sTextMediumLabel">Medium</string>
@@ -86,10 +88,36 @@
     <string name="switchON">Night Mode ON</string>
     <string name="switchOFF">Night Mode OFF</string>
 
+    <!-- data share -->
     <string name="switchShare">ShareData</string>
     <string name="switchShareLabel">Share you added word</string>
     <string name="switchShareON">data will share</string>
     <string name="switchShareOFF">Data keep private</string>
+    <string name="title_activity_about">About</string>
+
+    <!-- ***************Backup Preference Screen************* -->
+    <string name="bps_title">Backup data</string>
+    <string name="bps_summery">Backup your data into your SD card</string>
+    <string name="bps_key">backup</string>
+
+    <!-- export -->
+    <string name="bps_ex_fav_key">export_favourite</string>
+    <string name="bps_ex_fav_title">Export Favourite List</string>
+    <string name="bps_ex_fav_summery">Export your favourite list on your sd card</string>
+
+    <string name="bps_ex_add_key">export_add</string>
+    <string name="bps_ex_add_title">Export added word List</string>
+    <string name="bps_ex_add_summery">Export your added word list on your sd card</string>
+
+    <!-- Import -->
+    <string name="bps_im_fav_key">import_favourite</string>
+    <string name="bps_im_fav_title">Import Favourite List</string>
+    <string name="bps_im_fav_summery">Import your favourite list on your sd card</string>
+
+    <string name="bps_im_add_key">import_add</string>
+    <string name="bps_im_add_title">Import added word List</string>
+    <string name="bps_im_add_summery">Import your added word list on your sd card</string>
+
     <!-- ***************FINISH************* -->
 
 </resources>

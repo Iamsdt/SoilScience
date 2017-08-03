@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.blogspot.shudiptotrafder.soilscience">
 
+    <!-- User permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -36,7 +39,14 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".DeveloperActivity"
             android:label="@string/title_activity_developer"
@@ -59,7 +69,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
         </activity>
-
         <activity
             android:name=".theme.ColorActivity"
             android:label="@string/title_activity_color"
@@ -71,7 +80,6 @@
             android:authorities="com.blogspot.shudiptotrafder.soilscience"
             android:enabled="true"
             android:exported="false" />
-
         <provider
             android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
             android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
@@ -84,11 +92,15 @@
             android:name=".services.DataService"
             android:enabled="true"
             android:exported="false" />
-
-        <service android:name=".services.UploadServices"
+        <service
+            android:name=".services.UploadServices"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

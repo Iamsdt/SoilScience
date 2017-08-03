@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
 import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
+import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.android.gms.tasks.Task;
@@ -21,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +34,9 @@ import java.util.Map;
 
 public class DatabaseUtils {
 
-    public static boolean checkUploadLeft(Context context){
+    public static boolean checkUploadLeft(Context context) {
 
-        if (!Utility.isUploadEnabled(context)){
+        if (!Utility.isUploadEnabled(context)) {
             return false;
         }
 
@@ -41,11 +45,11 @@ public class DatabaseUtils {
         Cursor cursor = context.getContentResolver().query(
                 MainWordDBContract.Entry.CONTENT_URI,
                 new String[]{MainWordDBContract.Entry.COLUMN_UPLOAD},
-                MainWordDBContract.Entry.COLUMN_UPLOAD +" =? ",
+                MainWordDBContract.Entry.COLUMN_UPLOAD + " =? ",
                 new String[]{"0"},
                 null);
 
-        if (cursor != null && cursor.getCount() > 0){
+        if (cursor != null && cursor.getCount() > 0) {
             state = true;
         }
 
@@ -109,7 +113,7 @@ public class DatabaseUtils {
 
                                 if (uri != null) {
                                     //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
-                                    Utility.setAnalyticsData(context,"remote storage",
+                                    Utility.setAnalyticsData(context, "remote storage",
                                             "remote data add into database");
                                 }
                             }
@@ -138,11 +142,11 @@ public class DatabaseUtils {
      * Check data  check word is already exist or not
      *
      * @param context for access content resolver
-     * @param word check exist of not
+     * @param word    check exist of not
      * @return result of data existence
      */
 
-    private static boolean checkDataExist(Context context, String word) {
+    public static boolean checkDataExist(Context context, String word) {
 
         boolean status = false;
 
@@ -156,7 +160,7 @@ public class DatabaseUtils {
         if (cursor != null && cursor.getCount() > 0) {
             status = true;
             Utility.showLog("check data status:" + true);
-            Utility.setAnalyticsData(context,"Remote Storage data existence",
+            Utility.setAnalyticsData(context, "Remote_Storage_data_existence",
                     "Remote data already exist");
         }
 
@@ -195,7 +199,7 @@ public class DatabaseUtils {
 
         long cacheExpiration = 3600; // 1 hour in seconds
 
-        if (remoteSetting.isDeveloperModeEnabled()){
+        if (remoteSetting.isDeveloperModeEnabled()) {
             cacheExpiration = 0;
         }
 
@@ -204,8 +208,8 @@ public class DatabaseUtils {
 
         final Task<Void> fetch = remoteConfig.fetch(cacheExpiration);
 
-        fetch.addOnSuccessListener(activity,aVoid -> remoteConfig.activateFetched());
-        fetch.addOnFailureListener(activity,e -> {
+        fetch.addOnSuccessListener(activity, aVoid -> remoteConfig.activateFetched());
+        fetch.addOnFailureListener(activity, e -> {
             //todo crash report
             Utility.showLogThrowable("Remote config data failed", e);
         });
@@ -224,8 +228,6 @@ public class DatabaseUtils {
      */
     public static void initializedDatabase(Context context) {
 
-        DataBaseProvider provider = new DataBaseProvider(context);
-
         //SharedPreferences preferences for database initialize
         // for first time value
         SharedPreferences preferences = context.getSharedPreferences(ConstantUtils.DATABASE_INIT_SP_KEY,
@@ -235,20 +237,65 @@ public class DatabaseUtils {
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        try {
-            if (!state) {
-                provider.loadWords();
-                editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
-                Utility.showLog("initializedDatabase called");
-                Utility.setAnalyticsData(context,"Offline database",
-                        "created successfully");
+        if (!state) {
+            loadWords(context);
+            editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
+            Utility.showLog("initializedDatabase called");
+            Utility.setAnalyticsData(context, "Offline_database",
+                    "created successfully");
+        }
+
+        editor.apply();
+    }
+
+    /**
+     * methods for load words in database
+     * with content provider
+     */
+
+    private static void loadWords(Context context) {
+
+        final Resources resources = context.getResources();
+        //resource i
+        int rawId = R.raw.ssnewdb;
+
+        InputStream stream = resources.openRawResource(rawId);
+
+        //read data
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                String[] strings = TextUtils.split(line, "=");
+
+                if (strings.length < 1) {
+                    continue;
+                }
+
+                //those data saved in a array
+                //first position for array is word
+                //second position for array is description
+
+                ContentValues values = new ContentValues();
+
+                //we use trim() for trim unexpected value
+                values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
+
+                //Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+                context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+
+//                if (uri != null) {
+//                    //sle("Data status:" + "successfull");
+//                }
+
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            Utility.showLogThrowable("Error to initialized data", e);
-            editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, false);
             //TODO crash report
+            Utility.showLogThrowable("Database add error", e);
         }
-        editor.apply();
+
     }
 }

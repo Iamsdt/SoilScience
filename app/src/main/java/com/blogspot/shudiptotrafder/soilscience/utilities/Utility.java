@@ -24,10 +24,8 @@ public class Utility {
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
 
-        //TOdo add settings
-        boolean isEnabled = true;
-
-        return true;
+        return preferences.getBoolean(context.getString(R.string.switchShare),
+                true);
     }
 
     public static boolean runningUploadService(Context context){
@@ -112,8 +110,7 @@ public class Utility {
         Bundle b = new Bundle();
         b.putString(type, message);
 
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, b);
-
+        mFirebaseAnalytics.logEvent(type, b);
     }
 
     /**

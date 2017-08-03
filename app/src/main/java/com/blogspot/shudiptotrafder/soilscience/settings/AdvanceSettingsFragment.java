@@ -11,28 +11,31 @@ import android.support.v7.preference.PreferenceScreen;
 import com.blogspot.shudiptotrafder.soilscience.R;
 
 /**
- * Created by Shudipto on 6/6/2017.
+ * Created by Shudipto on 7/9/2017.
  */
 
-
-public class SettingsFragment extends PreferenceFragmentCompat implements
+public class AdvanceSettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String TAG = SettingsFragment.class.getName();
+    private static final String TAG = AdvanceSettingsFragment.class.getName();
     public static final String PAGE_ID = "page_id";
 
-    public SettingsFragment newInstance(String pageId) {
-        SettingsFragment f = new SettingsFragment();
+    public static AdvanceSettingsFragment newInstance(String pageId) {
+        AdvanceSettingsFragment f = new AdvanceSettingsFragment();
         Bundle args = new Bundle();
         args.putString(PAGE_ID, pageId);
         f.setArguments(args);
-        return f;
+        return (f);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         Preference preference = findPreference(key);
+
+
+        //if for re queries
+
 
         if (preference != null) {
 
@@ -47,13 +50,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
 
         // Add 'general' preferences, defined in the XML file
-        addPreferencesFromResource(R.xml.pref_general);
+        addPreferencesFromResource(R.xml.pref_advance);
 
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
 
         PreferenceScreen preferenceScreen = getPreferenceScreen();
 
         int count = preferenceScreen.getPreferenceCount();
+
 
         for (int i = 0; i < count; i++) {
             Preference p = preferenceScreen.getPreference(i);
@@ -62,6 +66,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 setPreferenceSummery(p, value);
             }
         }
+
     }
 
     private void setPreferenceSummery(Preference preference, Object value) {
