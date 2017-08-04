@@ -118,7 +118,31 @@
     <string name="bps_im_add_key">import_add</string>
     <string name="bps_im_add_title">Import added word List</string>
     <string name="bps_im_add_summery">Import your added word list on your sd card</string>
+    <string name="app_intro">app intro</string>
 
     <!-- ***************FINISH************* -->
+
+    <!-- ***************APP intro************* -->
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello Food!</string>
+    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+
+    <string name="slide_2_title">Movie Tickets</string>
+    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <!-- ***************FINISH************* -->
+
 
 </resources>

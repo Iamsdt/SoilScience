@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
 
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
@@ -28,11 +27,17 @@ public class SplashActivity extends AppCompatActivity {
 
         Utility.setNightMode(this);
         ThemeUtils.initialize(this);
-
         super.onCreate(savedInstanceState);
+
+//        boolean introStatus = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS,
+//                false);
+//
+//        if (!introStatus){
+//            startActivity(new Intent(this,MyAppIntro.class));
+//            finish();
+//        }
+
         setContentView(R.layout.activity_splash);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle(getString(R.string.splash_pd_title));
@@ -58,11 +63,11 @@ public class SplashActivity extends AppCompatActivity {
                 if (dialog.isShowing()){
                     dialog.dismiss();
                 }
-                runThread(100);//1s
+                runThread(1000);//1s
             }
         } else {
 
-            runThread(150);//1.5 sec
+            runThread(1500);//1.5 sec
         }
 
     }

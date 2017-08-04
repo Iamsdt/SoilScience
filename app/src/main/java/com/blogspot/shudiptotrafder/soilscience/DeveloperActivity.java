@@ -10,6 +10,7 @@ import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 
 public class DeveloperActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +21,7 @@ public class DeveloperActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
@@ -28,7 +30,8 @@ public class DeveloperActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
-    
+
+
     //left in this project
     // complete: 6/7/2017 add theme change option
     // complete: 6/7/2017 add search view

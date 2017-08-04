@@ -59,6 +59,8 @@ dependencies {
 
     //searchView
     compile 'br.com.mauker.materialsearchview:materialsearchview:1.2.2'
+
+    //kotlin support
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //Analytics

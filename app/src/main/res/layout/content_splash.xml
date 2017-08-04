@@ -7,7 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.blogspot.shudiptotrafder.soilscience.SplashActivity"
     tools:showIn="@layout/activity_splash"
-    android:background="@color/colorSplashBack">
+    android:background="?attr/colorPrimary">
 
     <!-- fixme set a margin of image view for larger device -->
 

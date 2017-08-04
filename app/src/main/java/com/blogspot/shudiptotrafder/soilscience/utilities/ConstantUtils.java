@@ -14,6 +14,9 @@ public class ConstantUtils {
     public static final String DATABASE_INIT_SP_KEY = "initialized";
     //db backup restore
     public static final String USER_RESTORE = "restore";
+    //app intro
+    public static final String APP_INTRO_STATUS = "app_intro_status";
+
 
     //theme key
     public static final String THEME_SP_KEY = "theme";
