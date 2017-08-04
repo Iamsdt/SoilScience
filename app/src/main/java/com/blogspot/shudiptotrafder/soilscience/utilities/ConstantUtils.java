@@ -42,4 +42,13 @@ public class ConstantUtils {
     /*Firebase key*/
     //firebase database key for remote config
     public static final String FB_REMOTE_CONFIG_STORAGE_KEY = "storage_key";
+<<<<<<< Updated upstream
+=======
+
+
+    //settings import export
+    public static final String SETTING_IMOUT_OPTION_FAVOUTITR = "favourite.txt";
+    public static final String SETTING_IMOUT_OPTION_USER = "user.txt";
+
+>>>>>>> Stashed changes
 }

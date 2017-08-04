@@ -64,6 +64,15 @@
 
     <!-- for settings -->
     <!-- ***************START************* -->
+<<<<<<< Updated upstream
+=======
+
+    <string name="sbackup">Backup Settings</string>
+    <string name="sAdvance">Advance Settings</string>
+
+    
+    <!-- ***************General Preference Screen************* -->
+>>>>>>> Stashed changes
     <!-- text size -->
     <string name="sTextSmallLabel">Small</string>
     <string name="sTextMediumLabel">Medium</string>

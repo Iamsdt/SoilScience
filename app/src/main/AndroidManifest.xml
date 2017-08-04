@@ -4,8 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<<<<<<< Updated upstream
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+=======
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+>>>>>>> Stashed changes
 
     <application
         android:allowBackup="true"
@@ -33,10 +39,31 @@
             android:name=".DetailsActivity"
             android:label="@string/title_activity_details"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
+<<<<<<< Updated upstream
             android:theme="@style/AppTheme.NoActionBar"/>
+=======
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".settings.BackupSettingsActivity"
+            android:label="@string/sbackup"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".settings.AdvanceSettingsActivity"
+            android:label="@string/sAdvance"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+>>>>>>> Stashed changes
         <activity
             android:name=".DeveloperActivity"
             android:label="@string/title_activity_developer"
@@ -89,6 +116,14 @@
             android:enabled="true"
             android:exported="false"/>
 
+<<<<<<< Updated upstream
+=======
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

@@ -49,4 +49,6 @@ public class DeveloperActivity extends AppCompatActivity {
     // TODO: 6/16/2017 favourite swap will show a dialog
     // TODO: 6/16/2017 night mode move from settings to navigation drawer
 
+    // TODO: 8/4/2017 if user open this app for first time then show a import dialog
+
 }

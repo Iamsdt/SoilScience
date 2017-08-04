@@ -9,6 +9,17 @@
         android:key="@string/textSizeKey"
         android:title="@string/textSizeLabel"/>
 
+<<<<<<< Updated upstream
+=======
+        <ListPreference
+            android:defaultValue="@string/sTextModerateValue"
+            android:entries="@array/textSizeLabel"
+            android:entryValues="@array/textSizeValue"
+            android:key="@string/textSizeKey"
+            android:title="@string/textSizeLabel" />
+
+        <!--
+>>>>>>> Stashed changes
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/switchKey"
@@ -23,7 +34,59 @@
             android:key="@string/switchShare"
             android:summaryOff="@string/switchShareOFF"
             android:summaryOn="@string/switchShareON"
+<<<<<<< Updated upstream
             android:title="@string/switchShareLabel"/>
+=======
+            android:title="@string/switchShareLabel" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:summary="Import and export your data.
+        You can backup your data into your SD Card"
+        android:title="Backup Data">
+
+        <Preference android:title="@string/bps_title">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.blogspot.shudiptotrafder.soilscience.settings.BackupSettingsActivity"
+                android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Advance Settings"
+        android:key="advance">
+
+        <Preference android:title="Advance Settings">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.blogspot.shudiptotrafder.soilscience.settings.AdvanceSettingsActivity"
+                android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Links">
+
+        <Preference android:title="About">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.blogspot.shudiptotrafder.soilscience.AboutActivity"
+                android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
+        </Preference>
+
+        <Preference android:title="Developer">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.blogspot.shudiptotrafder.soilscience.DeveloperActivity"
+                android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
+        </Preference>
+>>>>>>> Stashed changes
 
     </PreferenceCategory>
 
