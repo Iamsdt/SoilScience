@@ -9,8 +9,12 @@ import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 public class ConstantUtils {
 
     /*SharedPreference Key*/
+    public static final String APP_OPEN_FIRST_TIME = "app_open";
     //database key
     public static final String DATABASE_INIT_SP_KEY = "initialized";
+    //db backup restore
+    public static final String USER_RESTORE = "restore";
+
     //theme key
     public static final String THEME_SP_KEY = "theme";
 
@@ -42,13 +46,9 @@ public class ConstantUtils {
     /*Firebase key*/
     //firebase database key for remote config
     public static final String FB_REMOTE_CONFIG_STORAGE_KEY = "storage_key";
-<<<<<<< Updated upstream
-=======
-
 
     //settings import export
     public static final String SETTING_IMOUT_OPTION_FAVOUTITR = "favourite.txt";
     public static final String SETTING_IMOUT_OPTION_USER = "user.txt";
 
->>>>>>> Stashed changes
 }

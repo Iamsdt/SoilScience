@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
-import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtills;
+import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtils;
 
 /**
  * Created by Shudipto on 7/10/2017.
@@ -175,7 +175,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 
-            FileImportExportUtills.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
+            FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
 
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not readable." +
@@ -187,7 +187,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     private void writeFavouriteData() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
-            FileImportExportUtills.exportFileFavourite(getContext());
+            FileImportExportUtils.exportFileFavourite(getContext());
 
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not writable." +
@@ -200,7 +200,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     private void writeAddedWord(){
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
-            FileImportExportUtills.exportFileUser(getContext());
+            FileImportExportUtils.exportFileUser(getContext());
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not writable." +
                             " Your storage option is different from others.",
@@ -212,7 +212,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            FileImportExportUtills.importFile(getContext(),ConstantUtils.SETTING_IMOUT_OPTION_USER);
+            FileImportExportUtils.importFile(getContext(),ConstantUtils.SETTING_IMOUT_OPTION_USER);
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not readable." +
                             " Your storage option is different from others.",

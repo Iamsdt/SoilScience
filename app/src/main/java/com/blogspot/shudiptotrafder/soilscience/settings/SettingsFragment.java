@@ -18,8 +18,6 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-<<<<<<< Updated upstream
-=======
 //    private static final String TAG = SettingsFragment.class.getName();
 //    public static final String PAGE_ID = "page_id";
 //
@@ -31,7 +29,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 //        return f;
 //    }
 
->>>>>>> Stashed changes
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 

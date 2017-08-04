@@ -9,8 +9,6 @@
         android:key="@string/textSizeKey"
         android:title="@string/textSizeLabel"/>
 
-<<<<<<< Updated upstream
-=======
         <ListPreference
             android:defaultValue="@string/sTextModerateValue"
             android:entries="@array/textSizeLabel"
@@ -19,13 +17,12 @@
             android:title="@string/textSizeLabel" />
 
         <!--
->>>>>>> Stashed changes
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/switchKey"
         android:summaryOff="@string/switchOFF"
         android:summaryOn="@string/switchON"
-        android:title="@string/switchLabel"/>
+        android:title="@string/switchLabel"/> -->
 
     <PreferenceCategory android:title="Share Data">
 
@@ -34,9 +31,7 @@
             android:key="@string/switchShare"
             android:summaryOff="@string/switchShareOFF"
             android:summaryOn="@string/switchShareON"
-<<<<<<< Updated upstream
             android:title="@string/switchShareLabel"/>
-=======
             android:title="@string/switchShareLabel" />
 
     </PreferenceCategory>
@@ -86,7 +81,6 @@
                 android:targetClass="com.blogspot.shudiptotrafder.soilscience.DeveloperActivity"
                 android:targetPackage="com.blogspot.shudiptotrafder.soilscience" />
         </Preference>
->>>>>>> Stashed changes
 
     </PreferenceCategory>
 

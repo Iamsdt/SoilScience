@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
         //SharedPreferences for database initializing state
         // for first time value
         SharedPreferences preferences = getSharedPreferences(
-                ConstantUtils.DATABASE_INIT_SP_KEY, MODE_PRIVATE);
+                ConstantUtils.APP_OPEN_FIRST_TIME, MODE_PRIVATE);
         //sate of database is initialized or not
         boolean state = preferences.getBoolean(
                 ConstantUtils.DATABASE_INIT_SP_KEY, false);

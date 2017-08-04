@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by Shudipto on 7/17/2017.
  */
 
-public class FileImportExportUtills {
+public class FileImportExportUtils {
 
     private static String path = Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/Android/data/";

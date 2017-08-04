@@ -142,7 +142,7 @@ public class DatabaseUtils {
      * @return result of data existence
      */
 
-    private static boolean checkDataExist(Context context, String word) {
+    public static boolean checkDataExist(Context context, String word) {
 
         boolean status = false;
 

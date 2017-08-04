@@ -3,22 +3,16 @@ package com.blogspot.shudiptotrafder.soilscience.settings;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< Updated upstream
 import android.support.v7.preference.PreferenceManager;
-=======
->>>>>>> Stashed changes
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 
-<<<<<<< Updated upstream
-=======
 //public class SettingsActivity extends AppCompatActivity implements
 //        PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
->>>>>>> Stashed changes
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -38,8 +32,6 @@ public class SettingsActivity extends AppCompatActivity {
             //Log.e("setting","recreated");
         });
 
-<<<<<<< Updated upstream
-=======
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //
 //        Fragment fragment;
@@ -50,7 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
 //            fragmentTransaction.add(R.id.settingsContainer, fragment);
 //            fragmentTransaction.commit();
 //        }
->>>>>>> Stashed changes
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,8 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-<<<<<<< Updated upstream
-=======
 //    @Override
 //    public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen preferenceScreen) {
 //        //Log.d(TAG, "callback called to attach the preference sub screen");
@@ -96,5 +85,4 @@ public class SettingsActivity extends AppCompatActivity {
 //        ft.commit();
 //        return true;
 //    }
->>>>>>> Stashed changes
 }
