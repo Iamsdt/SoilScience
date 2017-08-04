@@ -2,6 +2,7 @@ package com.blogspot.shudiptotrafder.soilscience;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.theme.ColorActivity;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -417,6 +419,19 @@ public class MainActivity extends AppCompatActivity
         // Update the data that the adapter uses to create ViewHolders
         Utility.showLog("Cursor data: " + data.getCount());
         mAdapter.swapCursor(data);
+
+        SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME,
+                MODE_PRIVATE);
+
+        boolean restoreState = preferences.getBoolean(ConstantUtils.USER_RESTORE,false);
+
+        if (!restoreState){
+            FileImportExportUtils.checkFileAvailable(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(ConstantUtils.USER_RESTORE,true);
+            editor.apply();
+        }
+
     }
 
     @Override

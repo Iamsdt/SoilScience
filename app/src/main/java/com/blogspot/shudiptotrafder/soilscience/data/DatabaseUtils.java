@@ -90,6 +90,12 @@ public class DatabaseUtils {
                                 boolean check = checkDataExist(context, strings[0].trim());
 
                                 if (check) {
+                                    Uri mUri = MainWordDBContract.Entry.buildUriWithWord(strings[0].trim());
+                                    ContentValues values = new ContentValues();
+                                    values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                                    values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
+                                    context.getContentResolver().update(mUri,values,null,null);
+
                                     Utility.showLog("loop continue");
                                     continue;
                                 }

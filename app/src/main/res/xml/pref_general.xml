@@ -9,14 +9,7 @@
         android:key="@string/textSizeKey"
         android:title="@string/textSizeLabel"/>
 
-        <ListPreference
-            android:defaultValue="@string/sTextModerateValue"
-            android:entries="@array/textSizeLabel"
-            android:entryValues="@array/textSizeValue"
-            android:key="@string/textSizeKey"
-            android:title="@string/textSizeLabel" />
-
-        <!--
+    <!--
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/switchKey"
