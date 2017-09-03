@@ -12,7 +12,6 @@ import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -69,83 +68,78 @@ public class DatabaseUtils {
 
     public static void addRemoteData(Context context) {
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
 
-        auth.signInAnonymously().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
 
-                StorageReference pathReference = firebaseStorage.getReference().child("data/ssdata.txt");
+        StorageReference pathReference = firebaseStorage.getReference().child("data/ssdata.txt");
 
-                try {
+        try {
 
-                    final File file = File.createTempFile("ssdata", "txt");
+            final File file = File.createTempFile("ssdata", "txt");
 
-                    pathReference.getFile(file)
-                            .addOnSuccessListener(taskSnapshot -> {
-                                try {
+            pathReference.getFile(file)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        try {
 
-                                    BufferedReader reader = new BufferedReader(new FileReader(file));
+                            BufferedReader reader = new BufferedReader(new FileReader(file));
 
-                                    String line;
+                            String line;
 
-                                    while ((line = reader.readLine()) != null) {
+                            while ((line = reader.readLine()) != null) {
 
-                                        String[] strings = TextUtils.split(line, "=");
+                                String[] strings = TextUtils.split(line, "=");
 
-                                        boolean check = checkDataExist(context, strings[0].trim());
+                                boolean check = checkDataExist(context, strings[0].trim());
 
-                                        if (check) {
-                                            Uri mUri = MainWordDBContract.Entry.buildUriWithWord(strings[0].trim());
-                                            ContentValues values = new ContentValues();
-                                            values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
-                                            values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
-                                            context.getContentResolver().update(mUri, values, null, null);
+                                if (check) {
+                                    Uri mUri = MainWordDBContract.Entry.buildUriWithWord(strings[0].trim());
+                                    ContentValues values = new ContentValues();
+                                    values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                                    values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
+                                    context.getContentResolver().update(mUri, values, null, null);
 
-                                            Utility.showLog("loop continue");
-                                            continue;
-                                        }
-
-                                        //those data saved in a array
-                                        //first position for array is word
-                                        //second position for array is description
-                                        ContentValues values = new ContentValues();
-
-                                        //we use trim() for trim unexpected value
-                                        values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
-                                        values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
-
-                                        //context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
-
-                                        Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
-
-                                        if (uri != null) {
-                                            //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
-                                            Utility.setAnalyticsData(context, "remote storage",
-                                                    "remote data add into database");
-                                        }
-                                    }
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    //TODO crash report
-                                    Utility.showLogThrowable(e.getMessage(), e);
-
+                                    Utility.showLog("loop continue");
+                                    continue;
                                 }
 
-                            })
-                            .addOnFailureListener(e ->
-                                    //TODO crash report
-                                    Utility.showLogThrowable(e.getMessage(), e));
+                                //those data saved in a array
+                                //first position for array is word
+                                //second position for array is description
+                                ContentValues values = new ContentValues();
+
+                                //we use trim() for trim unexpected value
+                                values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                                values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
+
+                                //context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+
+                                Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+
+                                if (uri != null) {
+                                    //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
+                                    Utility.setAnalyticsData(context, "remote storage",
+                                            "remote data add into database");
+                                }
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            //TODO crash report
+                            Utility.showLogThrowable(e.getMessage(), e);
+
+                        }
+
+                    })
+                    .addOnFailureListener(e ->
+                            //TODO crash report
+                            Utility.showLogThrowable(e.getMessage(), e));
 
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    //TODO crash report
-                    Utility.showLogThrowable("File exception", e);
-                }
-            }
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO crash report
+            Utility.showLogThrowable("File exception", e);
+        }
     }
 
     /**
@@ -225,6 +219,7 @@ public class DatabaseUtils {
         });
 
         state = remoteConfig.getBoolean(ConstantUtils.FB_REMOTE_CONFIG_STORAGE_KEY);
+
 
         Utility.showLog("StateData:" + state);
 

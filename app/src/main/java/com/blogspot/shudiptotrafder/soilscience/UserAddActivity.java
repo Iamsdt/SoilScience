@@ -1,7 +1,6 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -11,13 +10,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
-import com.blogspot.shudiptotrafder.soilscience.services.UploadServices;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class UserAddActivity extends AppCompatActivity {
 
@@ -30,7 +28,7 @@ public class UserAddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Utility.setNightMode(this);
+        //Utility.setNightMode(this);
         ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_user_add);
@@ -104,18 +102,7 @@ public class UserAddActivity extends AppCompatActivity {
         //if uri is not null -> data inserted successfully
         // if operation successful the leave this activity
         if (uri != null) {
-
-            if (Utility.runningUploadService(this)) {
-
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-
-                auth.signInAnonymously().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        startService(new Intent(this, UploadServices.class));
-                    }
-                });
-            }
-
+            Toast.makeText(this,"Word added to database",Toast.LENGTH_SHORT).show();
             finish();
         }
     }

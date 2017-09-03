@@ -17,9 +17,13 @@ public class ConstantUtils {
     //app intro
     public static final String APP_INTRO_STATUS = "app_intro_status";
 
-
     //theme key
     public static final String THEME_SP_KEY = "theme";
+    
+    //night mode sp key
+    public static final String NIGHT_MODE_SP_KEY = "theme";
+    public static final String NIGHT_MODE_VALUE_KEY  = "theme";
+
 
 
     /*Database name and id*/
@@ -53,5 +57,7 @@ public class ConstantUtils {
     //settings import export
     public static final String SETTING_IMOUT_OPTION_FAVOUTITR = "favourite.txt";
     public static final String SETTING_IMOUT_OPTION_USER = "user.txt";
+
+
 
 }

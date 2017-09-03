@@ -2,8 +2,10 @@ package com.blogspot.shudiptotrafder.soilscience.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 
 import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
 import com.blogspot.shudiptotrafder.soilscience.R;
+import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
@@ -25,9 +28,9 @@ public class Utility {
                 .getDefaultSharedPreferences(context);
 
         //TOdo add settings
-        boolean isEnabled = true;
 
-        return true;
+        return preferences.getBoolean(
+                context.getString(R.string.switchShare),true);
     }
 
     public static boolean runningUploadService(Context context){
@@ -61,11 +64,9 @@ public class Utility {
      */
     public static void setNightMode(Context context) {
 
-        SharedPreferences preferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
-
-        boolean isEnabled = preferences.getBoolean(context.getString(R.string.switchKey),
-                false);
+        SharedPreferences sharedPreferences =
+                context.getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, Context.MODE_PRIVATE);
+        boolean isEnabled = sharedPreferences.getBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
 
         if (isEnabled) {
             AppCompatDelegate.setDefaultNightMode(
@@ -133,6 +134,32 @@ public class Utility {
         if (BuildConfig.DEBUG) {
             Log.e(TAG, message, t);
         }
+    }
+
+    public static String getWordWithDes(Context context,String word){
+
+        final String[] projection = {
+                MainWordDBContract.Entry.COLUMN_DESCRIPTION
+        };
+
+        String s = null;
+
+        Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
+
+        Cursor cursor = context.getContentResolver().query(mUri,projection,null,null,null);
+
+        if (cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            do {
+                s = cursor.getString(0);
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        return s;
     }
 
 }

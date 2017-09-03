@@ -16,15 +16,21 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
@@ -39,6 +45,7 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -71,7 +78,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Utility.setNightMode(this);
         ThemeUtils.initialize(this);
 
         super.onCreate(savedInstanceState);
@@ -106,14 +112,38 @@ public class MainActivity extends AppCompatActivity
         //todo add circular review animation with fab
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+            String word = mAdapter.getRandomWord();
+            String description = null;
+            if (word != null) {
+                description = Utility.getWordWithDes(getBaseContext(), word);
+            }
 
-            String s = mAdapter.getRandomWord();
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.random_layout, null);
+            dialogBuilder.setView(dialogView);
 
-            Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(s);
+            final TextView wordTV = (TextView) dialogView.findViewById(R.id.rand_word);
+            final TextView desTV = (TextView) dialogView.findViewById(R.id.rand_description);
 
-            intent.setData(wordUri);
-            startActivity(intent);
+            wordTV.setText(word);
+            desTV.setText(description);
+
+            AlertDialog b = dialogBuilder.create();
+            b.show();
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+            if (b.getWindow() != null) {
+                lp.copyFrom(b.getWindow().getAttributes());
+                lp.width = displayMetrics.widthPixels;
+                lp.height = displayMetrics.heightPixels - 50;
+                b.getWindow().setAttributes(lp);
+            }
+
         });
 
         //fab hide with recycler view scroll
@@ -143,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         FirebaseAnalytics.getInstance(this)
-                .logEvent(FirebaseAnalytics.Event.APP_OPEN,null);
+                .logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
 
     }
 
@@ -154,18 +184,44 @@ public class MainActivity extends AppCompatActivity
         //check network ability
         //don't start services
         //it safe user battery
-        if(Utility.isNetworkAvailable(this)){
+        if (Utility.isNetworkAvailable(this)) {
 
-            //check remote config
-            if (DatabaseUtils.getRemoteConfigStatus(this)){
-                Intent intent = new Intent(this,DataService.class);
-                startService(intent);
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+            //first check remote config status and is any word to left for upload
+            //then sign in anomalously
+            // if successful run those services
+
+            //prevent double check
+            boolean remoteConfigStatus = DatabaseUtils.getRemoteConfigStatus(this);
+            boolean uploadLeftStatus = DatabaseUtils.checkUploadLeft(this);
+
+            if (remoteConfigStatus || uploadLeftStatus) {
+                auth.signInAnonymously().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        //check remote config
+                        if (remoteConfigStatus) {
+                            Intent intent = new Intent(getApplicationContext(), DataService.class);
+                            startService(intent);
+                            //prevent start again and again
+                        }
+
+                        //check if any thing left to upload
+                        if (uploadLeftStatus) {
+                            startService(new Intent(getApplicationContext(), UploadServices.class));
+                        }
+                    }
+                });
             }
 
-            //check if any thing left to upload
-            if (DatabaseUtils.checkUploadLeft(this)){
-                startService(new Intent(this, UploadServices.class));
+            //if nothing to upload and service is running then stop the services
+            if (!uploadLeftStatus) {
+                if (UploadServices.UploadServiceRunning) {
+                    Intent intent = new Intent(this, UploadServices.class);
+                    stopService(intent);
+                }
             }
+
         }
     }
 
@@ -258,6 +314,25 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.action_search:
                 searchView.openSearch();
+                return true;
+
+            case R.id.nightMode:
+                SharedPreferences sharedPreferences =
+                        getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, MODE_PRIVATE);
+                boolean b = sharedPreferences.getBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                if (b) {
+                    editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
+                    recreate();
+                } else {
+                    editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, true);
+                    recreate();
+                }
+
+                editor.apply();
+
                 return true;
 
             default:
@@ -423,12 +498,12 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME,
                 MODE_PRIVATE);
 
-        boolean restoreState = preferences.getBoolean(ConstantUtils.USER_RESTORE,false);
+        boolean restoreState = preferences.getBoolean(ConstantUtils.USER_RESTORE, false);
 
-        if (!restoreState){
+        if (!restoreState) {
             FileImportExportUtils.checkFileAvailable(this);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean(ConstantUtils.USER_RESTORE,true);
+            editor.putBoolean(ConstantUtils.USER_RESTORE, true);
             editor.apply();
         }
 

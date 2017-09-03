@@ -24,8 +24,12 @@ public class UploadServices extends Service {
 
     // FIXME: 7/7/2017 same word add again and again
 
+    public static boolean UploadServiceRunning = false;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        UploadServiceRunning = true;
 
         Cursor cursor = getContentResolver().query(
                 MainWordDBContract.Entry.CONTENT_URI,
@@ -43,7 +47,7 @@ public class UploadServices extends Service {
                 .getReference().child("User");
 
         ContentValues values = new ContentValues();
-        final boolean[] status = {false};
+        final boolean[] status = {true};
 
         if (cursor != null) {
 

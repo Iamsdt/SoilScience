@@ -22,9 +22,8 @@ import android.view.View;
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
-import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
-import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.Entry.buildUriWithWord;
@@ -45,8 +44,6 @@ public class FavouriteActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Utility.setNightMode(this);
 
         ThemeUtils.initialize(this);
 

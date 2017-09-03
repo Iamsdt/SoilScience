@@ -46,7 +46,7 @@
     <!-- hint option for add by user -->
     <string name="hintWord">word</string>
     <string name="hintdescription">write a description of word</string>
-    <string name="button">Add word</string>
+    <string name="button">Click to add</string>
 
     <!-- Favourite activity dummy text -->
     <string name="noWordAdd">you don\'t add any favourite word yet.
@@ -142,6 +142,7 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="nightmode_main_menu">NightMode</string>
     <!-- ***************FINISH************* -->
 
 

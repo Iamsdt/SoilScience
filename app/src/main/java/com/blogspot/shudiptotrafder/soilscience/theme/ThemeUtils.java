@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
+import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 /**
  * Created by Shudipto on 6/19/2017.
@@ -30,6 +31,8 @@ public class ThemeUtils {
         //apply theme with id
         activity.setTheme(preferences.getInt(ConstantUtils.THEME_SP_KEY,
                 R.style.AppTheme_NoActionBar));
+
+        Utility.setNightMode(activity.getBaseContext());
     }
 
 }

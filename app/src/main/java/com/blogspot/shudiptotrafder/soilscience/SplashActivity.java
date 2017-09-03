@@ -12,7 +12,6 @@ import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
-import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -25,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Utility.setNightMode(this);
+        //Utility.setNightMode(this);
         ThemeUtils.initialize(this);
         super.onCreate(savedInstanceState);
 

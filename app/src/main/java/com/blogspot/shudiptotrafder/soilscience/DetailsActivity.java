@@ -86,6 +86,7 @@ public class DetailsActivity extends AppCompatActivity implements
 
         //set uri
         try {
+            assert getIntent().getData() != null;
             mUri = getIntent().getData().normalizeScheme();
         } catch (Exception e) {
             // TODO: 7/6/2017 crash report

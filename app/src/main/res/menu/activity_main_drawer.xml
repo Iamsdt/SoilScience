@@ -23,12 +23,6 @@
         <menu>
 
             <item
-                android:id="@+id/nav_nightMode"
-                android:icon="@drawable/ic_wb_sunny_black_24dp"
-                android:title="@string/nightMode"
-                android:checkable="true"/>
-
-            <item
                 android:id="@+id/nav_choose_theme"
                 android:icon="@drawable/ic_wb_sunny_black_24dp"
                 android:title="@string/nav_choose_theme" />
