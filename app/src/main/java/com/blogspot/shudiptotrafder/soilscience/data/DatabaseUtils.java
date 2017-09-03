@@ -12,6 +12,7 @@ import com.blogspot.shudiptotrafder.soilscience.BuildConfig;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,9 +31,9 @@ import java.util.Map;
 
 public class DatabaseUtils {
 
-    public static boolean checkUploadLeft(Context context){
+    public static boolean checkUploadLeft(Context context) {
 
-        if (!Utility.isUploadEnabled(context)){
+        if (!Utility.isUploadEnabled(context)) {
             return false;
         }
 
@@ -41,11 +42,11 @@ public class DatabaseUtils {
         Cursor cursor = context.getContentResolver().query(
                 MainWordDBContract.Entry.CONTENT_URI,
                 new String[]{MainWordDBContract.Entry.COLUMN_UPLOAD},
-                MainWordDBContract.Entry.COLUMN_UPLOAD +" =? ",
+                MainWordDBContract.Entry.COLUMN_UPLOAD + " =? ",
                 new String[]{"0"},
                 null);
 
-        if (cursor != null && cursor.getCount() > 0){
+        if (cursor != null && cursor.getCount() > 0) {
             state = true;
         }
 
@@ -68,83 +69,90 @@ public class DatabaseUtils {
 
     public static void addRemoteData(Context context) {
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference pathReference = firebaseStorage.getReference().child("data/ssdata.txt");
 
-        try {
+        auth.signInAnonymously().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
 
-            final File file = File.createTempFile("ssdata", "txt");
+                StorageReference pathReference = firebaseStorage.getReference().child("data/ssdata.txt");
 
-            pathReference.getFile(file)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        try {
+                try {
 
-                            BufferedReader reader = new BufferedReader(new FileReader(file));
+                    final File file = File.createTempFile("ssdata", "txt");
 
-                            String line;
+                    pathReference.getFile(file)
+                            .addOnSuccessListener(taskSnapshot -> {
+                                try {
 
-                            while ((line = reader.readLine()) != null) {
+                                    BufferedReader reader = new BufferedReader(new FileReader(file));
 
-                                String[] strings = TextUtils.split(line, "=");
+                                    String line;
 
-                                boolean check = checkDataExist(context, strings[0].trim());
+                                    while ((line = reader.readLine()) != null) {
 
-                                if (check) {
-                                    Uri mUri = MainWordDBContract.Entry.buildUriWithWord(strings[0].trim());
-                                    ContentValues values = new ContentValues();
-                                    values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
-                                    values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
-                                    context.getContentResolver().update(mUri,values,null,null);
+                                        String[] strings = TextUtils.split(line, "=");
 
-                                    Utility.showLog("loop continue");
-                                    continue;
+                                        boolean check = checkDataExist(context, strings[0].trim());
+
+                                        if (check) {
+                                            Uri mUri = MainWordDBContract.Entry.buildUriWithWord(strings[0].trim());
+                                            ContentValues values = new ContentValues();
+                                            values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                                            values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
+                                            context.getContentResolver().update(mUri, values, null, null);
+
+                                            Utility.showLog("loop continue");
+                                            continue;
+                                        }
+
+                                        //those data saved in a array
+                                        //first position for array is word
+                                        //second position for array is description
+                                        ContentValues values = new ContentValues();
+
+                                        //we use trim() for trim unexpected value
+                                        values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
+                                        values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
+
+                                        //context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+
+                                        Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
+
+                                        if (uri != null) {
+                                            //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
+                                            Utility.setAnalyticsData(context, "remote storage",
+                                                    "remote data add into database");
+                                        }
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    //TODO crash report
+                                    Utility.showLogThrowable(e.getMessage(), e);
+
                                 }
 
-                                //those data saved in a array
-                                //first position for array is word
-                                //second position for array is description
-                                ContentValues values = new ContentValues();
-
-                                //we use trim() for trim unexpected value
-                                values.put(MainWordDBContract.Entry.COLUMN_WORD, strings[0].trim());
-                                values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
-
-                                //context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
-
-                                Uri uri = context.getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
-
-                                if (uri != null) {
-                                    //Utility.showLog("remote Data status:" + "successfull" + uri.toString());
-                                    Utility.setAnalyticsData(context,"remote storage",
-                                            "remote data add into database");
-                                }
-                            }
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            //TODO crash report
-                            Utility.showLogThrowable(e.getMessage(), e);
-
-                        }
-
-                    })
-                    .addOnFailureListener(e ->
-                            //TODO crash report
-                            Utility.showLogThrowable(e.getMessage(), e));
+                            })
+                            .addOnFailureListener(e ->
+                                    //TODO crash report
+                                    Utility.showLogThrowable(e.getMessage(), e));
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            //TODO crash report
-            Utility.showLogThrowable("File exception", e);
-        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //TODO crash report
+                    Utility.showLogThrowable("File exception", e);
+                }
+            }
+        });
     }
 
     /**
      * Check data  check word is already exist or not
      *
      * @param context for access content resolver
-     * @param word check exist of not
+     * @param word    check exist of not
      * @return result of data existence
      */
 
@@ -162,7 +170,7 @@ public class DatabaseUtils {
         if (cursor != null && cursor.getCount() > 0) {
             status = true;
             Utility.showLog("check data status:" + true);
-            Utility.setAnalyticsData(context,"Remote Storage data existence",
+            Utility.setAnalyticsData(context, "Remote Storage data existence",
                     "Remote data already exist");
         }
 
@@ -201,7 +209,7 @@ public class DatabaseUtils {
 
         long cacheExpiration = 3600; // 1 hour in seconds
 
-        if (remoteSetting.isDeveloperModeEnabled()){
+        if (remoteSetting.isDeveloperModeEnabled()) {
             cacheExpiration = 0;
         }
 
@@ -210,8 +218,8 @@ public class DatabaseUtils {
 
         final Task<Void> fetch = remoteConfig.fetch(cacheExpiration);
 
-        fetch.addOnSuccessListener(activity,aVoid -> remoteConfig.activateFetched());
-        fetch.addOnFailureListener(activity,e -> {
+        fetch.addOnSuccessListener(activity, aVoid -> remoteConfig.activateFetched());
+        fetch.addOnFailureListener(activity, e -> {
             //todo crash report
             Utility.showLogThrowable("Remote config data failed", e);
         });
@@ -246,7 +254,7 @@ public class DatabaseUtils {
                 provider.loadWords();
                 editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
                 Utility.showLog("initializedDatabase called");
-                Utility.setAnalyticsData(context,"Offline database",
+                Utility.setAnalyticsData(context, "Offline database",
                         "created successfully");
             }
         } catch (IOException e) {
@@ -257,4 +265,5 @@ public class DatabaseUtils {
         }
         editor.apply();
     }
+
 }

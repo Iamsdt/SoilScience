@@ -45,7 +45,10 @@ public class Utility {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(
                 Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo info = manager.getActiveNetworkInfo();
+        NetworkInfo info = null;
+        if (manager != null) {
+            info = manager.getActiveNetworkInfo();
+        }
 
         return info != null && info.isConnectedOrConnecting();
     }

@@ -17,6 +17,7 @@ import com.blogspot.shudiptotrafder.soilscience.services.UploadServices;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserAddActivity extends AppCompatActivity {
 
@@ -101,11 +102,18 @@ public class UserAddActivity extends AppCompatActivity {
         Uri uri = getContentResolver().insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
         //if uri is not null -> data inserted successfully
-        // if operation successfull the leave this activity
+        // if operation successful the leave this activity
         if (uri != null) {
 
             if (Utility.runningUploadService(this)) {
-                startService(new Intent(this, UploadServices.class));
+
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                auth.signInAnonymously().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        startService(new Intent(this, UploadServices.class));
+                    }
+                });
             }
 
             finish();
