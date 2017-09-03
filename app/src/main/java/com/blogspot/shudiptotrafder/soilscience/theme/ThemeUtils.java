@@ -32,7 +32,7 @@ public class ThemeUtils {
         activity.setTheme(preferences.getInt(ConstantUtils.THEME_SP_KEY,
                 R.style.AppTheme_NoActionBar));
 
-        Utility.setNightMode(activity.getBaseContext());
+        Utility.setNightMode(activity);
     }
 
 }

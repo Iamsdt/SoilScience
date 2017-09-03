@@ -136,15 +136,13 @@ public class Utility {
         }
     }
 
-    public static String getWordWithDes(Context context,String word){
+    public static String getWordWithDes(Context context,Uri mUri){
 
         final String[] projection = {
                 MainWordDBContract.Entry.COLUMN_DESCRIPTION
         };
 
         String s = null;
-
-        Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
 
         Cursor cursor = context.getContentResolver().query(mUri,projection,null,null,null);
 

@@ -19,10 +19,10 @@ public class ConstantUtils {
 
     //theme key
     public static final String THEME_SP_KEY = "theme";
-    
+
     //night mode sp key
-    public static final String NIGHT_MODE_SP_KEY = "theme";
-    public static final String NIGHT_MODE_VALUE_KEY  = "theme";
+    public static final String NIGHT_MODE_SP_KEY = "NightMode";
+    public static final String NIGHT_MODE_VALUE_KEY  = "nightValue";
 
 
 

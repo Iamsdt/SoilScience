@@ -1,6 +1,7 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -23,13 +24,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,10 +113,12 @@ public class MainActivity extends AppCompatActivity
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab.setOnClickListener(view -> {
             String word = mAdapter.getRandomWord();
-            String description = null;
-            if (word != null) {
-                description = Utility.getWordWithDes(getBaseContext(), word);
-            }
+            Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
+            String description = Utility.getWordWithDes(getBaseContext(), word);
+
+
+//            DisplayMetrics displayMetrics = new DisplayMetrics();
+//            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
@@ -126,23 +128,40 @@ public class MainActivity extends AppCompatActivity
             final TextView wordTV = (TextView) dialogView.findViewById(R.id.rand_word);
             final TextView desTV = (TextView) dialogView.findViewById(R.id.rand_description);
 
+            final ImageView backImg = (ImageView) dialogView.findViewById(R.id.rand_img_back);
+            final ImageView favImg= (ImageView) dialogView.findViewById(R.id.rand_fav_img);
+
+
             wordTV.setText(word);
             desTV.setText(description);
 
             AlertDialog b = dialogBuilder.create();
+            //b.setCancelable(false);
             b.show();
 
-            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            //control dialog size
+//            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//
+//            if (b.getWindow() != null) {
+//                lp.copyFrom(b.getWindow().getAttributes());
+//                lp.width = displayMetrics.widthPixels - 5;
+//                //lp.height = displayMetrics.heightPixels - 50;
+//                b.getWindow().setAttributes(lp);
+//            }
 
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            backImg.setOnClickListener(view1 -> {
+                if (b.isShowing()) b.dismiss();
+            });
 
-            if (b.getWindow() != null) {
-                lp.copyFrom(b.getWindow().getAttributes());
-                lp.width = displayMetrics.widthPixels;
-                lp.height = displayMetrics.heightPixels - 50;
-                b.getWindow().setAttributes(lp);
-            }
+            favImg.setOnClickListener(view1 -> {
+                ContentValues values = new ContentValues();
+                values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE,true);
+                int update = getContentResolver().update(mUri,values,null,null);
+
+                if (update != -1){
+                    Toast.makeText(this, "Add to favourite", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         });
 
@@ -325,13 +344,13 @@ public class MainActivity extends AppCompatActivity
 
                 if (b) {
                     editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
+                    editor.apply();
                     recreate();
                 } else {
                     editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, true);
+                    editor.apply();
                     recreate();
                 }
-
-                editor.apply();
 
                 return true;
 
