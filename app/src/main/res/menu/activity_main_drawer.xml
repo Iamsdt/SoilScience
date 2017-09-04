@@ -24,7 +24,7 @@
 
             <item
                 android:id="@+id/nav_choose_theme"
-                android:icon="@drawable/ic_half_moon"
+                android:icon="@drawable/ic_paint_brush_and_palette"
                 android:title="@string/nav_choose_theme" />
 
             <item

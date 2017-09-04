@@ -40,6 +40,9 @@
             tools:text="Database Word"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:textIsSelectable="true"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -62,6 +65,9 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:padding="@dimen/list_tv"
+            android:textIsSelectable="true"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintLeft_toLeftOf="@+id/details_des_label"
             app:layout_constraintTop_toBottomOf="@+id/details_des_label"
             tools:text="TextView" />

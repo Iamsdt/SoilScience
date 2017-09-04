@@ -1,10 +1,13 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 
@@ -21,16 +24,51 @@ public class DeveloperActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        TextView fb = (TextView) findViewById(R.id.dev_fb);
+        TextView linkedin = (TextView) findViewById(R.id.dev_linkedin);
+        TextView git = (TextView) findViewById(R.id.dev_git);
+        TextView email = (TextView) findViewById(R.id.dev_email);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.developer_fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fb.setOnClickListener(view -> {
+            customTab("https://www.facebook.com/Iamsdt");
+        });
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        linkedin.setOnClickListener(view -> {
+            customTab("https://www.linkedin.com/in/shudipto-trafder-b041a97a/");
+        });
+
+        git.setOnClickListener(view -> {
+            customTab("https://github.com/Iamsdt");
+        });
+
+        email.setOnClickListener(view -> {
+
+            try{
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setData(Uri.parse("email"));
+                String[] s = {"Shudiptotrafder@gmail.com"};
+                intent.putExtra(Intent.EXTRA_EMAIL,s);
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Email from soil science app");
+                intent.putExtra(Intent.EXTRA_TEXT,"feedback:");
+                intent.setType("message/rfc822");
+                startActivity(Intent.createChooser(intent,"Send email with..."));
+
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(this,"No email app found",Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
+    private void customTab(String url){
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(R.attr.colorPrimary);
+        builder.setShowTitle(false);
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(url));
+
+    }
 
     //left in this project
     // complete: 6/7/2017 add theme change option

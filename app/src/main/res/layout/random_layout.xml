@@ -29,6 +29,9 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:padding="@dimen/list_tv"
+            android:textIsSelectable="true"
+            android:clickable="true"
+            android:focusable="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/rand_word_label"
@@ -56,6 +59,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:padding="@dimen/list_tv"
+            android:textIsSelectable="true"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/rand_des_label"
             app:layout_constraintTop_toBottomOf="@+id/rand_des_label"
@@ -83,7 +89,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="back arrow"
-                app:srcCompat="@drawable/ic_action_navigation_arrow_back"
+                app:srcCompat="@drawable/dialog_back"
                 tools:ignore="HardcodedText" />
 
             <TextView

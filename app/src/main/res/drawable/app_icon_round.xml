@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <solid android:color="@color/deep_purple_500"/>
+    <item android:drawable="@drawable/user_icon"/>
+    <item android:drawable="@drawable/circle"/>
 
-</shape>
+</layer-list>

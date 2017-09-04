@@ -7,7 +7,8 @@
     android:clickable="true"
     android:id="@+id/color_list_linearLayout"
     android:padding="10dp"
-    android:focusable="true">
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/color_list_name"
@@ -16,6 +17,8 @@
         android:layout_weight="2"
         tools:text="Amber Dark"
         android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true"
         android:textColor="?attr/colorPrimary"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
@@ -25,6 +28,8 @@
         android:layout_height="32dp"
         android:background="@drawable/color_preview"
         android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:layout_margin="5dp" />
 
@@ -34,6 +39,8 @@
         android:layout_height="32dp"
         android:background="@drawable/color_preview"
         android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:layout_margin="5dp" />
 
@@ -43,6 +50,8 @@
         android:layout_height="32dp"
         android:background="@drawable/color_preview"
         android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:layout_margin="5dp" />
 
