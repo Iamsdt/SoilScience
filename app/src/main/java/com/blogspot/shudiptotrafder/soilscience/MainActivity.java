@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //assign view
-
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
@@ -99,6 +98,14 @@ public class MainActivity extends AppCompatActivity
         mAdapter = new CustomCursorAdapter(this, this);
         recyclerView.setAdapter(mAdapter);
 
+        //load app intro
+        SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME,MODE_PRIVATE);
+
+        boolean status = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS,false);
+
+        if (!status){
+            startActivity(new Intent(this,MyAppIntro.class));
+        }
 
         //set all search action
         setAllSearchOption();
@@ -114,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(view -> {
             String word = mAdapter.getRandomWord();
             Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
-            String description = Utility.getWordWithDes(getBaseContext(), word);
+            String description = Utility.getWordWithDes(getBaseContext(), mUri);
 
 
 //            DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -129,7 +136,7 @@ public class MainActivity extends AppCompatActivity
             final TextView desTV = (TextView) dialogView.findViewById(R.id.rand_description);
 
             final ImageView backImg = (ImageView) dialogView.findViewById(R.id.rand_img_back);
-            final ImageView favImg= (ImageView) dialogView.findViewById(R.id.rand_fav_img);
+            final ImageView favImg = (ImageView) dialogView.findViewById(R.id.rand_fav_img);
 
 
             wordTV.setText(word);
@@ -155,10 +162,10 @@ public class MainActivity extends AppCompatActivity
 
             favImg.setOnClickListener(view1 -> {
                 ContentValues values = new ContentValues();
-                values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE,true);
-                int update = getContentResolver().update(mUri,values,null,null);
+                values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, true);
+                int update = getContentResolver().update(mUri, values, null, null);
 
-                if (update != -1){
+                if (update != -1) {
                     Toast.makeText(this, "Add to favourite", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -336,6 +343,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.nightMode:
+                //todo change icon
                 SharedPreferences sharedPreferences =
                         getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, MODE_PRIVATE);
                 boolean b = sharedPreferences.getBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
@@ -351,6 +359,7 @@ public class MainActivity extends AppCompatActivity
                     editor.apply();
                     recreate();
                 }
+
 
                 return true;
 

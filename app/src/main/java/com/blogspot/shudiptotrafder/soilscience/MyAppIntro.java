@@ -1,7 +1,6 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -28,9 +27,7 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 public class MyAppIntro extends AppCompatActivity {
 
     private ViewPager viewPager;
-    private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
-    private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
 
@@ -38,13 +35,7 @@ public class MyAppIntro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME,MODE_PRIVATE);
 
-        boolean status = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS,false);
-
-        if (status){
-            launchHomeScreen();
-        }
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -74,7 +65,7 @@ public class MyAppIntro extends AppCompatActivity {
         // making notification bar transparent
         changeStatusBarColor();
 
-        myViewPagerAdapter = new MyViewPagerAdapter();
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -94,13 +85,14 @@ public class MyAppIntro extends AppCompatActivity {
 
         //save app intro status
         //that will not showing after once
+        SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME,MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(ConstantUtils.APP_INTRO_STATUS,true);
         editor.apply();
     }
 
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
+        TextView[] dots = new TextView[layouts.length];
 
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
@@ -123,7 +115,6 @@ public class MyAppIntro extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        startActivity(new Intent(this, SplashActivity.class));
         finish();
     }
 
@@ -174,14 +165,18 @@ public class MyAppIntro extends AppCompatActivity {
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 
-        public MyViewPagerAdapter() {
+        private MyViewPagerAdapter() {
+
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View view = layoutInflater.inflate(layouts[position], container, false);
+            View view = null;
+            if (layoutInflater != null) {
+                view = layoutInflater.inflate(layouts[position], container, false);
+            }
             container.addView(view);
 
             return view;
