@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_favourite) {
             startActivity(new Intent(this, FavouriteActivity.class));
 
@@ -303,20 +303,44 @@ public class MainActivity extends AppCompatActivity
             showDummyText();
 
         } else if (id == R.id.nav_developer) {
-            startActivity(new Intent(this, ColorActivity.class));
+            startActivity(new Intent(this, DeveloperActivity.class));
 
         } else if (id == R.id.nav_copyright) {
+            Copyright();
 
         } else if (id == R.id.nav_about) {
-            showDummyText();
+            startActivity(new Intent(this, AboutActivity.class));
+
 
         } else if (id == R.id.nav_legal) {
-            showDummyText();
+            termsOfUse();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void Copyright(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Copyright");
+        builder.setMessage(getString(R.string.copyrightMS));
+        builder.setNeutralButton("ok", (dialogInterface, i) -> {});
+        builder.setIcon(getResources().getDrawable(R.drawable.ic_copyright));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void termsOfUse(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Terms of Use");
+        builder.setMessage(getString(R.string.terms_of_use));
+        builder.setNeutralButton("ok", (dialogInterface, i) -> {});
+        builder.setIcon(getResources().getDrawable(R.drawable.ic_law));
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     //dummy methods

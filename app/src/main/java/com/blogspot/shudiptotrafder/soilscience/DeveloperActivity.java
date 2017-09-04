@@ -22,7 +22,7 @@ public class DeveloperActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.developer_fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
 
@@ -37,20 +37,19 @@ public class DeveloperActivity extends AppCompatActivity {
     // complete: 6/7/2017 add search view
     // complete: 6/7/2017 add voice search view
     // complete: 6/7/2017 add random search view
-    // TODO: 6/7/2017 circular view add for random word
     
-    // TODO: 6/7/2017 add app intro 
+    // complete: 6/7/2017 add app intro
     // TODO: 6/7/2017 add item animator 
 
     //advance
-    //TODO fill developer with animation
+    //complete fill developer with animation
 
     //database
     // complete: 6/16/2017 Firebase database
     // complete: 6/16/2017 user add word will be real time database
 
     // TODO: 6/16/2017 favourite swap will show a dialog
-    // TODO: 6/16/2017 night mode move from settings to navigation drawer
+    // complete: 6/16/2017 night mode move from settings to navigation drawer
 
     // complete: 8/4/2017 if user open this app for first time then show a import dialog
     // TODO: 8/4/2017 Create a file import chooser dialog

@@ -15,17 +15,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -35,11 +34,9 @@
             android:name=".DetailsActivity"
             android:label="@string/title_activity_details"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
-
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -47,16 +44,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".settings.BackupSettingsActivity"
             android:label="@string/sbackup"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".settings.AdvanceSettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".settings.AdvanceSettingsActivity"
             android:label="@string/sAdvance"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DeveloperActivity"
             android:label="@string/title_activity_developer"
@@ -79,7 +74,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
         </activity>
-
         <activity
             android:name=".theme.ColorActivity"
             android:label="@string/title_activity_color"
@@ -91,7 +85,6 @@
             android:authorities="com.blogspot.shudiptotrafder.soilscience"
             android:enabled="true"
             android:exported="false" />
-
         <provider
             android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
             android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
@@ -104,19 +97,24 @@
             android:name=".services.DataService"
             android:enabled="true"
             android:exported="false" />
-
-        <service android:name=".services.UploadServices"
+        <service
+            android:name=".services.UploadServices"
             android:enabled="true"
-            android:exported="false"/>
-<!--
+            android:exported="false" />
+        <!--
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar" /> -->
+            android:theme="@style/AppTheme.NoActionBar" />
+        -->
 
-        <activity android:name=".MyAppIntro"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name=".MyAppIntro"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

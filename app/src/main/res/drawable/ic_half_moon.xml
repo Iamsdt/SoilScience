@@ -1,6 +1,8 @@
-<vector android:autoMirrored="true" android:height="24dp"
+<vector xmlns:tools="http://schemas.android.com/tools"
+    android:autoMirrored="true" android:height="24dp"
     android:viewportHeight="511.984" android:viewportWidth="511.984"
-    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:targetApi="kitkat">
     <path android:fillColor="#F6BB42" android:pathData="M277.3,149.4h-42.6c-5.9,0 -10.7,-4.8 -10.7,-10.7s4.8,-10.7 10.7,-10.7h42.6c5.9,0 10.7,4.8 10.7,10.7S283.2,149.4 277.3,149.4z"/>
     <path android:fillColor="#FFCE54" android:pathData="M405.3,362.7c-141.3,0 -255.9,-114.6 -255.9,-255.9c0,-31.8 5.8,-62.2 16.4,-90.3C68.9,53 0.1,146.5 0.1,256.1c0,141.3 114.6,255.9 255.9,255.9c109.6,0 203,-68.9 239.5,-165.7C467.5,356.9 437.1,362.7 405.3,362.7z"/>
     <path android:fillColor="#F6BB42" android:pathData="M277.3,490.7c-141.3,0 -255.9,-114.6 -255.9,-255.9c0,-65.2 24.4,-124.7 64.6,-169.9C33.3,111.7 0.1,180 0.1,256.1c0,141.3 114.6,255.9 255.9,255.9c76.1,0 144.4,-33.2 191.2,-85.9C402.1,466.3 342.5,490.7 277.3,490.7z"/>

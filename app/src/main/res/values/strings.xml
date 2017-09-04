@@ -34,7 +34,7 @@
     <string name="favourite">Favourite</string>
     <string name="add">Add New</string>
     <!-- about -->
-    <string name="legal">Legal Notice</string>
+    <string name="legal">Terms of uses</string>
     <string name="about">About</string>
     <string name="copyright">Copyright</string>
     <string name="developer">Developer</string>
@@ -142,8 +142,22 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
-    <string name="nightmode_main_menu">NightMode</string>
     <!-- ***************FINISH************* -->
+    <string name="nightmode_main_menu">NightMode</string>
+    <string name="developer_picture">Developer picture</string>
+    <string name="developer_details">a student a </string>
+    <string name="developer_name">Shudipto Trafder</string>
+    <string name="random_word">Random word</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <!--main dialog message-->
+    <string name="copyrightMS">Soil Science\nAll Content reserved by &#169; Shudipto Trafder</string>
+    <string name="terms_of_use">This is a completely open source app.\n
+                  You can redistribute and rebuild this app. you are also allowed to change any part of this app.\n
+                  But you can not commercially distribute, redistribute and monetize this app without developer permission.\n
+                  So if the question for commercial use, your are restricted. you need permission from the developer.
+                  and for non-commercial use, you can feel free to use.
+    </string>
 
 
 </resources>
