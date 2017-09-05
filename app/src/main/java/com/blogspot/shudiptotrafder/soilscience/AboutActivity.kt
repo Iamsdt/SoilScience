@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.content_about.*
 
@@ -16,13 +17,15 @@ class AboutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about)
         setSupportActionBar(toolbar)
 
+        ThemeUtils.initialize(this)
+
         about_dev.setOnClickListener {
             startActivity(Intent(this,DeveloperActivity::class.java))
         }
 
-        license.setOnClickListener {
-            customTab("http://www.apache.org/licenses/LICENSE-2.0")
-        }
+//        license.setOnClickListener {
+//            customTab("http://www.apache.org/licenses/LICENSE-2.0")
+//        }
 
         about_git.setOnClickListener {
             customTab("https://github.com/Iamsdt/SoilScience")

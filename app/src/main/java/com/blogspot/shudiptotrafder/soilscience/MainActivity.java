@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity
     //floating action button
     private FloatingActionButton fab;
 
+    private MenuItem nightMode;
+
+    private boolean nightModeStatus;
 
     //to support vector drawables for lower api
     static {
@@ -106,6 +109,11 @@ public class MainActivity extends AppCompatActivity
         if (!status){
             startActivity(new Intent(this,MyAppIntro.class));
         }
+
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, MODE_PRIVATE);
+        nightModeStatus = sharedPreferences.getBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
+
 
         //set all search action
         setAllSearchOption();
@@ -321,6 +329,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //copywrite dialog
     private void Copyright(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Copyright");
@@ -332,6 +341,7 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
 
+    //terms of use dialog
     private void termsOfUse(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Terms of Use");
@@ -354,6 +364,16 @@ public class MainActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
+        nightMode = menu.findItem(R.id.nightMode);
+
+        if (nightModeStatus){
+            nightMode.setIcon(R.drawable.ic_half_moon);
+
+        } else {
+            nightMode.setIcon(R.drawable.ic_wb_sunny_black_24dp);
+
+        }
+
         return true;
     }
 
@@ -370,18 +390,19 @@ public class MainActivity extends AppCompatActivity
                 //todo change icon
                 SharedPreferences sharedPreferences =
                         getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, MODE_PRIVATE);
-                boolean b = sharedPreferences.getBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
 
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                if (b) {
+                if (nightModeStatus) {
                     editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
                     editor.apply();
                     recreate();
+
                 } else {
                     editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, true);
                     editor.apply();
                     recreate();
+
                 }
 
 

@@ -11,9 +11,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Slide;
@@ -57,6 +59,8 @@ public class DetailsActivity extends AppCompatActivity implements
 
     //selected word from Main activity
     String wordForTTS = null;
+    private String descriptionOfWord = null;
+
 
     //vector support
     static {
@@ -163,7 +167,23 @@ public class DetailsActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.details,menu);
+        MenuItem shareItem = menu.findItem(R.id.action_share);
+        ShareActionProvider myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+
+        myShareActionProvider.setShareIntent(createShareIntent());
+
         return true;
+    }
+
+    // Create and return the Share Intent
+    private Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        if (wordForTTS != null && descriptionOfWord != null){
+            shareIntent.putExtra(Intent.EXTRA_TEXT, wordForTTS+":"+descriptionOfWord);
+        }
+
+        return shareIntent;
     }
 
     @Override
@@ -224,6 +244,7 @@ public class DetailsActivity extends AppCompatActivity implements
         String description = data.getString(DESCRIPTION_ID);
 
         wordForTTS = word;
+        descriptionOfWord = description;
 
         Bundle bundle = new Bundle();
         bundle.putString("Details_Word_",word);
