@@ -151,7 +151,7 @@
     <string name="title_activity_about">AboutActivity</string>
 
     <!--main dialog message-->
-    <string name="copyrightMS">Soil Science\nAll Content reserved by &#169; Shudipto Trafder</string>
+    <string name="copyrightMS">Soil Science\nAll Content reserved by &#169; Shudipto Trafder.</string>
     <string name="terms_of_use">This is a completely open source app.\n
                   You can redistribute and rebuild this app. you are also allowed to change any part of this app.\n
                   But you can not commercially distribute, redistribute and monetize this app without developer permission.\n

@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
          */
         getSupportLoaderManager().initLoader(ConstantUtils.MAIN_LOADER_ID, null, this);
 
-        //todo add circular review animation with fab
+
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab.setOnClickListener(view -> {
             String word = mAdapter.getRandomWord();
@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.nightMode:
-                //todo change icon
+                //complete change icon
                 SharedPreferences sharedPreferences =
                         getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, MODE_PRIVATE);
 
@@ -522,7 +522,6 @@ public class MainActivity extends AppCompatActivity
                 String searchWrd = matches.get(0);
                 if (!TextUtils.isEmpty(searchWrd)) {
 
-                    //Todo more accurate on settings
                     searchView.setQuery(searchWrd, false);
                     Uri uri = MainWordDBContract.Entry.
                             buildUriWithWord(searchWrd.toUpperCase());

@@ -27,7 +27,7 @@ public class Utility {
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
 
-        //TOdo add settings
+        //complete add settings
 
         return preferences.getBoolean(
                 context.getString(R.string.switchShare),true);

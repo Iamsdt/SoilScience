@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class UploadServices extends Service {
 
 
-    // FIXME: 7/7/2017 same word add again and again
+    // complete: 7/7/2017 same word add again and again
 
     public static boolean UploadServiceRunning = false;
 

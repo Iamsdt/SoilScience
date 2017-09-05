@@ -97,12 +97,14 @@ public class SplashActivity extends AppCompatActivity {
 
         boolean state = false;
 
-        //fixme add a selection option to save time
+        //complete add a selection option to save time
+
+        String[] selectionArg = new String[]{"%"+"1"+"%"};
 
         Cursor cursor = getContentResolver().query(
                 MainWordDBContract.Entry.CONTENT_URI,
                 new String[]{MainWordDBContract.Entry._ID},
-                null,null,null);
+                MainWordDBContract.Entry._ID + " like ? ",selectionArg,null);
 
         if (cursor == null || cursor.getCount() == 0){
             DatabaseUtils.initializedDatabase(SplashActivity.this);

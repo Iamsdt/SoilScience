@@ -93,7 +93,6 @@ public class DetailsActivity extends AppCompatActivity implements
             assert getIntent().getData() != null;
             mUri = getIntent().getData().normalizeScheme();
         } catch (Exception e) {
-            // TODO: 7/6/2017 crash report
             e.printStackTrace();
             throw new RuntimeException("Uri can not null");
         }
