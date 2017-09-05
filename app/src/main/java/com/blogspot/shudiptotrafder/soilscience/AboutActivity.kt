@@ -21,15 +21,22 @@ class AboutActivity : AppCompatActivity() {
         }
 
         license.setOnClickListener {
-            val link = "http://www.apache.org/licenses/LICENSE-2.0\n"
-            val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(R.attr.colorPrimary)
-            builder.setShowTitle(false)
-            val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(this, Uri.parse(link))
+            customTab("http://www.apache.org/licenses/LICENSE-2.0")
+        }
+
+        about_git.setOnClickListener {
+            customTab("https://github.com/Iamsdt/SoilScience")
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun customTab(link:String){
+        val builder = CustomTabsIntent.Builder()
+        builder.setToolbarColor(R.attr.colorPrimary)
+        builder.setShowTitle(false)
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(this, Uri.parse(link))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

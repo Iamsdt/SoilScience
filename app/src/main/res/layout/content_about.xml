@@ -120,6 +120,7 @@
             android:padding="10dp"
             android:text="Shudipto Trafder"
             android:textColor="?attr/colorAccent"
+            android:foreground="?attr/selectableItemBackground"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.538"
@@ -133,12 +134,10 @@
             android:layout_height="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:textColor="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11"
-            tools:ignore="HardcodedText" />
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <TextView
             android:id="@+id/textView14"
@@ -165,6 +164,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="5dp"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/license"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -198,5 +198,37 @@
             app:layout_constraintTop_toBottomOf="@+id/license"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Source code:"
+            android:padding="5dp"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/about_git"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="GitHub"
+            android:padding="5dp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:textColor="?attr/colorPrimaryDark"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            tools:ignore="HardcodedText" />
+
     </android.support.constraint.ConstraintLayout>
+
 </ScrollView>
