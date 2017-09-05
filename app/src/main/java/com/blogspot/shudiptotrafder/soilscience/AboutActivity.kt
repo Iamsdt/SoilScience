@@ -14,10 +14,11 @@ class AboutActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
-        setSupportActionBar(toolbar)
 
         ThemeUtils.initialize(this)
+
+        setContentView(R.layout.activity_about)
+        setSupportActionBar(toolbar)
 
         about_dev.setOnClickListener {
             startActivity(Intent(this,DeveloperActivity::class.java))

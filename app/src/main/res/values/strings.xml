@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Soil Science</string>
-    <string name="splash_str">a complete Dictionary App</string>
+    <string name="splash_str">A complete Dictionary App</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -45,17 +45,17 @@
 
     <!-- hint option for add by user -->
     <string name="hintWord">word</string>
-    <string name="hintdescription">write a description of word</string>
+    <string name="hintdescription">write description of word</string>
     <string name="button">Click to add</string>
 
     <!-- Favourite activity dummy text -->
     <string name="noWordAdd">you don\'t add any favourite word yet.
-        You can add your favourite word from word details. That\'s are listed here</string>
+        You can add your favourite word from word details. That\'s are listed here.</string>
     <string name="add_your_own_word">Add your own word</string>
     <string name="search">Search…</string>
 
     <!-- Theme chooser activity -->
-    <string name="title_activity_color">Chose theme</string>
+    <string name="title_activity_color">Choose theme</string>
 
     <!-- splash activity progress dialog -->
     <string name="splash_pd_title">Database is preparing</string>
@@ -148,7 +148,7 @@
     <string name="developer_details">a student a </string>
     <string name="developer_name">Shudipto Trafder</string>
     <string name="random_word">Random word</string>
-    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_about">About</string>
 
     <!--main dialog message-->
     <string name="copyrightMS">Soil Science\nAll Content reserved by &#169; Shudipto Trafder.</string>
