@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,17 +30,11 @@ public class DeveloperActivity extends AppCompatActivity {
         TextView git = (TextView) findViewById(R.id.dev_git);
         TextView email = (TextView) findViewById(R.id.dev_email);
 
-        fb.setOnClickListener(view -> {
-            customTab("https://www.facebook.com/Iamsdt");
-        });
+        fb.setOnClickListener(view -> customTab("https://www.facebook.com/Iamsdt"));
 
-        linkedin.setOnClickListener(view -> {
-            customTab("https://www.linkedin.com/in/shudipto-trafder-b041a97a/");
-        });
+        linkedin.setOnClickListener(view -> customTab("https://www.linkedin.com/in/shudipto-trafder-b041a97a/"));
 
-        git.setOnClickListener(view -> {
-            customTab("https://github.com/Iamsdt");
-        });
+        git.setOnClickListener(view -> customTab("https://github.com/Iamsdt"));
 
         email.setOnClickListener(view -> {
 
@@ -59,6 +54,10 @@ public class DeveloperActivity extends AppCompatActivity {
             }
 
         });
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void customTab(String url){
@@ -68,6 +67,18 @@ public class DeveloperActivity extends AppCompatActivity {
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        //buy calling android.R.id.home
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //left in this project

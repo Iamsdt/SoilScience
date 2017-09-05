@@ -59,6 +59,8 @@
         <item>@color/dot_dark_screen4</item>
     </array>
 
+    <color name="about_name">#ff5722</color>
+
     <!-- all color code -->
     <color name="amber_100">#ffecb3</color>
     <color name="amber_200">#ffe082</color>
