@@ -58,7 +58,7 @@ public class DetailsActivity extends AppCompatActivity implements
     private TextToSpeech toSpeech;
 
     //selected word from Main activity
-    String wordForTTS = null;
+    private String wordForTTS = null;
     private String descriptionOfWord = null;
 
 

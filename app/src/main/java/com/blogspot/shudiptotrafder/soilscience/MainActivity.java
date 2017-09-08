@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity
     //floating action button
     private FloatingActionButton fab;
 
-    private MenuItem nightMode;
-
     private boolean nightModeStatus;
 
     //to support vector drawables for lower api
@@ -304,12 +302,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_add) {
             startActivity(new Intent(this, UserAddActivity.class));
 
-        } else if (id == R.id.nav_share) {
-            showDummyText();
-
-        } else if (id == R.id.nav_send) {
-            showDummyText();
-
         } else if (id == R.id.nav_developer) {
             startActivity(new Intent(this, DeveloperActivity.class));
 
@@ -329,7 +321,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //copywrite dialog
+    //copyright dialog
     private void Copyright(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Copyright");
@@ -353,10 +345,6 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
 
-    //dummy methods
-    void showDummyText() {
-        Toast.makeText(this, "Not available yet", Toast.LENGTH_SHORT).show();
-    }
 
     //for option menu
     @Override
@@ -364,7 +352,7 @@ public class MainActivity extends AppCompatActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-        nightMode = menu.findItem(R.id.nightMode);
+        MenuItem nightMode = menu.findItem(R.id.nightMode);
 
         if (nightModeStatus){
             nightMode.setIcon(R.drawable.ic_half_moon);

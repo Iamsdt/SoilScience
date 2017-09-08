@@ -1,11 +1,9 @@
 package com.blogspot.shudiptotrafder.soilscience.animation;
 
-import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
-import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.List;
@@ -14,12 +12,14 @@ import java.util.List;
  * Created by Shudipto on 6/7/2017.
  */
 
-public class ScrollFabBehavior extends CoordinatorLayout.Behavior
+class ScrollFabBehavior extends CoordinatorLayout.Behavior
         <FloatingActionButton> {
 
-    public ScrollFabBehavior(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+// --Commented out by Inspection START (9/5/2017 5:39 PM):
+//    public ScrollFabBehavior(Context context, AttributeSet attrs) {
+//        super(context, attrs);
+//    }
+// --Commented out by Inspection STOP (9/5/2017 5:39 PM)
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent,

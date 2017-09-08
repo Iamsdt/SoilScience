@@ -26,7 +26,7 @@ class DataBaseProvider {
      * in runtime
      */
 
-    private Context context;
+    private final Context context;
 
     DataBaseProvider(Context context) {
         this.context = context;
@@ -39,7 +39,7 @@ class DataBaseProvider {
      * @throws IOException if file not found in raw
      */
 
-    void loadWords() throws IOException {
+    void loadWords() {
 
         final Resources resources = context.getResources();
         //resource i

@@ -33,16 +33,18 @@ public class Utility {
                 context.getString(R.string.switchShare),true);
     }
 
-    public static boolean runningUploadService(Context context){
-
-        boolean status = false;
-
-        if (isUploadEnabled(context) && isNetworkAvailable(context)){
-            status = true;
-        }
-
-        return status;
-    }
+// --Commented out by Inspection START (9/5/2017 5:39 PM):
+//    public static boolean runningUploadService(Context context){
+//
+//        boolean status = false;
+//
+//        if (isUploadEnabled(context) && isNetworkAvailable(context)){
+//            status = true;
+//        }
+//
+//        return status;
+//    }
+// --Commented out by Inspection STOP (9/5/2017 5:39 PM)
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(

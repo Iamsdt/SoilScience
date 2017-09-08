@@ -1,3 +1,19 @@
+/*
+ * Copyright {2017} {Shudipto Trafder}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.blogspot.shudiptotrafder.soilscience.data;
 
 import android.app.Activity;
@@ -24,9 +40,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Shudipto Trafder on 7/5/2017.
- */
+
 
 public class DatabaseUtils {
 
@@ -244,19 +258,12 @@ public class DatabaseUtils {
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        try {
-            if (!state) {
-                provider.loadWords();
-                editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
-                Utility.showLog("initializedDatabase called");
-                Utility.setAnalyticsData(context, "Offline database",
-                        "created successfully");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Utility.showLogThrowable("Error to initialized data", e);
-            editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, false);
-            //TODO crash report
+        if (!state) {
+            provider.loadWords();
+            editor.putBoolean(ConstantUtils.DATABASE_INIT_SP_KEY, true);
+            Utility.showLog("initializedDatabase called");
+            Utility.setAnalyticsData(context, "Offline database",
+                    "created successfully");
         }
         editor.apply();
     }

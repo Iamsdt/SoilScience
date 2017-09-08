@@ -83,11 +83,6 @@ public class UploadServices extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

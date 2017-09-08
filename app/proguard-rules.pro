@@ -28,5 +28,9 @@
 -keepclassmembers class br.com.mauker.** { *; }
 
 #settings
--keep class com.blogspot.shudiptotrafder.soilscience.settings;
--keepclasseswithmembers class com.blogspot.shudiptotrafder.soilscience.SettingsFragment;
+-keep class com.blogspot.shudiptotrafder.soilscience.settings.** { *; }
+
+#details activity
+-keep class com.blogspot.shudiptotrafder.soilscience.DetailsActivity {
+  public boolean onCreateOptionsMenu(android.view.Menu menu);
+}

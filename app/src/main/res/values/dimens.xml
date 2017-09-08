@@ -22,4 +22,6 @@
     <dimen name="slide_desc">16sp</dimen>
     <dimen name="desc_padding">40dp</dimen>
 
+    <dimen name="ic_clear_margin">16dp</dimen>
+
 </resources>

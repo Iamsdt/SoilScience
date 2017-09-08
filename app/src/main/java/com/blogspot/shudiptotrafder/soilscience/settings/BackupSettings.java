@@ -1,7 +1,6 @@
 package com.blogspot.shudiptotrafder.soilscience.settings;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -218,11 +217,6 @@ public class BackupSettings extends PreferenceFragmentCompat implements
                             " Your storage option is different from others.",
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void setPreferenceSummery(Preference preference, Object value) {

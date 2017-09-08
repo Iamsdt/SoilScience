@@ -28,13 +28,13 @@ public class DataProvider extends ContentProvider {
      */
 
     //use to get all data from this path
-    public static final int TASKS = 100;
+    private static final int TASKS = 100;
     //use to get single data from a single row
-    public static final int TASK_WITH_ID = 101;
+    private static final int TASK_WITH_ID = 101;
     //where uri match
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     //database helper
-    DatabaseOpenHelper openHelper;
+    private DatabaseOpenHelper openHelper;
 
     /**
      * that create a uri
@@ -43,7 +43,7 @@ public class DataProvider extends ContentProvider {
      * @return a uri matcher that's help's to detect uri match
      * with full table or single data of table row
      */
-    public static UriMatcher buildUriMatcher() {
+    private static UriMatcher buildUriMatcher() {
 
         // Initialize a UriMatcher with no matches by passing in NO_MATCH to the constructor
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);

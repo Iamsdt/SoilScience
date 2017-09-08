@@ -27,9 +27,9 @@ import java.util.ArrayList;
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
-    private Context context;
-    private ArrayList<ThemesContract> themeIds;
-    private ColorClickListener clickListener;
+    private final Context context;
+    private final ArrayList<ThemesContract> themeIds;
+    private final ColorClickListener clickListener;
 
     public ColorAdapter(Context context,
                         ArrayList<ThemesContract> themeIds,
@@ -137,9 +137,12 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
     class ColorHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener {
 
-        TextView name, primaryColor, primaryColorDark, accentColor;
+        final TextView name;
+        final TextView primaryColor;
+        final TextView primaryColorDark;
+        final TextView accentColor;
 
-        LinearLayout linearLayout;
+        final LinearLayout linearLayout;
 
         ColorHolder(View itemView) {
             super(itemView);

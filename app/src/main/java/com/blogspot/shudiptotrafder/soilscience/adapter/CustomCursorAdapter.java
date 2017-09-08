@@ -29,9 +29,9 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private Cursor mCursor;
     //private Context mContext;
 
-    private ClickListener clickListener;
+    private final ClickListener clickListener;
 
-    private Context mContext;
+    private final Context mContext;
 
     private int previousPosition = 0;
 
@@ -137,7 +137,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // Class variables for the task description and priority TextViews
-        TextView word;
+        final TextView word;
         CardView cardView;
 
         /**

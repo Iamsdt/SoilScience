@@ -64,11 +64,11 @@ public class FavouriteActivity extends AppCompatActivity
 
         recyclerView.setAdapter(mAdapter);
 
-
-        //todo set a undo button for this
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.START|ItemTouchHelper.END) {
+                ItemTouchHelper.START | ItemTouchHelper.END) {
+
+
+            // not important, we don't want drag & drop
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -79,24 +79,27 @@ public class FavouriteActivity extends AppCompatActivity
 
                 String word = (String) viewHolder.itemView.getTag();
 
-                Uri uri = MainWordDBContract.Entry.buildUriWithWord(word);
 
-                ContentValues values = new ContentValues();
-                values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, false);
-                int update = getContentResolver().update(uri, values, null, null);
+                    Uri uri = MainWordDBContract.Entry.buildUriWithWord(word);
 
-                if (update != -1) {
-                    Snackbar.make(viewHolder.itemView, "word removed from favourite",
-                            Snackbar.LENGTH_SHORT).show();
+                    ContentValues values = new ContentValues();
+                    values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, false);
+                    int update = getContentResolver().update(uri, values, null, null);
 
-                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                    mAdapter.notifyItemChanged(viewHolder.getAdapterPosition()
-                            , mAdapter.getItemCount());
+                    if (update != -1) {
+                        Snackbar.make(viewHolder.itemView, "word removed from favourite",
+                                Snackbar.LENGTH_SHORT).show();
 
-                    getSupportLoaderManager().restartLoader(ConstantUtils.FAVOURITE_LOADER_ID, null, FavouriteActivity.this);
-                }
+                        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                        mAdapter.notifyItemChanged(viewHolder.getAdapterPosition()
+                                , mAdapter.getItemCount());
+
+                        getSupportLoaderManager().restartLoader(ConstantUtils.FAVOURITE_LOADER_ID, null, FavouriteActivity.this);
+                    }
 
             }
+
+
         }).attachToRecyclerView(recyclerView);
 
         if (getSupportActionBar() != null) {
@@ -104,8 +107,8 @@ public class FavouriteActivity extends AppCompatActivity
         }
 
         getSupportLoaderManager().initLoader(ConstantUtils.FAVOURITE_LOADER_ID, null, this);
-    }
 
+    }
 
     @Override
     protected void onResume() {
@@ -117,7 +120,7 @@ public class FavouriteActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.favourite,menu);
+        getMenuInflater().inflate(R.menu.favourite, menu);
 
         return true;
     }
@@ -127,10 +130,10 @@ public class FavouriteActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             onBackPressed();
 
-        } else if (id == R.id.action_settings){
+        } else if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
 
         }
@@ -161,7 +164,7 @@ public class FavouriteActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.getCount() > 0) {
             mAdapter.swapCursor(data);
-            FirebaseAnalytics.getInstance(this).logEvent("Favourite_added",null);
+            FirebaseAnalytics.getInstance(this).logEvent("Favourite_added", null);
         } else {
             recyclerView.setVisibility(View.GONE);
             noFavourite.setVisibility(View.VISIBLE);

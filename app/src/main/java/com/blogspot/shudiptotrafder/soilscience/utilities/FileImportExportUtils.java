@@ -29,10 +29,10 @@ import java.util.ArrayList;
 
 public class FileImportExportUtils {
 
-    private static String path = Environment.getExternalStorageDirectory().getAbsolutePath()
+    private static final String path = Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/Android/data/";
 
-    private static String SSData = "/ssData/";
+    private static final String SSData = "/ssData/";
 
     public static void exportFileFavourite(Context context) {
 
@@ -83,12 +83,14 @@ public class FileImportExportUtils {
 
                 try {
 
+                    boolean created = false;
+
                     if (!file.exists()) {
-                        file.createNewFile();
+                        created = file.createNewFile();
                     }
 
                     //already file exists so we need to overwrite
-                    if (file.exists()) {
+                    if (created && file.exists()) {
 
                         FileOutputStream outputStream = new FileOutputStream(file);
                         for (String word : arrayList) {

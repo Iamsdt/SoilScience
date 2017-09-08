@@ -11,7 +11,8 @@ import android.support.v7.preference.PreferenceScreen;
 import com.blogspot.shudiptotrafder.soilscience.R;
 
 /**
- * Created by Shudipto on 8/4/2017.
+ * Created by Shudipto Trafder on 8/4/2017.
+ * ${PACKAGE_NAME}
  */
 
 public class AdvanceSettingsFragment extends PreferenceFragmentCompat implements
