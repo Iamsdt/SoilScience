@@ -14,4 +14,12 @@
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
+    <style name="splashTheme" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryDark</item>
+        <item name="colorAccent">?attr/colorAccent</item>
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    </style>
+
 </resources>
