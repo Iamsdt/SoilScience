@@ -32,5 +32,5 @@
 
 #details activity
 -keep class com.blogspot.shudiptotrafder.soilscience.DetailsActivity {
-  public boolean onCreateOptionsMenu(android.view.Menu menu);
+  public boolean onCreateOptionsMenu(android.view.Menu);
 }
