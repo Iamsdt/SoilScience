@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,8 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         //Utility.setNightMode(this);
-        //it's has own theme
-        //ThemeUtils.initialize(this);
+        ThemeUtils.initialize(this);
         super.onCreate(savedInstanceState);
 
 //        boolean introStatus = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS,

@@ -14,14 +14,16 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:srcCompat="@drawable/ic_lover"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_round"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="8dp"
+        android:contentDescription="app icon"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/splash_screen_margin_top" />
+        android:layout_marginTop="@dimen/splash_screen_margin_top"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView3"

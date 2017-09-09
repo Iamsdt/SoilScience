@@ -1,8 +1,10 @@
 package com.blogspot.shudiptotrafder.soilscience.settings;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +20,8 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtils;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Shudipto on 7/10/2017.
  */
@@ -28,10 +32,18 @@ public class BackupSettings extends PreferenceFragmentCompat implements
 //    private static final String TAG = AdvanceSettingsFragment.class.getName();
 //    public static final String PAGE_ID = "page_id";
 
+    //permission code
     private static final int PERMISSIONS_REQUEST_READ_STORAGE_FAVOURITE = 0;
     private static final int PERMISSIONS_REQUEST_READ_STORAGE_ADDED = 1;
     private static final int PERMISSIONS_REQUEST_WRITE_STORAGE_FAVOURITE = 2;
     private static final int PERMISSIONS_REQUEST_WRITE_STORAGE_ADDED = 3;
+
+    //request code
+    private static final int PICKFILE_RESULT_CODE_ADDED_WORD = 10;
+    private static final int PICKFILE_RESULT_CODE_FAVOURITE_WORD = 11;
+    private static final int WRITE_FILE_RESULT_CODE_FAVOURITE_WORD = 12;
+    private static final int WRITE_FILE_RESULT_CODE_ADDED_WORD = 13;
+
 
 
 //    public static BackupSettings newInstance(String pageId) {
@@ -174,7 +186,15 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 
-            FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
+            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+            chooseFile.setType("text/plain");
+
+            try {
+                chooseFile = Intent.createChooser(chooseFile, "Choose Favourite backup file");
+                startActivityForResult(chooseFile, PICKFILE_RESULT_CODE_FAVOURITE_WORD);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not readable." +
@@ -186,7 +206,27 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     private void writeFavouriteData() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
-            FileImportExportUtils.exportFileFavourite(getContext());
+
+            Intent intent;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                // Filter to only show results that can be "opened", such as
+                // a file (as opposed to a list of contacts or timezones).
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+                // Create a file with the requested MIME type.
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TITLE, ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
+                startActivityForResult(intent, WRITE_FILE_RESULT_CODE_FAVOURITE_WORD);
+
+            } else {
+                FileImportExportUtils.exportFileFavourite(getContext(),null);
+            }
+
+
+
+            //FileImportExportUtils.exportFileFavourite(getContext());
 
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not writable." +
@@ -196,7 +236,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     }
 
     //readWrite add word
-    private void writeAddedWord(){
+    private void writeAddedWord() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             FileImportExportUtils.exportFileUser(getContext());
@@ -207,11 +247,22 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         }
     }
 
-    private void readAddedWord(){
+    private void readAddedWord() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            FileImportExportUtils.importFile(getContext(),ConstantUtils.SETTING_IMOUT_OPTION_USER);
+
+            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+            chooseFile.setType("text/plain");
+
+            try {
+                chooseFile = Intent.createChooser(chooseFile, "Choose your added word file");
+                startActivityForResult(chooseFile, PICKFILE_RESULT_CODE_ADDED_WORD);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //FileImportExportUtils.importFile(getContext(),ConstantUtils.SETTING_IMOUT_OPTION_USER);
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not readable." +
                             " Your storage option is different from others.",
@@ -315,5 +366,28 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (resultCode == RESULT_OK) {
+
+            Uri uri = data.getData();
+
+            switch (requestCode) {
+                case PICKFILE_RESULT_CODE_FAVOURITE_WORD:
+                    FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR,uri);
+                    break;
+
+                case PICKFILE_RESULT_CODE_ADDED_WORD:
+                    FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_USER,uri);
+                    break;
+
+                case WRITE_FILE_RESULT_CODE_FAVOURITE_WORD:
+                    FileImportExportUtils.exportFileFavourite(getContext(),uri);
+                }
+        }
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

@@ -1,0 +1,31 @@
+<!--
+  ~ Copyright {2017} {Shudipto Trafder}
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<vector android:height="24dp" android:viewportHeight="56.0"
+    android:viewportWidth="56.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#545E73" android:pathData="M49.46,8L49.46,8C48.72,3.54 38.28,0 25.5,0S2.28,3.54 1.54,8l0,0H1.5v0.5V20v0.5V21v11v0.5V33v12h0.05c0.73,4.46 11.18,8 23.95,8s23.22,-3.54 23.95,-8H49.5V33v-0.5V32V21v-0.5V20V8.5V8H49.46z"/>
+    <path android:fillColor="#38454F" android:pathData="M25.5,41c-13.26,0 -24,-3.81 -24,-8.5V45h0.05c0.73,4.46 11.18,8 23.95,8s23.22,-3.54 23.95,-8H49.5V32.5C49.5,37.19 38.76,41 25.5,41z"/>
+    <path android:fillColor="#38454F" android:pathData="M1.5,32v0.5c0,-0.17 0.02,-0.33 0.05,-0.5H1.5z"/>
+    <path android:fillColor="#38454F" android:pathData="M49.46,32c0.03,0.17 0.05,0.33 0.05,0.5V32H49.46z"/>
+    <path android:fillColor="#556080" android:pathData="M25.5,29c-13.26,0 -24,-3.81 -24,-8.5V33h0.05c0.73,4.46 11.18,8 23.95,8s23.22,-3.54 23.95,-8H49.5V20.5C49.5,25.19 38.76,29 25.5,29z"/>
+    <path android:fillColor="#556080" android:pathData="M1.5,20v0.5c0,-0.17 0.02,-0.33 0.05,-0.5H1.5z"/>
+    <path android:fillColor="#556080" android:pathData="M49.46,20c0.03,0.17 0.05,0.33 0.05,0.5V20H49.46z"/>
+    <path android:fillColor="#91BAE1" android:pathData="M1.5,8.5a24,8.5 0,1 0,48 0a24,8.5 0,1 0,-48 0z"/>
+    <path android:fillColor="#8697CB" android:pathData="M25.5,17c-13.26,0 -24,-3.81 -24,-8.5V21h0.05c0.73,4.46 11.18,8 23.95,8s23.22,-3.54 23.95,-8H49.5V8.5C49.5,13.19 38.76,17 25.5,17z"/>
+    <path android:fillColor="#8697CB" android:pathData="M1.5,8v0.5c0,-0.17 0.02,-0.33 0.05,-0.5H1.5z"/>
+    <path android:fillColor="#8697CB" android:pathData="M49.46,8C49.48,8.17 49.5,8.33 49.5,8.5V8H49.46z"/>
+    <path android:fillColor="#F3D55A" android:pathData="M42.5,34l3.71,7.24l8.29,1.16l-6,5.64l1.42,7.96l-7.42,-3.76l-7.42,3.76l1.42,-7.96l-6,-5.64l8.29,-1.16z"/>
+</vector>

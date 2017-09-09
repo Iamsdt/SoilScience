@@ -84,17 +84,13 @@ public class DetailsActivity extends AppCompatActivity implements
         wordTV = (TextView) findViewById(R.id.details_word);
         descriptionTV = (TextView) findViewById(R.id.details_description);
 
-        toSpeech = new TextToSpeech(this,this);
+        toSpeech = new TextToSpeech(this, this);
 
         setupWindowAnimations();
 
         //set uri
-        try {
-            assert getIntent().getData() != null;
+        if (getIntent().getData() != null) {
             mUri = getIntent().getData().normalizeScheme();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Uri can not null");
         }
 
 
@@ -112,13 +108,13 @@ public class DetailsActivity extends AppCompatActivity implements
         scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
 
-            if (scrollY > 1){
-                fab.hide();
-            } else if (scrollY < 1){
-                fab.show();
-            }
+                    if (scrollY > 1) {
+                        fab.hide();
+                    } else if (scrollY < 1) {
+                        fab.show();
+                    }
 
-        });
+                });
 
     }
 
@@ -140,10 +136,10 @@ public class DetailsActivity extends AppCompatActivity implements
     private void setTTS(String selectedWord) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            toSpeech.speak(selectedWord,TextToSpeech.QUEUE_FLUSH,null,null);
+            toSpeech.speak(selectedWord, TextToSpeech.QUEUE_FLUSH, null, null);
 
         } else {
-            toSpeech.speak(selectedWord,TextToSpeech.QUEUE_FLUSH,null);
+            toSpeech.speak(selectedWord, TextToSpeech.QUEUE_FLUSH, null);
         }
 
     }
@@ -165,11 +161,13 @@ public class DetailsActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.details,menu);
+        getMenuInflater().inflate(R.menu.details, menu);
         MenuItem shareItem = menu.findItem(R.id.action_share);
         ShareActionProvider myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
 
-        myShareActionProvider.setShareIntent(createShareIntent());
+        if (myShareActionProvider != null){
+            myShareActionProvider.setShareIntent(createShareIntent());
+        }
 
         return true;
     }
@@ -178,8 +176,8 @@ public class DetailsActivity extends AppCompatActivity implements
     private Intent createShareIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        if (wordForTTS != null && descriptionOfWord != null){
-            shareIntent.putExtra(Intent.EXTRA_TEXT, wordForTTS+":"+descriptionOfWord);
+        if (wordForTTS != null && descriptionOfWord != null) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT, wordForTTS +":"+ descriptionOfWord);
         }
 
         return shareIntent;
@@ -190,18 +188,18 @@ public class DetailsActivity extends AppCompatActivity implements
 
         int id = item.getItemId();
 
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             onBackPressed();
 
-        } else if (id == R.id.action_settings){
+        } else if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
 
-        } else if (id == R.id.action_favourite){
+        } else if (id == R.id.action_favourite) {
             ContentValues values = new ContentValues();
-            values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE,true);
-            int update = getContentResolver().update(mUri,values,null,null);
+            values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, true);
+            int update = getContentResolver().update(mUri, values, null, null);
 
-            if (update != -1){
+            if (update != -1) {
                 Toast.makeText(this, "Add to favourite", Toast.LENGTH_SHORT).show();
             }
         }
@@ -246,8 +244,8 @@ public class DetailsActivity extends AppCompatActivity implements
         descriptionOfWord = description;
 
         Bundle bundle = new Bundle();
-        bundle.putString("Details_Word_",word);
-        FirebaseAnalytics.getInstance(this).logEvent("Word_Details",bundle);
+        bundle.putString("Details_Word", word);
+        FirebaseAnalytics.getInstance(this).logEvent("Word_Details", bundle);
 
         wordTV.setText(word);
         descriptionTV.setText(description);
@@ -265,13 +263,13 @@ public class DetailsActivity extends AppCompatActivity implements
     @Override
     public void onInit(int status) {
 
-        if (status != TextToSpeech.ERROR){
+        if (status != TextToSpeech.ERROR) {
 
             int result = toSpeech.setLanguage(Locale.US);
 
             if (result == TextToSpeech.LANG_MISSING_DATA ||
-                    result == TextToSpeech.LANG_NOT_SUPPORTED||
-                    result == TextToSpeech.ERROR_NOT_INSTALLED_YET){
+                    result == TextToSpeech.LANG_NOT_SUPPORTED ||
+                    result == TextToSpeech.ERROR_NOT_INSTALLED_YET) {
 
                 Intent installIntent = new Intent();
                 installIntent.setAction(
@@ -284,14 +282,14 @@ public class DetailsActivity extends AppCompatActivity implements
     }
 
     //set text size
-    private int getDesTextSize(){
+    private int getDesTextSize() {
 
         int size = Utility.getTextSize(this);
 
-        if (size >= 20){
+        if (size >= 20) {
             size = size - 3;
 
-        } else if (size == 17){
+        } else if (size == 17) {
             size = size - 2;
 
         } else {

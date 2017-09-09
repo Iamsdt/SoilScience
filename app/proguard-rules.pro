@@ -27,10 +27,11 @@
 -keep class br.com.mauker.MsvAuthority
 -keepclassmembers class br.com.mauker.** { *; }
 
-#settings
--keep class com.blogspot.shudiptotrafder.soilscience.settings.** { *; }
+-keep class android.support.v7.widget.ShareActionProvider { *; }
 
-#details activity
--keep class com.blogspot.shudiptotrafder.soilscience.DetailsActivity {
-  public boolean onCreateOptionsMenu(android.view.Menu);
-}
+#settings
+-keep class com.blogspot.shudiptotrafder.soilscience.settings.** {
+    public void onCreatePreferences(android.os.Bundle,java.lang.String);
+ }
+
+

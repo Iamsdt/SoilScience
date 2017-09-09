@@ -34,5 +34,4 @@ public class ThemeUtils {
 
         Utility.setNightMode(activity);
     }
-
 }
