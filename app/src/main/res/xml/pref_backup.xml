@@ -3,7 +3,6 @@
 
     <Preference
         android:key="@string/bps_ex_fav_key"
-        android:summary="@string/bps_ex_fav_summery"
         android:title="@string/bps_ex_fav_title" />
 
     <Preference
@@ -13,7 +12,6 @@
 
     <Preference
         android:key="@string/bps_ex_add_key"
-        android:summary="@string/bps_ex_add_summery"
         android:title="@string/bps_ex_add_title" />
 
     <Preference

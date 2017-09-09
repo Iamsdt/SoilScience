@@ -88,6 +88,8 @@ dependencies {
 
     //chrome custom tab
     compile 'com.android.support:customtabs:25.3.1'
+
+    compile 'com.github.codekidX:storage-chooser:2.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

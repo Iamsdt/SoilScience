@@ -3,15 +3,16 @@ package com.blogspot.shudiptotrafder.soilscience.utilities;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.data.BaseDataStructure;
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.codekidlabs.storagechooser.utils.DiskUtil;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -23,17 +24,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-/**
- * Created by Shudipto on 7/17/2017.
- */
 
 public class FileImportExportUtils {
 
-    private static final String path = Environment.getExternalStorageDirectory().getAbsolutePath()
-            + "/Android/data/";
-
-    private static final String SSData = "/ssData/";
-
+    //export user favourite file
     public static void exportFileFavourite(Context context) {
 
         ArrayList<String> arrayList = new ArrayList<>();
@@ -61,18 +55,23 @@ public class FileImportExportUtils {
         if (cursor != null) {
             cursor.close();
         }
-
         if (arrayList.isEmpty()) {
             Toast.makeText(context, "Sorry you don't have any data to save",
                     Toast.LENGTH_SHORT).show();
         } else {
 
+            SharedPreferences sharedPreferences = context
+                    .getSharedPreferences(ConstantUtils.STORAGE_PATH_KEY, Context.MODE_PRIVATE);
+            String path = sharedPreferences.getString(DiskUtil.SC_PREFERENCE_KEY,
+                    ConstantUtils.DEAFUALT_PATH_STORAGE);
+
             boolean directoryStatus = false;
 
-            File dir = new File(path+context.getPackageName()+SSData);
+            File dir = new File(path);
+
             if (!dir.exists()) {
                 directoryStatus = dir.mkdirs();
-            } else if (dir.exists()){
+            } else if (dir.exists()) {
                 directoryStatus = true;
             }
 
@@ -83,39 +82,39 @@ public class FileImportExportUtils {
 
                 try {
 
-                    boolean created = false;
-
                     if (!file.exists()) {
-                        created = file.createNewFile();
+                        file.createNewFile();
+                        file.setWritable(true);
+                    } else {
+                        file.setWritable(true);
                     }
 
-                    //already file exists so we need to overwrite
-                    if (created && file.exists()) {
-
-                        FileOutputStream outputStream = new FileOutputStream(file);
-                        for (String word : arrayList) {
-                            String savedStr = word + "\n";
-                            outputStream.write(savedStr.getBytes());
-                        }
-
+                    FileOutputStream outputStream = new FileOutputStream(file);
+                    for (String word : arrayList) {
+                        String savedStr = word + "\n";
+                        outputStream.write(savedStr.getBytes());
                     }
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    Toast.makeText(context, "File is not created successfully", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                 } finally {
                     if (file.exists() && file.canRead()) {
                         Toast.makeText(context, "your favourite word list saved in the "
-                                        + path+context.getPackageName()+SSData + ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR + " directory",
+                                        + path +ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR + " directory",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
-        }
 
+        }
     }
 
+    //export user added file
     public static void exportFileUser(Context context) {
 
         ArrayList<BaseDataStructure> arrayList = new ArrayList<>();
@@ -152,7 +151,12 @@ public class FileImportExportUtils {
                     Toast.LENGTH_SHORT).show();
         } else {
 
-            File dir = new File(path + context.getPackageName() + SSData);
+            SharedPreferences sharedPreferences = context
+                    .getSharedPreferences(ConstantUtils.STORAGE_PATH_KEY, Context.MODE_PRIVATE);
+            String path = sharedPreferences.getString(DiskUtil.SC_PREFERENCE_KEY,
+                    ConstantUtils.DEAFUALT_PATH_STORAGE);
+
+            File dir = new File(path);
 
             boolean dirStatus = false;
 
@@ -168,6 +172,14 @@ public class FileImportExportUtils {
                 File file = new File(dir,
                         ConstantUtils.SETTING_IMOUT_OPTION_USER);
                 try {
+
+                    if (!file.exists()) {
+                        file.createNewFile();
+                        file.setWritable(true);
+                    } else {
+                        file.setWritable(true);
+                    }
+
                     FileOutputStream outputStream = new FileOutputStream(file);
 
                     for (BaseDataStructure dataStructure : arrayList) {
@@ -180,12 +192,10 @@ public class FileImportExportUtils {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-
-                finally {
+                } finally {
                     if (file.exists() && file.canRead()) {
                         Toast.makeText(context, "your added word list saved in the "
-                                        + path+context.getPackageName()+SSData + ConstantUtils.SETTING_IMOUT_OPTION_USER + " directory",
+                                        + path+ ConstantUtils.SETTING_IMOUT_OPTION_USER + " directory",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -194,9 +204,15 @@ public class FileImportExportUtils {
 
     }
 
-    public static void importFile(Context context, String type) {
+    //import file and added to database
+    public static void importFile(Context context, String path) {
 
-        File file = new File(path+context.getPackageName()+SSData, type);
+        if (path == null) {
+            Toast.makeText(context, "File not selected correctly", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File file = new File(path);
 
         ArrayList<Uri> inserted = new ArrayList<>();
         ArrayList<Integer> updated = new ArrayList<>();
@@ -226,7 +242,7 @@ public class FileImportExportUtils {
                     values.put(MainWordDBContract.Entry.COLUMN_DESCRIPTION, strings[1].trim());
                     values.put(MainWordDBContract.Entry.COLUMN_USER, true);
 
-                    Uri uri= context.getContentResolver()
+                    Uri uri = context.getContentResolver()
                             .insert(MainWordDBContract.Entry.CONTENT_URI, values);
 
                     inserted.add(uri);
@@ -248,44 +264,46 @@ public class FileImportExportUtils {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            Toast.makeText(context, "File not exists", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(context, "Select correct file", Toast.LENGTH_SHORT).show();
         } finally {
 
-            if (!inserted.isEmpty()){
-                Toast.makeText(context, inserted.size()+" word added", Toast.LENGTH_SHORT).show();
+            if (!inserted.isEmpty()) {
+                Toast.makeText(context, inserted.size() + " word added", Toast.LENGTH_SHORT).show();
             }
 
-            if (!updated.isEmpty()){
-                Toast.makeText(context, updated.size()+" favourite word added", Toast.LENGTH_SHORT).show();
+            if (!updated.isEmpty()) {
+                Toast.makeText(context, updated.size() + " favourite word added", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
 
-    public static void checkFileAvailable(Context context){
+    public static void checkFileAvailable(Context context) {
 
         //available
 
-        try{
-            File favourite = new File(path+context.getPackageName()+SSData,
+        try {
+            File favourite = new File(ConstantUtils.DEAFUALT_PATH_STORAGE,
                     ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
 
-            File user = new File(path+context.getPackageName()+SSData,
+            File user = new File(ConstantUtils.DEAFUALT_PATH_STORAGE,
                     ConstantUtils.SETTING_IMOUT_OPTION_USER);
 
             if ((favourite.exists() && favourite.canRead()) ||
-                    (user.exists() && user.canRead())){
+                    (user.exists() && user.canRead())) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context)
                         .setTitle("")
                         .setMessage("")
-                        .setPositiveButton("yes", (dialog, which) -> {
+                        .setPositiveButton("yes", (dialog, which) -> new Thread(() -> {
                             //import user
-                            importFile(context,ConstantUtils.SETTING_IMOUT_OPTION_USER);
+                            importFile(context, ConstantUtils.STORAGE_PATH + ConstantUtils.SETTING_IMOUT_OPTION_USER);
 
                             //import favourite
-                            importFile(context,ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
-                        })
+                            importFile(context, ConstantUtils.STORAGE_PATH + ConstantUtils.SETTING_IMOUT_OPTION_USER);
+                        }).start())
                         .setNegativeButton("skip", (dialog, which) -> {
                             //nothing to do
                         });
@@ -293,7 +311,7 @@ public class FileImportExportUtils {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -98,7 +98,7 @@
 
     <!-- ***************Backup Preference Screen************* -->
     <string name="bps_title">Backup data</string>
-    <string name="bps_summery">Backup your data into your SD card</string>
+    <string name="bps_summery">Backup your data into storage</string>
     <string name="bps_key">backup</string>
 
     <!-- export -->
@@ -113,12 +113,17 @@
     <!-- Import -->
     <string name="bps_im_fav_key">import_favourite</string>
     <string name="bps_im_fav_title">Import Favourite List</string>
-    <string name="bps_im_fav_summery">Import your favourite list on your sd card</string>
+    <string name="bps_im_fav_summery">Click to import your favourite words backup data from storage</string>
 
     <string name="bps_im_add_key">import_add</string>
     <string name="bps_im_add_title">Import added word List</string>
-    <string name="bps_im_add_summery">Import your added word list on your sd card</string>
+    <string name="bps_im_add_summery">Click to import your own added words backup data from storage</string>
     <string name="app_intro">app intro</string>
+
+    <string name="advance_summery">Some advance settings for advance user</string>
+    <string name="advance_dir_add_key">dir</string>
+    <string name="advance_dir_title">Change Default Directory</string>
+    <string name="advance_dir_summery">Default directory location for your data backup</string>
 
     <!-- ***************FINISH************* -->
 

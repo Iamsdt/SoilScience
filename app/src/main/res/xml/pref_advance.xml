@@ -2,11 +2,10 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="@string/switchKey"
-        android:summaryOff="@string/switchOFF"
-        android:summaryOn="@string/switchON"
-        android:title="@string/switchLabel"/>
+    <Preference
+        android:key="@string/advance_dir_add_key"
+        android:summary="@string/advance_dir_summery"
+        android:title="@string/advance_dir_title"
+        android:selectable="true" />
 
 </PreferenceScreen>

@@ -1,10 +1,8 @@
 package com.blogspot.shudiptotrafder.soilscience.utilities;
 
-import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import android.os.Environment;
 
-/**
- * Created by Shudipto on 6/12/2017.
- */
+import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 
 public class ConstantUtils {
 
@@ -55,9 +53,15 @@ public class ConstantUtils {
     public static final String FB_REMOTE_CONFIG_STORAGE_KEY = "storage_key";
 
     //settings import export
-    public static final String SETTING_IMOUT_OPTION_FAVOUTITR = "favourite.txt";
-    public static final String SETTING_IMOUT_OPTION_USER = "user.txt";
+    static final String SETTING_IMOUT_OPTION_FAVOUTITR = "favourite.txt";
+    static final String SETTING_IMOUT_OPTION_USER = "user.txt";
 
+
+    public static final String DEAFUALT_PATH_STORAGE = Environment.getExternalStorageDirectory()
+            .getAbsolutePath()+"/SSDictionary/";
+
+    public static final String STORAGE_PATH_KEY = "storage";
+    public static final String STORAGE_PATH = "path";
 
 
 }

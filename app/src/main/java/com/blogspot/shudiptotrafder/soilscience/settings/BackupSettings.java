@@ -1,29 +1,26 @@
 package com.blogspot.shudiptotrafder.soilscience.settings;
 
 import android.Manifest;
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v7.preference.CheckBoxPreference;
-import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceScreen;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtils;
-
-import static android.app.Activity.RESULT_OK;
+import com.codekidlabs.storagechooser.StorageChooser;
+import com.codekidlabs.storagechooser.utils.DiskUtil;
 
 /**
- * Created by Shudipto on 7/10/2017.
+ * Created by Shudipto Trafder on 7/10/2017.
+ * ${PACKAGE_NAME}
  */
 
 public class BackupSettings extends PreferenceFragmentCompat implements
@@ -38,13 +35,6 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     private static final int PERMISSIONS_REQUEST_WRITE_STORAGE_FAVOURITE = 2;
     private static final int PERMISSIONS_REQUEST_WRITE_STORAGE_ADDED = 3;
 
-    //request code
-    private static final int PICKFILE_RESULT_CODE_ADDED_WORD = 10;
-    private static final int PICKFILE_RESULT_CODE_FAVOURITE_WORD = 11;
-    private static final int WRITE_FILE_RESULT_CODE_FAVOURITE_WORD = 12;
-    private static final int WRITE_FILE_RESULT_CODE_ADDED_WORD = 13;
-
-
 
 //    public static BackupSettings newInstance(String pageId) {
 //        BackupSettings f = new BackupSettings();
@@ -57,18 +47,19 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        Preference preference = findPreference(key);
-
-
-        if (preference != null) {
-
-            if (!(preference instanceof CheckBoxPreference)) {
-                String value = sharedPreferences.getString(preference.getKey(), "");
-                setPreferenceSummery(preference, value);
-            }
-        }
+//        Preference preference = findPreference(key);
+//
+//
+//        if (preference != null) {
+//
+//            if (!(preference instanceof CheckBoxPreference)) {
+//                String value = sharedPreferences.getString(preference.getKey(), "");
+//                setPreferenceSummery(preference, value);
+//            }
+//        }
     }
 
+    String path = null;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -76,25 +67,18 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_backup);
 
-        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
-
-        PreferenceScreen preferenceScreen = getPreferenceScreen();
-
-        int count = preferenceScreen.getPreferenceCount();
-
-        for (int i = 0; i < count; i++) {
-            Preference p = preferenceScreen.getPreference(i);
-            if (!(p instanceof CheckBoxPreference)) {
-                String value = sharedPreferences.getString(p.getKey(), "");
-                setPreferenceSummery(p, value);
-            }
-        }
+        SharedPreferences sp = getContext().getSharedPreferences(ConstantUtils.STORAGE_PATH_KEY, Context.MODE_PRIVATE);
+        path = sp.getString(DiskUtil.SC_PREFERENCE_KEY,
+                ConstantUtils.DEAFUALT_PATH_STORAGE);
 
         //my all preference
         Preference exportFavourite = findPreference(getString(R.string.bps_ex_fav_key));
         Preference importFavourite = findPreference(getString(R.string.bps_im_fav_key));
         Preference exportAddWord = findPreference(getString(R.string.bps_ex_add_key));
         Preference importAddWord = findPreference(getString(R.string.bps_im_add_key));
+
+        exportFavourite.setSummary("File saved on "+path+" directory");
+        exportAddWord.setSummary("File saved on "+path +" directory");
 
 
         //export favourite
@@ -186,15 +170,27 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 
-            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-            chooseFile.setType("text/plain");
+            StorageChooser.Builder builder = new StorageChooser.Builder();
+            builder.withActivity(getActivity());
+            builder.withFragmentManager(getActivity().getFragmentManager());
+            builder.withMemoryBar(true);
+            builder.allowCustomPath(true);
+            builder.setType(StorageChooser.FILE_PICKER);
+            builder.setDialogTitle("Select file");
 
-            try {
-                chooseFile = Intent.createChooser(chooseFile, "Choose Favourite backup file");
-                startActivityForResult(chooseFile, PICKFILE_RESULT_CODE_FAVOURITE_WORD);
-            } catch (Exception e) {
-                e.printStackTrace();
+            //if path is not null then save that path as default path
+            if (path != null){
+                builder.withPredefinedPath(path);
             }
+
+            StorageChooser chooser = builder.build();
+
+            // Show dialog whenever you want by
+            chooser.show();
+
+            // get path that the user has chosen
+            chooser.setOnSelectListener(path -> FileImportExportUtils.importFile(getContext(),path));
+
 
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not readable." +
@@ -206,27 +202,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
     private void writeFavouriteData() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
-
-            Intent intent;
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-                // Filter to only show results that can be "opened", such as
-                // a file (as opposed to a list of contacts or timezones).
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-                // Create a file with the requested MIME type.
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TITLE, ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR);
-                startActivityForResult(intent, WRITE_FILE_RESULT_CODE_FAVOURITE_WORD);
-
-            } else {
-                FileImportExportUtils.exportFileFavourite(getContext(),null);
-            }
-
-
-
-            //FileImportExportUtils.exportFileFavourite(getContext());
+            FileImportExportUtils.exportFileFavourite(getContext());
 
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not writable." +
@@ -252,63 +228,32 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         if (Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 
-            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-            chooseFile.setType("text/plain");
+            StorageChooser.Builder builder = new StorageChooser.Builder();
+            builder.withActivity(getActivity());
+            builder.withFragmentManager(getActivity().getFragmentManager());
+            builder.withMemoryBar(true);
+            builder.allowCustomPath(true);
+            builder.setType(StorageChooser.FILE_PICKER);
+            builder.setDialogTitle("Select file");
 
-            try {
-                chooseFile = Intent.createChooser(chooseFile, "Choose your added word file");
-                startActivityForResult(chooseFile, PICKFILE_RESULT_CODE_ADDED_WORD);
-            } catch (Exception e) {
-                e.printStackTrace();
+            //if path is not null then save that path as default path
+            if (path != null){
+                builder.withPredefinedPath(path);
             }
 
-            //FileImportExportUtils.importFile(getContext(),ConstantUtils.SETTING_IMOUT_OPTION_USER);
+            StorageChooser chooser = builder.build();
+
+            // Show dialog whenever you want by
+            chooser.show();
+
+            // get path that the user has chosen
+            chooser.setOnSelectListener(path -> FileImportExportUtils.importFile(getContext(),path));
+
         } else {
             Toast.makeText(getContext(), "Something went wrong.Your storage is not readable." +
                             " Your storage option is different from others.",
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void setPreferenceSummery(Preference preference, Object value) {
-
-        String stringValue = value.toString();
-
-        if (preference instanceof ListPreference) {
-            // For list preferences, look up the correct display value in
-            // the preference's 'entries' list (since they have separate labels/values).
-            ListPreference listPreference = (ListPreference) preference;
-            int prefIndex = listPreference.findIndexOfValue(stringValue);
-            //same code in one line
-            //int prefIndex = ((ListPreference) preference).findIndexOfValue(value);
-
-            //prefIndex must be is equal or garter than zero because
-            //array count as 0 to ....
-            if (prefIndex >= 0) {
-                listPreference.setSummary(listPreference.getEntries()[prefIndex]);
-            }
-        } else {
-            // For other preferences, set the summary to the value's simple string representation.
-            preference.setSummary(stringValue);
-        }
-    }
-
-    //register and unregister on lifecycle
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        getPreferenceScreen().getSharedPreferences()
-                .registerOnSharedPreferenceChangeListener(this);
-    }
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -322,8 +267,8 @@ public class BackupSettings extends PreferenceFragmentCompat implements
                     //Permission added
                     readFavouriteData();
                 } else {
-                    Toast.makeText(getContext(), "Sorry You don't Backup" +
-                            " your data.To backup your data you need to grant permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "oh! you don't give permission to access storage" +
+                            " To backup your data you need to grant permission", Toast.LENGTH_LONG).show();
                 }
                 break;
 
@@ -333,8 +278,8 @@ public class BackupSettings extends PreferenceFragmentCompat implements
                     readAddedWord();
 
                 } else {
-                    Toast.makeText(getContext(), "Sorry You don't Backup" +
-                            " your data.To backup your data you need to grant permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "oh! you don't give permission to access storage" +
+                            " To backup your data you need to grant permission", Toast.LENGTH_LONG).show();
                 }
                 break;
 
@@ -344,8 +289,8 @@ public class BackupSettings extends PreferenceFragmentCompat implements
                     writeFavouriteData();
 
                 } else {
-                    Toast.makeText(getContext(), "Sorry You don't Backup" +
-                            " your data.To backup your data you need to grant permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "oh! you don't give permission to access storage" +
+                            " To backup your data you need to grant permission", Toast.LENGTH_LONG).show();
                 }
                 break;
 
@@ -355,8 +300,8 @@ public class BackupSettings extends PreferenceFragmentCompat implements
                     writeAddedWord();
 
                 } else {
-                    Toast.makeText(getContext(), "Sorry You don't Backup" +
-                            " your data.To backup your data you need to grant permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "oh! you don't give permission to access storage" +
+                            " To backup your data you need to grant permission", Toast.LENGTH_LONG).show();
                 }
                 break;
 
@@ -366,28 +311,26 @@ public class BackupSettings extends PreferenceFragmentCompat implements
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    //replaced by library
 
-        if (resultCode == RESULT_OK) {
-
-            Uri uri = data.getData();
-
-            switch (requestCode) {
-                case PICKFILE_RESULT_CODE_FAVOURITE_WORD:
-                    FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR,uri);
-                    break;
-
-                case PICKFILE_RESULT_CODE_ADDED_WORD:
-                    FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_USER,uri);
-                    break;
-
-                case WRITE_FILE_RESULT_CODE_FAVOURITE_WORD:
-                    FileImportExportUtils.exportFileFavourite(getContext(),uri);
-                }
-        }
-
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (resultCode == RESULT_OK) {
+//
+//            Uri uri = data.getData();
+//
+//            switch (requestCode) {
+//                case PICKFILE_RESULT_CODE_FAVOURITE_WORD:
+//                    FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_FAVOUTITR,uri);
+//                    break;
+//
+//                case PICKFILE_RESULT_CODE_ADDED_WORD:
+//                    FileImportExportUtils.importFile(getContext(), ConstantUtils.SETTING_IMOUT_OPTION_USER,uri);
+//                    break;
+//        }
+//
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }

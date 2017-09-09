@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceScreen;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 
@@ -65,6 +65,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 setPreferenceSummery(p, value);
             }
         }
+
+        Preference backup = findPreference(getString(R.string.bps_key));
+        backup.setSummary(R.string.bps_summery);
+
+        Preference advance = findPreference("advance");
+        advance.setSummary(R.string.advance_summery);
 
     }
 
