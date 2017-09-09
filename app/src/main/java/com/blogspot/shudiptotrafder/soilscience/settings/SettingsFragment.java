@@ -1,3 +1,19 @@
+/*
+ * Copyright {2017} {Shudipto Trafder}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.blogspot.shudiptotrafder.soilscience.settings;
 
 import android.content.SharedPreferences;
@@ -11,7 +27,8 @@ import android.support.v7.preference.PreferenceScreen;
 import com.blogspot.shudiptotrafder.soilscience.R;
 
 /**
- * Created by Shudipto on 6/6/2017.
+ * Created by Shudipto Trafder Trafder.
+ * on 6/6/2017
  */
 
 
@@ -67,9 +84,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
 
         Preference backup = findPreference(getString(R.string.bps_key));
-        backup.setSummary(R.string.bps_summery);
+        Preference advance = findPreference(getString(R.string.advance_key));
 
-        Preference advance = findPreference("advance");
+        backup.setSummary(R.string.bps_summery);
         advance.setSummary(R.string.advance_summery);
 
     }
