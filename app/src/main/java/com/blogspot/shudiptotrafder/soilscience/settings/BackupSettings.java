@@ -75,7 +75,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
 //        }
     }
 
-    String path = null;
+    private String path = null;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

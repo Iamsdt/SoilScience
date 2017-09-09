@@ -107,7 +107,7 @@ public class UserAddActivity extends AppCompatActivity {
 
         boolean uploadSettings = false;
 
-        if (!Utility.isUploadEnabled(this)) {
+        if (Utility.isUploadEnabled(this)) {
             //if user don't want to upload his word
             //this will consider as uploaded
             uploadSettings = true;

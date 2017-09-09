@@ -51,7 +51,6 @@ class DataBaseProvider {
      * methods for load words in database
      * with content provider
      *
-     * @throws IOException if file not found in raw
      */
 
     void loadWords() {

@@ -16,6 +16,7 @@
 
 package com.blogspot.shudiptotrafder.soilscience;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.random_layout, null);
+            @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.random_layout, null);
             dialogBuilder.setView(dialogView);
 
             final TextView wordTV = (TextView) dialogView.findViewById(R.id.rand_word);

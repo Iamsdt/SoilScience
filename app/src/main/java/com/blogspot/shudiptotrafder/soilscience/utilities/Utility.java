@@ -46,7 +46,7 @@ public class Utility {
 
         //complete add settings
 
-        return preferences.getBoolean(
+        return !preferences.getBoolean(
                 context.getString(R.string.switchShare),true);
     }
 

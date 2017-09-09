@@ -44,7 +44,7 @@ public class DatabaseUtils {
 
     public static boolean checkUploadLeft(Context context) {
 
-        if (!Utility.isUploadEnabled(context)) {
+        if (Utility.isUploadEnabled(context)) {
             return false;
         }
 

@@ -33,7 +33,9 @@
         <ImageView
             android:layout_width="@dimen/img_width_height"
             android:layout_height="@dimen/img_width_height"
-            app:srcCompat="@drawable/ic_database" />
+            app:srcCompat="@drawable/ic_database"
+            android:contentDescription="Database icon"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"

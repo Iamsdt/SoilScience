@@ -38,7 +38,7 @@ public class AdvanceSettingsFragment extends PreferenceFragmentCompat implements
 
     private static final int PERMISSIONS_REQUEST_READ_STORAGE = 0;
 
-    Preference changeDirPref;
+    private Preference changeDirPref;
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
