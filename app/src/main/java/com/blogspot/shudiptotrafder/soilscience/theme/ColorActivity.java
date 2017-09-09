@@ -61,13 +61,15 @@ public class ColorActivity extends AppCompatActivity implements
 
         themes = new ArrayList<>();
 
-        // TODO: 6/19/2017 add more theme
+        // complete: 6/19/2017 add more theme
         //fill array with styles ids
         themes.add(new ThemesContract("Default", R.style.AppTheme_NoActionBar));
-        themes.add(new ThemesContract("Amber", R.style.amber));
-        themes.add(new ThemesContract("Amber2", R.style.amber_dark));
+        themes.add(new ThemesContract("Amber", R.style.amber_dark));
         themes.add(new ThemesContract("Purple", R.style.purple_dark));
-
+        themes.add(new ThemesContract("Orange", R.style.orange));
+        themes.add(new ThemesContract("Cyan", R.style.cyan));
+        themes.add(new ThemesContract("Deep Orange", R.style.deeporange));
+        themes.add(new ThemesContract("Green", R.style.green));
     }
 
     @Override

@@ -17,12 +17,6 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.Random;
 
-/**
- * SoilScience
- * com.blogspot.shudiptotrafder.soilscience.adapter
- * Created by Shudipto Trafder on 4/1/2017.
- */
-
 public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.MyViewHolder> {
 
     // Class variables for the Cursor that holds task data and the Context

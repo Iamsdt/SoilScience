@@ -9,19 +9,4 @@
 
     <color name="colorSplashBack">#142f4d</color>
 
-    <!-- pink theme -->
-    <color name="pink_primary">#a71748</color>
-    <color name="pink_primary_dark">#79113a</color>
-    <color name="pink_accent">#304096</color>
-
-    <!-- purple theme -->
-    <color name="purple_primary">#721c81</color>
-    <color name="purple_primary_dark">#52156c</color>
-    <color name="purple_accent">#806104</color>
-
-    <!-- deep orange theme -->
-    <color name="dOrange_primary">#ab3a16</color>
-    <color name="dOrange_primary_dark">#76260d</color>
-    <color name="dOrange_accent">#838c24</color>
-
 </resources>

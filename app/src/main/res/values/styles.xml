@@ -25,32 +25,46 @@
     </style>
 
     <!-- deep amber theme -->
-    <style name="amber" parent="AppTheme.NoActionBar">
+    <style name="amber_dark" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/amber_500</item>
         <item name="colorPrimaryDark">@color/amber_700</item>
-        <item name="colorAccent">@color/dOrange_accent</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
-    </style>
-
-    <style name="amber_dark" parent="AppTheme.NoActionBar">
-        <item name="colorPrimary">@color/amber_700</item>
-        <item name="colorPrimaryDark">@color/amber_900</item>
-        <item name="colorAccent">@color/dOrange_accent</item>
+        <item name="colorAccent">@color/blue_500</item>
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
     </style>
 
     <style name="purple_dark" parent="AppTheme.NoActionBar">
-        <item name="colorPrimary">@color/purple_700</item>
-        <item name="colorPrimaryDark">@color/purple_900</item>
-        <item name="colorAccent">@color/dOrange_accent</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/deep_orange_500</item>
+        <item name="colorControlHighlight">@color/light_green_500</item>
     </style>
 
     <style name="orange" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/orange_500</item>
         <item name="colorPrimaryDark">@color/orange_700</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="colorControlHighlight">@color/pink_500</item>
+    </style>
+
+    <style name="cyan" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/cyan_500</item>
+        <item name="colorPrimaryDark">@color/cyan_700</item>
+        <item name="colorAccent">@color/lime_500</item>
+        <item name="colorControlHighlight">@color/indigo_500</item>
+    </style>
+
+    <style name="deeporange" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/deep_orange_500</item>
+        <item name="colorPrimaryDark">@color/deep_orange_700</item>
         <item name="colorAccent">@color/light_green_200</item>
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
+        <item name="colorControlHighlight">@color/deep_purple_300</item>
+    </style>
+
+    <style name="green" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/green_500</item>
+        <item name="colorPrimaryDark">@color/green_700</item>
+        <item name="colorAccent">@color/yellow_500</item>
+        <item name="colorControlHighlight">@color/teal_500</item>
     </style>
 
 
