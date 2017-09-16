@@ -28,7 +28,7 @@
     <!-- fixme set a margin of image view for larger device -->
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/splash_imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_round"
@@ -42,7 +42,7 @@
         tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/splash_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
@@ -52,16 +52,17 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/splash_imageView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/splash_app"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
+        android:id="@+id/splash_appAbout"
         android:text="@string/splash_str"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent" />

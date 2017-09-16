@@ -25,10 +25,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
-import com.blogspot.shudiptotrafder.soilscience.animation.AnimationUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
@@ -45,6 +46,8 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private final Context mContext;
 
     private int previousPosition = 0;
+
+    public boolean AnimationOFF = false;
 
     /**
      * Constructor for the CustomCursorAdapter that initializes the Context.
@@ -90,15 +93,34 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         holder.itemView.setTag(word);
 
-        if(position > previousPosition){ // We are scrolling DOWN
-            AnimationUtils.animate(holder, true);
+//        if (!AnimationOFF){
+//            if(position > previousPosition){ // We are scrolling DOWN
+//                AnimationUtils.animate(holder, true);
+//
+//            }else{ // We are scrolling UP
+//                AnimationUtils.animate(holder, false);
+//            }
+//
+//            previousPosition = position;
+//        }
 
-        }else{ // We are scrolling UP
-            AnimationUtils.animate(holder, false);
+        int lastPosition = -1;
+
+        if (!AnimationOFF){
+
+            Animation animation = AnimationUtils.loadAnimation(mContext,
+                    (position > lastPosition) ? R.anim.up_from_bottom
+                            : R.anim.down_from_top);
+            holder.itemView.startAnimation(animation);
+            lastPosition = position;
         }
 
-        previousPosition = position;
+    }
 
+    @Override
+    public void onViewDetachedFromWindow(MyViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.itemView.clearAnimation();
     }
 
     @Override

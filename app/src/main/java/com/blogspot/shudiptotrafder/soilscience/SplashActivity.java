@@ -23,6 +23,10 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
@@ -53,6 +57,22 @@ public class SplashActivity extends AppCompatActivity {
 //        }
 
         setContentView(R.layout.activity_splash);
+
+        ImageView imageView = (ImageView) findViewById(R.id.splash_imageView);
+        TextView app = (TextView) findViewById(R.id.splash_app);
+        TextView appAbout = (TextView) findViewById(R.id.splash_appAbout);
+
+
+        Animation set = AnimationUtils.loadAnimation(this,
+                R.anim.splash_screen_animation);
+
+        //set animation
+        imageView.setAnimation(set);
+        app.setAnimation(set);
+        appAbout.setAnimation(set);
+
+        //start animation
+        set.start();
 
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle(getString(R.string.splash_pd_title));

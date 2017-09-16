@@ -42,10 +42,10 @@ public class AnimationUtils {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(
                 viewHolder.itemView,
                 "translationY",
-                goToDown ? 200 : -200,0
+                goToDown ? 50 : -0,5
         );
 
-        objectAnimator.setDuration(1000);
+        objectAnimator.setDuration(900);
 
         animatorSet.play(objectAnimator);
         animatorSet.start();

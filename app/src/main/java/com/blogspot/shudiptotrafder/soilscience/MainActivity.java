@@ -460,6 +460,7 @@ public class MainActivity extends AppCompatActivity
                             ConstantUtils.projectionOnlyWord, selection, selectionArg, null);
 
                     if (cursor != null && cursor.getCount() > 0) {
+                        mAdapter.AnimationOFF = true;
                         mAdapter.swapCursor(cursor);
                     }
 
