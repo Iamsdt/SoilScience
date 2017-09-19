@@ -102,7 +102,6 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
         shapeDrawable.setColorFilter(id, PorterDuff.Mode.SRC_ATOP);
 
         return shapeDrawable;
-
     }
 
     /**

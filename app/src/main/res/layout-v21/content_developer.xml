@@ -129,10 +129,68 @@
             android:id="@+id/contactCard"
             app:layout_constraintTop_toBottomOf="@+id/textView8">
 
-            <include layout="@layout/developer_contract"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/dev_fb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Facebook"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:drawableStart="@drawable/ic_facebook"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/dev_linkedin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Linkedin"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:drawableStart="@drawable/ic_linkedin"
+                        tools:ignore="HardcodedText"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/dev_git"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="GitHub"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        android:drawableStart="@drawable/ic_github"
+                        tools:ignore="HardcodedText"/>
+
+                    <TextView
+                        android:id="@+id/dev_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:drawableStart="@drawable/ic_email"
+                        android:drawablePadding="10dp"
+                        android:padding="10dp"
+                        tools:ignore="HardcodedText"/>
+                </LinearLayout>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <TextView

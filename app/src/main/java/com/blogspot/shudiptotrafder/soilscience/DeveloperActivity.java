@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -31,6 +32,12 @@ import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 public class DeveloperActivity extends AppCompatActivity {
 
 
+    //to support vector drawables for lower api
+    static {
+        //complete add vector drawable support
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +45,13 @@ public class DeveloperActivity extends AppCompatActivity {
         ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_developer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TextView fb = (TextView) findViewById(R.id.dev_fb);
-        TextView linkedin = (TextView) findViewById(R.id.dev_linkedin);
-        TextView git = (TextView) findViewById(R.id.dev_git);
-        TextView email = (TextView) findViewById(R.id.dev_email);
+        TextView fb = findViewById(R.id.dev_fb);
+        TextView linkedin = findViewById(R.id.dev_linkedin);
+        TextView git = findViewById(R.id.dev_git);
+        TextView email = findViewById(R.id.dev_email);
 
         fb.setOnClickListener(view -> customTab("https://www.facebook.com/Iamsdt"));
 
@@ -117,6 +124,6 @@ public class DeveloperActivity extends AppCompatActivity {
     // complete: 6/16/2017 night mode move from settings to navigation drawer
 
     // complete: 8/4/2017 if user open this app for first time then show a import dialog
-    // TODO: 8/4/2017 Create a file import chooser dialog
+    // complete: 8/4/2017 Create a file import chooser dialog
 
 }

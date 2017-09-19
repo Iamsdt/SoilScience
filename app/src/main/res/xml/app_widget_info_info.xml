@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright {2017} {Shudipto Trafder}
   ~
@@ -14,12 +15,13 @@
   ~ limitations under the License.
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <gradient
-        android:angle="135"
-        android:centerColor="@color/light_blue_500"
-        android:endColor="@color/light_blue_900"
-        android:startColor="@color/light_blue_300"
-        android:type="linear" />
-</shape>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.blogspot.shudiptotrafder.soilscience.AppWidgetInfoConfigureActivity"
+    android:initialKeyguardLayout="@layout/app_widget"
+    android:initialLayout="@layout/app_widget"
+    android:minHeight="110dp"
+    android:minWidth="180dp"
+    android:previewImage="@drawable/icon_round"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen|keyguard"/>

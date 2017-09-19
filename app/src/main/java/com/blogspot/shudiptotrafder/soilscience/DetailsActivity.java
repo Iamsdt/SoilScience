@@ -74,9 +74,10 @@ public class DetailsActivity extends AppCompatActivity implements
     private TextToSpeech toSpeech;
 
     //selected word from Main activity
-    private String wordForTTS = null;
-    private String descriptionOfWord = null;
+    private String wordForTTS;
+    private String descriptionOfWord;
 
+    private ShareActionProvider myShareActionProvider;
 
     //vector support
     static {
@@ -91,14 +92,14 @@ public class DetailsActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_details);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //assign view
-        NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.detailsScrollView);
+        NestedScrollView scrollView = findViewById(R.id.detailsScrollView);
 
-        wordTV = (TextView) findViewById(R.id.details_word);
-        descriptionTV = (TextView) findViewById(R.id.details_description);
+        wordTV = findViewById(R.id.details_word);
+        descriptionTV = findViewById(R.id.details_description);
 
         toSpeech = new TextToSpeech(this, this);
 
@@ -110,7 +111,7 @@ public class DetailsActivity extends AppCompatActivity implements
         }
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.details_fab);
+        FloatingActionButton fab = findViewById(R.id.details_fab);
         fab.setOnClickListener(view -> setTTS(wordForTTS));
 
         if (getSupportActionBar() != null) {
@@ -179,9 +180,9 @@ public class DetailsActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.details, menu);
         MenuItem shareItem = menu.findItem(R.id.action_share);
-        ShareActionProvider myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
 
-        if (myShareActionProvider != null){
+        if (myShareActionProvider != null) {
             myShareActionProvider.setShareIntent(createShareIntent());
         }
 
@@ -193,11 +194,24 @@ public class DetailsActivity extends AppCompatActivity implements
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         if (wordForTTS != null && descriptionOfWord != null) {
-            shareIntent.putExtra(Intent.EXTRA_TEXT, wordForTTS +":"+ descriptionOfWord);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, wordForTTS + ":" + descriptionOfWord);
+        } else if (wordForTTS != null) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT, wordForTTS);
         }
 
         return shareIntent;
     }
+
+    private void resetShareActionProvider(String word, String des) {
+        if (myShareActionProvider != null) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, word + ":" + des);
+
+            myShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -269,6 +283,8 @@ public class DetailsActivity extends AppCompatActivity implements
         //set Size
         descriptionTV.setTextSize(getDesTextSize());
         wordTV.setTextSize(Utility.getTextSize(this));
+
+        resetShareActionProvider(word,description);
     }
 
     @Override

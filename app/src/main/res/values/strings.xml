@@ -195,5 +195,8 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
    See the License for the specific language governing permissions and\n
    limitations under the License.</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

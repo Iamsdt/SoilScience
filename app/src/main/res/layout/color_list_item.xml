@@ -16,9 +16,9 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:clickable="true"
     android:id="@+id/color_list_linearLayout"
@@ -33,14 +33,14 @@
         android:layout_weight="2"
         tools:text="Amber Dark"
         android:padding="10dp"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="@color/colorPrimary"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     <TextView
         android:id="@+id/color_list_primary"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/color_preview"
+        android:background="@color/colorPrimary"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_margin="5dp" />
@@ -49,7 +49,7 @@
         android:id="@+id/color_list_primaryDark"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/color_preview"
+        android:background="@color/colorPrimaryDark"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_margin="5dp" />
@@ -58,7 +58,7 @@
         android:id="@+id/color_list_accent"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:background="@drawable/color_preview"
+        android:background="@color/colorAccent"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_margin="5dp" />

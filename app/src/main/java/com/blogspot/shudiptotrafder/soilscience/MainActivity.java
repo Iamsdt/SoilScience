@@ -101,13 +101,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //assign view
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView = findViewById(R.id.search_view);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainRecycleView);
+        RecyclerView recyclerView = findViewById(R.id.mainRecycleView);
         final LinearLayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setHasFixedSize(true);
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         getSupportLoaderManager().initLoader(ConstantUtils.MAIN_LOADER_ID, null, this);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        fab = findViewById(R.id.main_fab);
         fab.setOnClickListener(view -> {
             String word = mAdapter.getRandomWord();
             Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
@@ -155,11 +155,11 @@ public class MainActivity extends AppCompatActivity
             @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.random_layout, null);
             dialogBuilder.setView(dialogView);
 
-            final TextView wordTV = (TextView) dialogView.findViewById(R.id.rand_word);
-            final TextView desTV = (TextView) dialogView.findViewById(R.id.rand_description);
+            final TextView wordTV = dialogView.findViewById(R.id.rand_word);
+            final TextView desTV = dialogView.findViewById(R.id.rand_description);
 
-            final ImageView backImg = (ImageView) dialogView.findViewById(R.id.rand_img_back);
-            final ImageView favImg = (ImageView) dialogView.findViewById(R.id.rand_fav_img);
+            final ImageView backImg = dialogView.findViewById(R.id.rand_img_back);
+            final ImageView favImg = dialogView.findViewById(R.id.rand_fav_img);
 
 
             wordTV.setText(word);
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         FirebaseAnalytics.getInstance(this)
@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity
             termsOfUse();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

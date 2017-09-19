@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +39,12 @@ public class ColorActivity extends AppCompatActivity implements
 
     private ArrayList<ThemesContract> themes;
 
+    //to support vector drawables for lower api
+    static {
+        //complete add vector drawable support
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +52,10 @@ public class ColorActivity extends AppCompatActivity implements
         ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_color);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.color_toolbar);
+        Toolbar toolbar = findViewById(R.id.color_toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.color_recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.color_recyclerView);
 
         LinearLayoutManager manager = new LinearLayoutManager
                 (this, LinearLayoutManager.VERTICAL, false);
