@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright {2017} {Shudipto Trafder}
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -93,6 +92,13 @@
             android:name=".theme.ColorActivity"
             android:label="@string/title_activity_color"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MyAppIntro"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- provider -->
         <provider
@@ -116,36 +122,25 @@
             android:name=".services.UploadServices"
             android:enabled="true"
             android:exported="false" />
-        <!--
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar" />
-        -->
 
-        <activity
-            android:name=".MyAppIntro"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <receiver android:name=".AppWidgetInfo">
+        <receiver android:name=".widget.AppWidgetInfo">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_info_info" />
+                android:resource="@xml/app_widget_info" />
         </receiver>
-
-        <activity android:name=".AppWidgetInfoConfigureActivity">
+        <receiver android:name=".widget.SearchWidget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-        </activity>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/search_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

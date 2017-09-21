@@ -135,6 +135,7 @@ public class DetailsActivity extends AppCompatActivity implements
 
     }
 
+
     //enter
     private void setupWindowAnimations() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

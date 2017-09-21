@@ -45,7 +45,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
     private final Context mContext;
 
-    private int previousPosition = 0;
+    private int previousPosition = -1;
 
     public boolean AnimationOFF = false;
 
@@ -104,15 +104,13 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 //            previousPosition = position;
 //        }
 
-        int lastPosition = -1;
-
         if (!AnimationOFF){
 
             Animation animation = AnimationUtils.loadAnimation(mContext,
-                    (position > lastPosition) ? R.anim.up_from_bottom
+                    (position > previousPosition) ? R.anim.up_from_bottom
                             : R.anim.down_from_top);
             holder.itemView.startAnimation(animation);
-            lastPosition = position;
+            previousPosition = position;
         }
 
     }
