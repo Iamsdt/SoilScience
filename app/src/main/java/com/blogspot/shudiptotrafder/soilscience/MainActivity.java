@@ -388,7 +388,8 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.action_search:
-                searchView.openSearch();
+                //searchView.openSearch();
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 return true;
 
             case R.id.nightMode:

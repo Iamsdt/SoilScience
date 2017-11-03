@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright {2017} {Shudipto Trafder}
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -100,18 +101,36 @@
             android:label="@string/title_activity_about"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".SearchActivity"
+            android:label="@string/search"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- to identify this activity as "searchable" -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+        </activity>
+
         <!-- provider -->
         <provider
             android:name=".data.DataProvider"
             android:authorities="com.blogspot.shudiptotrafder.soilscience"
             android:enabled="true"
             android:exported="false" />
+
+        <!--
         <provider
             android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
             android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
             android:exported="false"
             android:protectionLevel="signature"
-            android:syncable="true" />
+            android:syncable="true" /> -->
 
         <!-- services -->
         <service
@@ -141,6 +160,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/search_widget_info" />
         </receiver>
+
     </application>
 
 </manifest>

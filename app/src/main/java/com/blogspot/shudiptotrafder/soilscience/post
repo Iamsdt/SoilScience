@@ -1,9 +1,8 @@
-todo welcome screen
 complete splash screen
 todo settings fragment
 todo settings activity
 
-todo menu icon change and share action menu
+complete menu icon change and share action menu
 
 todo custom tab
 
@@ -13,13 +12,11 @@ todo firebase analytics
 
 todo file import output
 
-todo app intro
+complete app intro
 
 complete text to speech
 
 todo android proguard
-
-todo support vector drawable
 
 todo gradle build faster
 

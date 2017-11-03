@@ -181,6 +181,7 @@ public class DetailsActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.details, menu);
         MenuItem shareItem = menu.findItem(R.id.action_share);
+
         myShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
 
         if (myShareActionProvider != null) {

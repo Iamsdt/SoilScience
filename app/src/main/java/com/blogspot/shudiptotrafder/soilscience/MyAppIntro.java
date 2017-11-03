@@ -55,8 +55,6 @@ public class MyAppIntro extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -183,6 +181,7 @@ public class MyAppIntro extends AppCompatActivity {
      * View pager adapter
      */
     public class MyViewPagerAdapter extends PagerAdapter {
+
         private LayoutInflater layoutInflater;
 
         private MyViewPagerAdapter() {
