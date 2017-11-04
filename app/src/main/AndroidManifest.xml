@@ -124,6 +124,9 @@
             android:enabled="true"
             android:exported="false" />
 
+        <provider android:name=".data.MySuggestionProvider"
+            android:authorities="com.example.MySuggestionProvider" />
+
         <!--
         <provider
             android:name="br.com.mauker.materialsearchview.db.HistoryProvider"

@@ -19,11 +19,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_search"
-        android:title="@android:string/search_go"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        android:visible="true" />
+        android:id="@+id/action_historyClear"
+        android:title="@string/clear_history"
+        android:icon="@android:drawable/ic_delete"
+        app:showAsAction="never" />
 
 </menu>

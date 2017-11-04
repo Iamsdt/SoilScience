@@ -87,6 +87,8 @@ public class DeveloperActivity extends AppCompatActivity {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(R.attr.colorPrimary);
         builder.setShowTitle(false);
+        // add share action to menu list
+        builder.addDefaultShareMenuItem();
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
 

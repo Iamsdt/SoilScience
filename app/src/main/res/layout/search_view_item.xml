@@ -14,38 +14,28 @@
   ~ limitations under the License.
   -->
 
-
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="4dp"
-    android:id="@+id/search_view_item_card"
-    android:layout_marginStart="4dp"
-    android:layout_marginTop="4dp">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    tools:ignore="UseCompoundDrawables">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/search_view_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/search"
+        android:src="@android:drawable/ic_menu_search" />
+
+    <TextView
+        android:id="@+id/search_view_item_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="4dp">
+        android:layout_gravity="center"
+        android:gravity="center|start"
+        tools:text="TextView" />
 
-        <ImageView
-            android:id="@+id/search_view_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/search"
-            android:src="@android:drawable/ic_menu_search"/>
-
-        <TextView
-            android:id="@+id/search_view_item_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|start"
-            android:layout_gravity="center"
-            tools:text="TextView" />
-
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
+</LinearLayout>

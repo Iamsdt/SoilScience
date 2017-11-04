@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -32,12 +33,13 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.SearchAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
+import com.blogspot.shudiptotrafder.soilscience.data.MySuggestionProvider;
+import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
@@ -47,6 +49,7 @@ import java.util.Locale;
 public class SearchActivity extends AppCompatActivity implements SearchAdapter.ClickListener {
 
     private SearchView searchView;
+    private SearchRecentSuggestions suggestions;
 
     private final int REQUEST_VOICE = 126;
 
@@ -63,6 +66,9 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ThemeUtils.initialize(this);
+
         setContentView(R.layout.activity_search);
 
         Toolbar toolbar =  findViewById(R.id.search_toolbar);
@@ -70,62 +76,21 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
         //ImageButton imageButton = findViewById(R.id.voice);
 
-        RecyclerView recyclerView = findViewById(R.id.searchViewRec);
-
-        arrayList = new ArrayList<>();
-
-        LinearLayoutManager manager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setHasFixedSize(true);
-
-        recyclerView.setLayoutManager(manager);
-
-        searchAdapter = new SearchAdapter(this,this,arrayList);
-
-        recyclerView.setAdapter(searchAdapter);
-
-        //imageButton.setOnClickListener(v -> askSpeechInput());
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    private void askSpeechInput() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speak your desire word");
-        try {
-            startActivityForResult(intent, REQUEST_VOICE);
-        } catch (ActivityNotFoundException a) {
-            a.printStackTrace();
-            Utility.showLogThrowable("Activity not found", a);
-            Toast.makeText(this, "Sorry Speech To Text is not " +
-                    "supported in your device", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the options menu from XML
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu, menu);
-
-        // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView = findViewById(R.id.searchViewN);
+
+        //assign suggestion
+        suggestions = new SearchRecentSuggestions(this,
+                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+
+
         // Assumes current activity is the searchable activity
         if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         }
         searchView.setIconifiedByDefault(false);// Do not iconify the widget; expand it by default
+
+        searchView.setQueryRefinementEnabled(true);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -138,6 +103,8 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
                     Intent intent = new Intent(SearchActivity.this, DetailsActivity.class);
                     intent.setData(uri);
                     startActivity(intent);
+
+                    //setRecentQuery(query);
                 }
 
                 if (cursor != null) {
@@ -186,14 +153,70 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
             }
         });
 
-        return true;
+        RecyclerView recyclerView = findViewById(R.id.searchViewRec);
+
+        arrayList = new ArrayList<>();
+
+        LinearLayoutManager manager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(manager);
+
+        searchAdapter = new SearchAdapter(this,this,arrayList);
+
+        recyclerView.setAdapter(searchAdapter);
+
+        //imageButton.setOnClickListener(v -> askSpeechInput());
+
+
+        Intent intent  = getIntent();
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            setRecentQuery(query);
+            searchView.setQuery(query,true);
+        }
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
+
+    //don't need this methods
+    //it's aromatically
+    private void askSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Speak your desire word");
+        try {
+            startActivityForResult(intent, REQUEST_VOICE);
+        } catch (ActivityNotFoundException a) {
+            a.printStackTrace();
+            Utility.showLogThrowable("Activity not found", a);
+            Toast.makeText(this, "Sorry Speech To Text is not " +
+                    "supported in your device", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == android.R.id.home){
-            onBackPressed();
+        switch (item.getItemId()){
+            case R.id.action_historyClear:
+                suggestions.clearHistory();
+                break;
+
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -219,6 +242,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
     protected void onStop() {
         super.onStop();
         arrayList.clear();
+        clearSearchView();
     }
 
     @Override
@@ -228,9 +252,32 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        return true;
+    }
+
+
+    @Override
     public void onItemClickListener(String s) {
-        if (searchView != null) {
-            searchView.setQuery(s, true);
+            Uri uri = MainWordDBContract.Entry.buildUriWithWord(s.toUpperCase());
+            startActivity(new Intent(SearchActivity.this,
+                    DetailsActivity.class).setData(uri));
+
+            setRecentQuery(s);
+
+            clearSearchView();
+    }
+
+    private void setRecentQuery(String query){
+        if (suggestions != null){
+            suggestions.saveRecentQuery(query, null);
         }
+    }
+
+    private void clearSearchView(){
+        searchView.setQuery("",true);
     }
 }

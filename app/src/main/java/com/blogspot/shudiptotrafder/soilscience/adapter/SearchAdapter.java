@@ -17,8 +17,6 @@
 package com.blogspot.shudiptotrafder.soilscience.adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +56,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     /**
      * set cursor from other activity
+     *
      * @param arrayList new cursor for replace previous cursor
      */
 
@@ -66,7 +65,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         this.arrayList = arrayList;
 
         //check if this is a valid cursor, then update the cursor
-        if (arrayList != null  && arrayList.size() > 0) {
+        if (arrayList != null && arrayList.size() > 0) {
             this.notifyDataSetChanged();
         }
     }
@@ -75,7 +74,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.search_view_item,parent,false);
+                .inflate(R.layout.search_view_item, parent, false);
 
         return new MyViewHolder(view);
     }
@@ -107,7 +106,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public int getItemCount() {
 
-        if (arrayList == null){
+        if (arrayList == null) {
             return 0;
         }
 
@@ -115,7 +114,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     }
 
 
-    public interface ClickListener{
+    public interface ClickListener {
         void onItemClickListener(String s);
     }
 
@@ -124,7 +123,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
         // Class variables for the task description and priority TextViews
         final TextView word;
-        CardView cardView;
 
         ImageView imageView;
 
@@ -136,17 +134,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         MyViewHolder(View itemView) {
             super(itemView);
 
-            word =  itemView.findViewById(R.id.search_view_item_tv);
+            word = itemView.findViewById(R.id.search_view_item_tv);
 
             imageView = itemView.findViewById(R.id.search_view_image);
 
-            if (Build.VERSION.SDK_INT >= 21){
-                cardView = itemView.findViewById(R.id.search_view_item_card);
-                cardView.setOnClickListener(this);
 
-            } else {
-                word.setOnClickListener(this);
-            }
+            word.setOnClickListener(this);
+
 
         }
 
