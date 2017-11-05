@@ -27,12 +27,10 @@ import android.provider.SearchRecentSuggestions;
 import android.speech.RecognizerIntent;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -58,11 +56,6 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
     private SearchAdapter searchAdapter;
 
-    //to support vector drawables for lower api
-    static {
-        //complete add vector drawable support
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,11 +171,11 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
             String query = intent.getStringExtra(SearchManager.QUERY);
             validWordSubmit(query);
         }
-
-        //fillArray();
         searchAdapter = new SearchAdapter(this, this, arrayList);
 
         recyclerView.setAdapter(searchAdapter);
+
+        searchView.requestFocus(1);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -199,12 +192,13 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
             Intent intent = new Intent(SearchActivity.this, DetailsActivity.class);
             intent.setData(uri);
             startActivity(intent);
+
+            searchView.clearFocus();
         }
 
         if (cursor != null) {
             cursor.close();
         }
-
     }
 
     //don't need this methods
@@ -245,21 +239,21 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null && matches.size() > 0) {
-                String searchWrd = matches.get(0);
-                if (!TextUtils.isEmpty(searchWrd)) {
-                    searchView.setQuery(searchWrd, true);
-                }
-            }
-
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_VOICE && resultCode == RESULT_OK) {
+//            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+//            if (matches != null && matches.size() > 0) {
+//                String searchWrd = matches.get(0);
+//                if (!TextUtils.isEmpty(searchWrd)) {
+//                    searchView.setQuery(searchWrd, true);
+//                }
+//            }
+//
+//            return;
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
     @Override
     protected void onStop() {
@@ -290,6 +284,8 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
                 DetailsActivity.class).setData(uri));
 
         setRecentQuery(s);
+
+        searchView.clearFocus();
 
         //clearSearchView();
     }
