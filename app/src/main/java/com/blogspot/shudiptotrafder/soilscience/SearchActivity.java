@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.speech.RecognizerIntent;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,7 +72,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
         setContentView(R.layout.activity_search);
 
-        Toolbar toolbar =  findViewById(R.id.search_toolbar);
+        Toolbar toolbar = findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
 
         //ImageButton imageButton = findViewById(R.id.voice);
@@ -92,24 +93,12 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
         searchView.setQueryRefinementEnabled(true);
 
+        //fillArray(searchManager);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
-                Cursor cursor = getContentResolver().query(uri,
-                        ConstantUtils.projectionOnlyWord, null, null, null);
-
-                if (cursor != null && cursor.getCount() > 0) {
-                    Intent intent = new Intent(SearchActivity.this, DetailsActivity.class);
-                    intent.setData(uri);
-                    startActivity(intent);
-
-                    //setRecentQuery(query);
-                }
-
-                if (cursor != null) {
-                    cursor.close();
-                }
+                validWordSubmit(query);
                 return true;
             }
 
@@ -142,7 +131,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
                         searchAdapter.swapCursor(arrayList);
                     }
 
-                    if (cursor != null){
+                    if (cursor != null) {
                         cursor.close();
                     }
 
@@ -152,6 +141,24 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
                 }
             }
         });
+
+        // must use this to prevent recreating activity
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return true;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                CursorAdapter selectedView = searchView.getSuggestionsAdapter();
+                Cursor cursor = (Cursor) selectedView.getItem(position);
+                int index = cursor.getColumnIndexOrThrow(SearchManager.SUGGEST_COLUMN_TEXT_1);
+                searchView.setQuery(cursor.getString(index), true);
+                return true;
+            }
+        });
+
 
         RecyclerView recyclerView = findViewById(R.id.searchViewRec);
 
@@ -164,24 +171,40 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
         recyclerView.setLayoutManager(manager);
 
-        searchAdapter = new SearchAdapter(this,this,arrayList);
 
-        recyclerView.setAdapter(searchAdapter);
-
-        //imageButton.setOnClickListener(v -> askSpeechInput());
-
-
-        Intent intent  = getIntent();
+        Intent intent = getIntent();
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            setRecentQuery(query);
-            searchView.setQuery(query,true);
+            validWordSubmit(query);
         }
+
+        fillArray();
+        searchAdapter = new SearchAdapter(this, this, arrayList);
+
+        recyclerView.setAdapter(searchAdapter);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    private void validWordSubmit(String word) {
+        Uri uri = MainWordDBContract.Entry.buildUriWithWord(word.toUpperCase());
+        Cursor cursor = getContentResolver().query(uri,
+                ConstantUtils.projectionOnlyWord, null, null, null);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            setRecentQuery(word);
+            Intent intent = new Intent(SearchActivity.this, DetailsActivity.class);
+            intent.setData(uri);
+            startActivity(intent);
+        }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+
     }
 
     //don't need this methods
@@ -209,7 +232,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_historyClear:
                 suggestions.clearHistory();
                 break;
@@ -242,7 +265,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
     protected void onStop() {
         super.onStop();
         arrayList.clear();
-        clearSearchView();
+        //clearSearchView();
     }
 
     @Override
@@ -262,22 +285,22 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
     @Override
     public void onItemClickListener(String s) {
-            Uri uri = MainWordDBContract.Entry.buildUriWithWord(s.toUpperCase());
-            startActivity(new Intent(SearchActivity.this,
-                    DetailsActivity.class).setData(uri));
+        Uri uri = MainWordDBContract.Entry.buildUriWithWord(s.toUpperCase());
+        startActivity(new Intent(SearchActivity.this,
+                DetailsActivity.class).setData(uri));
 
-            setRecentQuery(s);
+        setRecentQuery(s);
 
-            clearSearchView();
+        //clearSearchView();
     }
 
-    private void setRecentQuery(String query){
-        if (suggestions != null){
+    private void setRecentQuery(String query) {
+        if (suggestions != null) {
             suggestions.saveRecentQuery(query, null);
         }
     }
 
-    private void clearSearchView(){
-        searchView.setQuery("",true);
+    private void clearSearchView() {
+        searchView.setQuery("", true);
     }
 }
