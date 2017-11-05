@@ -179,7 +179,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
             validWordSubmit(query);
         }
 
-        fillArray();
+        //fillArray();
         searchAdapter = new SearchAdapter(this, this, arrayList);
 
         recyclerView.setAdapter(searchAdapter);
