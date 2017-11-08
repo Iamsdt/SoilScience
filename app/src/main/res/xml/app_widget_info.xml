@@ -20,9 +20,16 @@
     android:initialKeyguardLayout="@layout/app_widget"
     android:initialLayout="@layout/app_widget"
     android:minHeight="110dp"
-    android:minWidth="110dp"
+    android:minWidth="180dp"
     android:previewImage="@drawable/icon_round"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="60000"
+    android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen">
 </appwidget-provider>
+
+    <!-- by default update time is 30 min means 30*60*1000 -->
+
+    <!-- for cell 1 40dp-->
+
+<!--for cell 2 110dp -->
+<!-- for cell 3 180 dp-->

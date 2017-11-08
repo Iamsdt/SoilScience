@@ -56,9 +56,9 @@ class AboutActivity : AppCompatActivity() {
             startActivity(Intent(this,DeveloperActivity::class.java))
         }
 
-//        license.setOnClickListener {
-//            customTab("http://www.apache.org/licenses/LICENSE-2.0")
-//        }
+        license.setOnClickListener {
+            customTab("http://www.apache.org/licenses/LICENSE-2.0")
+        }
 
         about_git.setOnClickListener {
             customTab("https://github.com/Iamsdt/SoilScience")

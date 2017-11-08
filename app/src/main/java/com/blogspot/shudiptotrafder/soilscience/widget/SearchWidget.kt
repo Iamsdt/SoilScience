@@ -22,9 +22,8 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.blogspot.shudiptotrafder.soilscience.MainActivity
-
 import com.blogspot.shudiptotrafder.soilscience.R
+import com.blogspot.shudiptotrafder.soilscience.SearchActivity
 
 class SearchWidget : AppWidgetProvider() {
 
@@ -52,14 +51,12 @@ class SearchWidget : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.search_widget)
             // Instruct the widget manager to update the widget
 
-            //TODO change a new search activity
-            val intent = Intent(context,MainActivity::class.java)
+            val intent = Intent(context,SearchActivity::class.java)
             val pendingIntent = PendingIntent.getActivity(context,1,intent,PendingIntent.FLAG_UPDATE_CURRENT)
 
-            views.setOnClickPendingIntent(R.id.switchWidget,pendingIntent)
+            views.setOnClickPendingIntent(R.id.searchWidgetLayout,pendingIntent)
 
-            appWidgetManager.updateAppWidget(appWidgetId, views)
-        }
+            appWidgetManager.updateAppWidget(appWidgetId, views)        }
     }
 }
 

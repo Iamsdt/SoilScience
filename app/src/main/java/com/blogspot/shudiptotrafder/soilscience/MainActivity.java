@@ -17,14 +17,12 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -40,12 +38,13 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,13 +60,9 @@ import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.FileImportExportUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
+import com.github.fabtransitionactivity.SheetLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
-import br.com.mauker.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -75,15 +70,18 @@ public class MainActivity extends AppCompatActivity
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int THEME_CHANGER_REQUEST_CODE = 111;
+    //private static final int REQUEST_CODE_SHEET_LAYOUT = 151;
+
 
     //recycler view adapter
     private CustomCursorAdapter mAdapter;
 
     //material search view
-    private MaterialSearchView searchView;
+    //private MaterialSearchView searchView;
 
     //floating action button
     private FloatingActionButton fab;
+    private SheetLayout sheetLayout;
 
     private boolean nightModeStatus;
 
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //assign view
-        searchView = findViewById(R.id.search_view);
+        //searchView = findViewById(R.id.search_view);
 
         RecyclerView recyclerView = findViewById(R.id.mainRecycleView);
         final LinearLayoutManager manager = new LinearLayoutManager(this,
@@ -117,12 +115,12 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(mAdapter);
 
         //load app intro
-        SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME,MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(ConstantUtils.APP_OPEN_FIRST_TIME, MODE_PRIVATE);
 
-        boolean status = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS,false);
+        boolean status = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS, false);
 
-        if (!status){
-            startActivity(new Intent(this,MyAppIntro.class));
+        if (!status) {
+            startActivity(new Intent(this, MyAppIntro.class));
         }
 
         SharedPreferences sharedPreferences =
@@ -131,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //set all search action
-        setAllSearchOption();
+        //setAllSearchOption();
 
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
@@ -141,58 +139,12 @@ public class MainActivity extends AppCompatActivity
 
 
         fab = findViewById(R.id.main_fab);
+        sheetLayout = findViewById(R.id.bottom_sheet);
+        sheetLayout.setFab(fab);
+
         fab.setOnClickListener(view -> {
-            String word = mAdapter.getRandomWord();
-            Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
-            String description = Utility.getWordWithDes(getBaseContext(), mUri);
-
-
-//            DisplayMetrics displayMetrics = new DisplayMetrics();
-//            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = getLayoutInflater();
-            @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.random_layout, null);
-            dialogBuilder.setView(dialogView);
-
-            final TextView wordTV = dialogView.findViewById(R.id.rand_word);
-            final TextView desTV = dialogView.findViewById(R.id.rand_description);
-
-            final ImageView backImg = dialogView.findViewById(R.id.rand_img_back);
-            final ImageView favImg = dialogView.findViewById(R.id.rand_fav_img);
-
-
-            wordTV.setText(word);
-            desTV.setText(description);
-
-            AlertDialog b = dialogBuilder.create();
-            //b.setCancelable(false);
-            b.show();
-
-            //control dialog size
-//            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-//
-//            if (b.getWindow() != null) {
-//                lp.copyFrom(b.getWindow().getAttributes());
-//                lp.width = displayMetrics.widthPixels - 5;
-//                //lp.height = displayMetrics.heightPixels - 50;
-//                b.getWindow().setAttributes(lp);
-//            }
-
-            backImg.setOnClickListener(view1 -> {
-                if (b.isShowing()) b.dismiss();
-            });
-
-            favImg.setOnClickListener(view1 -> {
-                ContentValues values = new ContentValues();
-                values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, true);
-                int update = getContentResolver().update(mUri, values, null, null);
-
-                if (update != -1) {
-                    Toast.makeText(this, "Add to favourite", Toast.LENGTH_SHORT).show();
-                }
-            });
-
+            sheetLayout.expandFab();
+            showRandomword();
         });
 
         //fab hide with recycler view scroll
@@ -223,6 +175,72 @@ public class MainActivity extends AppCompatActivity
 
         FirebaseAnalytics.getInstance(this)
                 .logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
+
+    }
+
+    private void showRandomword() {
+
+        String word = mAdapter.getRandomWord();
+        Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
+        String description = Utility.getWordWithDes(getBaseContext(), mUri);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        @SuppressLint("InflateParams") final View dialogView = inflater.inflate(R.layout.random_layout, null);
+        dialogBuilder.setView(dialogView);
+
+        final TextView wordTV = dialogView.findViewById(R.id.rand_word);
+        final TextView desTV = dialogView.findViewById(R.id.rand_description);
+
+        final ImageView backImg = dialogView.findViewById(R.id.rand_img_back);
+        final ImageView favImg = dialogView.findViewById(R.id.rand_fav_img);
+
+
+        wordTV.setText(word);
+        desTV.setText(description);
+
+        AlertDialog b = dialogBuilder.create();
+        //b.setCancelable(false);
+        b.show();
+
+        //set touch outside off
+        b.setCanceledOnTouchOutside(false);
+
+        b.setOnDismissListener(dialog -> {
+            if (sheetLayout.isFabExpanded()) {
+                sheetLayout.contractFab();
+            }
+        });
+
+        //control dialog size
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+
+        if (b.getWindow() != null) {
+            lp.copyFrom(b.getWindow().getAttributes());
+            lp.width = displayMetrics.widthPixels - 5;
+            lp.height = displayMetrics.heightPixels - 50;
+            b.getWindow().setAttributes(lp);
+        }
+
+        backImg.setOnClickListener(view1 -> {
+            if (b.isShowing()) {
+                b.dismiss();
+                sheetLayout.contractFab();
+            }
+        });
+
+        favImg.setOnClickListener(view1 -> {
+            ContentValues values = new ContentValues();
+            values.put(MainWordDBContract.Entry.COLUMN_FAVOURITE, true);
+            int update = getContentResolver().update(mUri, values, null, null);
+
+            if (update != -1) {
+                Toast.makeText(this, "Add to favourite", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -278,7 +296,11 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        searchView.activityResumed();
+        //searchView.activityResumed();
+
+        if (sheetLayout.isFabExpanded()) {
+            sheetLayout.contractFab();
+        }
 
         // re-queries for all tasks
         getSupportLoaderManager().restartLoader(ConstantUtils.MAIN_LOADER_ID, null, this);
@@ -290,12 +312,15 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
-        } else if (searchView.isOpen()) {
-            searchView.closeSearch();
+        } else if (sheetLayout.isFabExpanded()) {
+            sheetLayout.contractFab();
 
         } else {
             super.onBackPressed();
         }
+//        else if (searchView.isOpen()) {
+//            searchView.closeSearch();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -339,11 +364,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     //copyright dialog
-    private void Copyright(){
+    private void Copyright() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Copyright");
         builder.setMessage(getString(R.string.copyrightMS));
-        builder.setNeutralButton("ok", (dialogInterface, i) -> {});
+        builder.setNeutralButton("ok", (dialogInterface, i) -> {
+        });
         builder.setIcon(getResources().getDrawable(R.drawable.ic_copyright));
 
         AlertDialog dialog = builder.create();
@@ -351,11 +377,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     //terms of use dialog
-    private void termsOfUse(){
+    private void termsOfUse() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Terms of Use");
         builder.setMessage(getString(R.string.terms_of_use));
-        builder.setNeutralButton("ok", (dialogInterface, i) -> {});
+        builder.setNeutralButton("ok", (dialogInterface, i) -> {
+        });
         builder.setIcon(getResources().getDrawable(R.drawable.ic_law));
 
         AlertDialog dialog = builder.create();
@@ -371,7 +398,7 @@ public class MainActivity extends AppCompatActivity
 
         MenuItem nightMode = menu.findItem(R.id.nightMode);
 
-        if (nightModeStatus){
+        if (nightModeStatus) {
             nightMode.setIcon(R.drawable.ic_half_moon);
 
         } else {
@@ -420,138 +447,144 @@ public class MainActivity extends AppCompatActivity
     }
 
     //search operation
-    private void setAllSearchOption() {
 
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
-                Cursor cursor = getContentResolver().query(uri,
-                        ConstantUtils.projectionOnlyWord, null, null, null);
-
-                if (cursor != null && cursor.getCount() > 0) {
-                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                    intent.setData(uri);
-                    startActivity(intent);
-                    searchView.closeSearch();
-                    searchView.setCloseOnTintClick(false);
-                }
-
-                if (cursor != null) {
-                    cursor.close();
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                if (newText.length() > 0) {
-                    // TODO: 7/6/2017 add settings for user choice that user want search
-
-                    String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
-                    //if you are try to search from any position of word
-                    //then use
-                    //String[] selectionArg = new String[]{"%"+newText+"%"};
-                    //if you try to search from start of word the use this line
-                    String[] selectionArg = new String[]{newText + "%"};
-
-                    Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
-                            ConstantUtils.projectionOnlyWord, selection, selectionArg, null);
-
-                    if (cursor != null && cursor.getCount() > 0) {
-                        mAdapter.AnimationOFF = true;
-                        mAdapter.swapCursor(cursor);
-                    }
-
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-
-        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewOpened() {
-
-                if (fab.isShown()) {
-                    fab.hide();
-                }
-
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                if (!fab.isShown()) {
-                    fab.show();
-                }
-            }
-        });
-
-
-//        searchView.setTintAlpha(200);
-        searchView.adjustTintAlpha(0.8f);
-
-
-        searchView.setOnVoiceClickedListener(this::askSpeechInput);
-
-    }
+//    private void setAllSearchOption() {
+//
+//        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//
+//                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
+//                Cursor cursor = getContentResolver().query(uri,
+//                        ConstantUtils.projectionOnlyWord, null, null, null);
+//
+//                if (cursor != null && cursor.getCount() > 0) {
+//                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+//                    intent.setData(uri);
+//                    startActivity(intent);
+//                    searchView.closeSearch();
+//                    searchView.setCloseOnTintClick(false);
+//                }
+//
+//                if (cursor != null) {
+//                    cursor.close();
+//                }
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                if (newText.length() > 0) {
+//                    // TODO: 7/6/2017 add settings for user choice that user want search
+//
+//                    String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
+//                    //if you are try to search from any position of word
+//                    //then use
+//                    //String[] selectionArg = new String[]{"%"+newText+"%"};
+//                    //if you try to search from start of word the use this line
+//                    String[] selectionArg = new String[]{newText + "%"};
+//
+//                    Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
+//                            ConstantUtils.projectionOnlyWord, selection, selectionArg, null);
+//
+//                    if (cursor != null && cursor.getCount() > 0) {
+//                        mAdapter.AnimationOFF = true;
+//                        mAdapter.swapCursor(cursor);
+//                    }
+//
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
+//
+//        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
+//            @Override
+//            public void onSearchViewOpened() {
+//
+//                if (fab.isShown()) {
+//                    fab.hide();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onSearchViewClosed() {
+//                if (!fab.isShown()) {
+//                    fab.show();
+//                }
+//            }
+//        });
+//
+//
+//        //        searchView.setTintAlpha(200);
+//        searchView.adjustTintAlpha(0.8f);
+//
+//
+//        searchView.setOnVoiceClickedListener(this::askSpeechInput);
+//
+//    }
 
     // Showing google speech input dialog
-    private void askSpeechInput() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speak your desire word");
-        try {
-            startActivityForResult(intent, MaterialSearchView.REQUEST_VOICE);
-        } catch (ActivityNotFoundException a) {
-            a.printStackTrace();
-            Utility.showLogThrowable("Activity not found", a);
-            Toast.makeText(this, "Sorry Speech To Text is not " +
-                    "supported in your device", Toast.LENGTH_SHORT).show();
-        }
-    }
+    /**
+     * private void askSpeechInput() {
+     * Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+     * <p>
+     * intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+     * RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+     * <p>
+     * intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+     * intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+     * "Speak your desire word");
+     * try {
+     * startActivityForResult(intent, MaterialSearchView.REQUEST_VOICE);
+     * } catch (ActivityNotFoundException a) {
+     * a.printStackTrace();
+     * Utility.showLogThrowable("Activity not found", a);
+     * Toast.makeText(this, "Sorry Speech To Text is not " +
+     * "supported in your device", Toast.LENGTH_SHORT).show();
+     * }
+     * }
+     */
 
     // Receiving speech input
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null && matches.size() > 0) {
-                String searchWrd = matches.get(0);
-                if (!TextUtils.isEmpty(searchWrd)) {
+//        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+//            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+//            if (matches != null && matches.size() > 0) {
+//                String searchWrd = matches.get(0);
+//                if (!TextUtils.isEmpty(searchWrd)) {
+//
+//                    //searchView.setQuery(searchWrd, false);
+//                    Uri uri = MainWordDBContract.Entry.
+//                            buildUriWithWord(searchWrd.toUpperCase());
+//
+//                    Cursor cursor = getContentResolver().query(uri,
+//                            ConstantUtils.projectionOnlyWord, null, null, null);
+//
+//                    if (cursor != null && cursor.getCount() > 0) {
+//                        Intent intent = new Intent(MainActivity.this,
+//                                DetailsActivity.class);
+//                        intent.setData(uri);
+//                        startActivity(intent);
+//                        searchView.closeSearch();
+//                        searchView.setCloseOnTintClick(false);
+//                    }
+//
+//                    if (cursor != null) {
+//                        cursor.close();
+//                    }
+//                }
+//            }
+//
+//        }
 
-                    searchView.setQuery(searchWrd, false);
-                    Uri uri = MainWordDBContract.Entry.
-                            buildUriWithWord(searchWrd.toUpperCase());
-
-                    Cursor cursor = getContentResolver().query(uri,
-                            ConstantUtils.projectionOnlyWord, null, null, null);
-
-                    if (cursor != null && cursor.getCount() > 0) {
-                        Intent intent = new Intent(MainActivity.this,
-                                DetailsActivity.class);
-                        intent.setData(uri);
-                        startActivity(intent);
-                        searchView.closeSearch();
-                        searchView.setCloseOnTintClick(false);
-                    }
-
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-            }
-
-        } else if (requestCode == THEME_CHANGER_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == THEME_CHANGER_REQUEST_CODE && resultCode == RESULT_OK) {
             recreate();
         }
 
@@ -605,6 +638,6 @@ public class MainActivity extends AppCompatActivity
         Uri wordUri = MainWordDBContract.Entry.buildUriWithWord(word);
         intent.setData(wordUri);
         startActivity(intent);
-        searchView.closeSearch();
+        //searchView.closeSearch();
     }
 }

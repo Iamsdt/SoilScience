@@ -15,13 +15,14 @@
   ~ limitations under the License.
   -->
 
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="com.blogspot.shudiptotrafder.soilscience.AppWidgetInfoConfigureActivity"
-    android:initialKeyguardLayout="@layout/app_widget"
-    android:initialLayout="@layout/app_widget"
-    android:minHeight="110dp"
-    android:minWidth="180dp"
-    android:previewImage="@drawable/icon_round"
-    android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="86400000"
-    android:widgetCategory="home_screen|keyguard"/>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Swipe Layout-->
+    <include layout="@layout/undo_layout" />
+
+    <!-- Regular Layout-->
+    <include layout="@layout/main_recycler_view_list" />
+
+</FrameLayout>

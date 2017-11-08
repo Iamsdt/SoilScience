@@ -20,6 +20,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -43,24 +44,17 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //Utility.setNightMode(this);
-        ThemeUtils.initialize(this);
         super.onCreate(savedInstanceState);
 
-//        boolean introStatus = preferences.getBoolean(ConstantUtils.APP_INTRO_STATUS,
-//                false);
-//
-//        if (!introStatus){
-//            startActivity(new Intent(this,MyAppIntro.class));
-//            finish();
-//        }
+        if (Build.VERSION.SDK_INT >= 21){
+            ThemeUtils.initialize(this);
+        }
 
         setContentView(R.layout.activity_splash);
 
-        ImageView imageView = (ImageView) findViewById(R.id.splash_imageView);
-        TextView app = (TextView) findViewById(R.id.splash_app);
-        TextView appAbout = (TextView) findViewById(R.id.splash_appAbout);
+        ImageView imageView = findViewById(R.id.splash_imageView);
+        TextView app = findViewById(R.id.splash_app);
+        TextView appAbout = findViewById(R.id.splash_appAbout);
 
 
         Animation set = AnimationUtils.loadAnimation(this,

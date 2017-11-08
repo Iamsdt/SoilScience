@@ -115,7 +115,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="3"
                 android:text="@string/random_word"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

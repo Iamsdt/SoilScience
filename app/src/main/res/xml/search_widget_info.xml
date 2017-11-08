@@ -19,8 +19,10 @@
     android:initialKeyguardLayout="@layout/search_widget"
     android:initialLayout="@layout/search_widget"
     android:minHeight="40dp"
-    android:minWidth="40dp"
-    android:previewImage="@drawable/ic_search"
-    android:resizeMode="none"
-    android:updatePeriodMillis="1800000"
-    android:widgetCategory="home_screen|keyguard"/>
+    android:minWidth="110dp"
+    android:previewImage="@drawable/search_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen"/>
+
+    <!-- by default update time is 30 min means 30*60*1000 -->

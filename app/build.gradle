@@ -80,7 +80,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:26.1.0'
 
     //searchView
-    compile 'br.com.mauker.materialsearchview:materialsearchview:1.2.2'
+    //compile 'br.com.mauker.materialsearchview:materialsearchview:1.2.2'
 
     //kotlin support
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -106,6 +106,9 @@ dependencies {
     compile 'com.android.support:customtabs:26.1.0'
 
     compile 'com.github.codekidX:storage-chooser:2.0.1'
+
+    //fab
+    implementation 'com.github.coyarzun89:fabtransitionactivity:0.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

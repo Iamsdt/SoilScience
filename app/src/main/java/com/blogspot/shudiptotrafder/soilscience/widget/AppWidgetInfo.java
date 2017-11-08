@@ -22,18 +22,23 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.blogspot.shudiptotrafder.soilscience.DetailsActivity;
+import com.blogspot.shudiptotrafder.soilscience.MainActivity;
 import com.blogspot.shudiptotrafder.soilscience.R;
+import com.blogspot.shudiptotrafder.soilscience.SearchActivity;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 
 import java.util.Random;
 
 public class AppWidgetInfo extends AppWidgetProvider {
 
+    public static final String ACTION = "com.blogspot.shudiptotrafder.soilscience.widget";
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+                                int appWidgetId, int[] appWidgetIds) {
 
         String word = "word";
         String des = "des";
@@ -80,12 +85,40 @@ public class AppWidgetInfo extends AppWidgetProvider {
         views.setTextViewText(R.id.widget_word,word);
         views.setTextViewText(R.id.widget_des,des);
 
-        Intent intent = new Intent(context,DetailsActivity.class);
-        intent.setData(MainWordDBContract.Entry.buildUriWithWord(word));
+        Intent wordIntent = new Intent(context,DetailsActivity.class);
+        wordIntent.setData(MainWordDBContract.Entry.buildUriWithWord(word));
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,wordIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
+
+
+        //for app icon
+        Intent appIntent = new Intent(context,MainActivity.class);
+        PendingIntent appPendingIntent = PendingIntent.getActivity(context,157,appIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.app_widget_icon, appPendingIntent);
+
+        //for tv
+        PendingIntent tvPendingIntent = PendingIntent.getActivity(context,175,appIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.app_widget_TV, tvPendingIntent);
+
+        //for search btn
+        Intent searchIntent = new Intent(context,SearchActivity.class);
+        PendingIntent searchPendingIntent = PendingIntent.getActivity(context,177,searchIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.app_widget_SearchBtn, searchPendingIntent);
+
+        //for refresh
+        Intent refreshIntent = new Intent(context,AppWidgetInfo.class);
+        refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+
+
+        PendingIntent refreshPendingIntent = PendingIntent.getActivity(context,197,refreshIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.app_widget_refreshBtn, refreshPendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -95,8 +128,9 @@ public class AppWidgetInfo extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateAppWidget(context, appWidgetManager, appWidgetId,appWidgetIds);
         }
+
     }
 
     @Override
@@ -107,6 +141,24 @@ public class AppWidgetInfo extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        //super.onReceive(context, intent);
+
+        if (intent.getAction() != null && intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                int[] appWidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+                if (appWidgetIds != null && appWidgetIds.length > 0) {
+                    //Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show();
+                    this.onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds);
+                }
+            }
+        }
+
     }
 
     @Override

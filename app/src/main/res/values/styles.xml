@@ -84,6 +84,7 @@
 
 
     <!-- material searchView -->
+    <!--
     <style name="MaterialSearchViewStyle">
         <item name="searchBackground">@color/mSearchWhite</item>
         <item name="searchVoiceIcon">@drawable/ic_action_voice_search</item>
@@ -96,6 +97,6 @@
         <item name="android:textColorHint">@color/mSearchGray</item>
         <item name="android:hint">@string/search_hint</item>
         <item name="android:inputType">textCapWords</item>
-    </style>
+    </style> -->
 
 </resources>
