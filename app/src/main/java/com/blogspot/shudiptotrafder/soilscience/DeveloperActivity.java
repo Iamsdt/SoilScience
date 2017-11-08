@@ -122,7 +122,7 @@ public class DeveloperActivity extends AppCompatActivity {
     // complete: 6/16/2017 Firebase database
     // complete: 6/16/2017 user add word will be real time database
 
-    // TODO: 6/16/2017 favourite swap will show a dialog
+    // complete: 6/16/2017 favourite swap will show a dialog
     // complete: 6/16/2017 night mode move from settings to navigation drawer
 
     // complete: 8/4/2017 if user open this app for first time then show a import dialog

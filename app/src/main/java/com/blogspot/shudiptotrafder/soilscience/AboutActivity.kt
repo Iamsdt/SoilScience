@@ -22,8 +22,6 @@ import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.content_about.*
@@ -38,19 +36,6 @@ class AboutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about)
         setSupportActionBar(toolbar)
 
-        val spinner: Spinner = findViewById(R.id.spinner)
-
-        val categories = ArrayList<String>()
-        categories.add("EVERYDAY")
-        categories.add("TODAY")
-        categories.add("SCHEDULE")
-
-        val dataAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-
-
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.adapter = dataAdapter
 
         about_dev.setOnClickListener {
             startActivity(Intent(this,DeveloperActivity::class.java))
