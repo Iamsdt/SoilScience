@@ -34,6 +34,7 @@
             android:src="@drawable/icon_round"
             android:contentDescription="app icon"
             tools:ignore="HardcodedText"
+            android:padding="10dp"
             android:layout_marginStart="5dp"
             android:id="@+id/app_widget_icon"
             android:layout_gravity="center"/>
@@ -42,11 +43,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Soil Science Dictionary"
-            android:layout_weight="1"
-            android:paddingStart="10dp"
+            android:padding="10dp"
+            android:layout_weight="2"
             android:textSize="18sp"
             android:layout_gravity="center"
-            android:paddingEnd="5dp"
             android:id="@+id/app_widget_TV"
             tools:ignore="HardcodedText"
             android:textColor="@color/green_a100"/>
@@ -54,22 +54,24 @@
         <!-- todo fix this-->
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@android:drawable/ic_menu_search"
             android:background="@android:color/transparent"
             android:contentDescription="search button"
+            android:padding="10dp"
             android:layout_gravity="center"
             tools:ignore="HardcodedText"
             android:id="@+id/app_widget_SearchBtn"/>
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_refresh"
             android:contentDescription="refresh button"
             android:background="@android:color/transparent"
             tools:ignore="HardcodedText"
+            android:padding="10dp"
             android:layout_marginEnd="5dp"
             android:layout_gravity="center"
             android:id="@+id/app_widget_refreshBtn"/>
