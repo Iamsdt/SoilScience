@@ -42,7 +42,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         license.setOnClickListener {
-            customTab("http://www.apache.org/licenses/LICENSE-2.0")
+            //customTab("http://www.apache.org/licenses/LICENSE-2.0")
         }
 
         about_git.setOnClickListener {
