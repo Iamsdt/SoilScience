@@ -48,17 +48,17 @@ public class UserAddActivity extends AppCompatActivity {
         ThemeUtils.initialize(this);
 
         setContentView(R.layout.activity_user_add);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // views
-        wordEt = (EditText) findViewById(R.id.addWordEt);
-        desEt = (EditText) findViewById(R.id.addDesEt);
+        wordEt = findViewById(R.id.addWordEt);
+        desEt = findViewById(R.id.addDesEt);
 
-        wordLayout = (TextInputLayout) findViewById(R.id.addWordLayout);
-        desLayout = (TextInputLayout) findViewById(R.id.addDesLayout);
+        wordLayout = findViewById(R.id.addWordLayout);
+        desLayout = findViewById(R.id.addDesLayout);
 
-        Button button = (Button) findViewById(R.id.submitBtn);
+        Button button = findViewById(R.id.submitBtn);
 
 
         //button click listener

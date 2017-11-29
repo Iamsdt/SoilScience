@@ -46,7 +46,7 @@
 
             <!--todo change user picture-->
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/content_dev_imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/developer_picture"

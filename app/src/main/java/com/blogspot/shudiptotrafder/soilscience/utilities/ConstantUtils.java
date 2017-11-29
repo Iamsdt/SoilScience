@@ -51,8 +51,11 @@ public class ConstantUtils {
     public static final int MAIN_LOADER_ID = 123;
     //Details loader id
     public static final int DETAILS_LOADER_ID = 321;
-    //favourite loader id
-    public static final int FAVOURITE_LOADER_ID = 132;
+
+// --Commented out by Inspection START (11/29/2017 9:41 PM):
+//    //favourite loader id
+//    public static final int FAVOURITE_LOADER_ID = 132;
+// --Commented out by Inspection STOP (11/29/2017 9:41 PM)
 
 
     /*Database column select*/

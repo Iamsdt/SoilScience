@@ -41,17 +41,18 @@ import java.util.List;
 
 /**
  * Created by Shudipto Trafder on 11/8/2017.
+ * at 9:35 PM
  */
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyViewHolder> {
 
     private static final int PENDING_REMOVAL_TIMEOUT = 3000; // 3sec
-    private Handler handler = new Handler(); // hanlder for running delayed runnables
-    HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
+    private final Handler handler = new Handler(); // hanlder for running delayed runnables
+    private final HashMap<String, Runnable> pendingRunnables = new HashMap<>(); // map of items to pending runnables, so we can cancel a removal if need be
 
 
-    private List<String> dataList;
-    private List<String> itemsPendingRemoval;
+    private final List<String> dataList;
+    private final List<String> itemsPendingRemoval;
 
     private final FavouriteAdapter.ClickListener clickListener;
 
@@ -60,7 +61,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
     //private int previousPosition = -1;
 
 
-    private boolean isDeleteRequest = false;
+    //private boolean isDeleteRequest = false;
 
 
     public FavouriteAdapter(FavouriteAdapter.ClickListener clickListener,
@@ -90,9 +91,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
             holder.regular.setVisibility(View.GONE);
             holder.swipe.setVisibility(View.VISIBLE);
 
-            holder.undo.setOnClickListener(v -> {
-                undoOpt(data);
-            });
+            holder.undo.setOnClickListener(v -> undoOpt(data));
 
         } else {
             holder.swipe.setVisibility(View.GONE);
@@ -135,12 +134,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
             // this will redraw row in "undo" state
             notifyItemChanged(position);
             // let's create, store and post a runnable to remove the data
-            Runnable pendingRemovalRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    remove(dataList.indexOf(data), view);
-                }
-            };
+            Runnable pendingRemovalRunnable = () -> remove(dataList.indexOf(data), view);
             handler.postDelayed(pendingRemovalRunnable, PENDING_REMOVAL_TIMEOUT);
             pendingRunnables.put(data, pendingRemovalRunnable);
         }
@@ -188,8 +182,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
         final TextView word;
         CardView cardView;
 
-        LinearLayout regular, swipe;
-        TextView delete, undo;
+        final LinearLayout regular;
+        final LinearLayout swipe;
+        final TextView delete;
+        final TextView undo;
 
 
         /**
@@ -210,7 +206,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
 
 
             if (Build.VERSION.SDK_INT >= 21) {
-                cardView = (CardView) itemView.findViewById(R.id.mainRecycleView_Card);
+                cardView = itemView.findViewById(R.id.mainRecycleView_Card);
                 cardView.setOnClickListener(this);
 
             } else {

@@ -32,6 +32,7 @@ import com.blogspot.shudiptotrafder.soilscience.R;
 
 /**
  * Created by Shudipto Trafder on 11/7/2017.
+ * at 9:36 PM
  */
 public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
 
@@ -41,13 +42,13 @@ public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
     private int xMarkMargin;
 
     private boolean initiated;
-    private Context context;
+    private final Context context;
 
     private int leftcolorCode;
     private String leftSwipeLable;
 
 
-    public SwipeUtil(int dragDirs, int swipeDirs, Context context) {
+    protected SwipeUtil(@SuppressWarnings("SameParameterValue") int dragDirs, int swipeDirs, Context context) {
         super(dragDirs, swipeDirs);
         this.context = context;
     }
@@ -68,12 +69,6 @@ public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
 
     @Override
     public abstract void onSwiped(RecyclerView.ViewHolder viewHolder, int direction);
-
-    @Override
-    public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-
-        return super.getSwipeDirs(recyclerView, viewHolder);
-    }
 
 
     @Override
@@ -116,15 +111,15 @@ public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
 
-    public String getLeftSwipeLable() {
+    private String getLeftSwipeLable() {
         return leftSwipeLable;
     }
 
-    public void setLeftSwipeLable(String leftSwipeLable) {
+    public void setLeftSwipeLable(@SuppressWarnings("SameParameterValue") String leftSwipeLable) {
         this.leftSwipeLable = leftSwipeLable;
     }
 
-    public int getLeftcolorCode() {
+    private int getLeftcolorCode() {
         return leftcolorCode;
     }
 

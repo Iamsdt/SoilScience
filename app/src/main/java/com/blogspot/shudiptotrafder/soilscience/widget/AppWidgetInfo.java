@@ -35,10 +35,10 @@ import java.util.Random;
 
 public class AppWidgetInfo extends AppWidgetProvider {
 
-    public static final String ACTION = "com.blogspot.shudiptotrafder.soilscience.widget";
+    private static final String ACTION = "com.blogspot.shudiptotrafder.soilscience.widget";
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                        int appWidgetId) {
 
         String word = "word";
         String des = "des";

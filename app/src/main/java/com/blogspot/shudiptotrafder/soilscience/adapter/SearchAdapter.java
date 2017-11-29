@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
@@ -30,7 +29,8 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 import java.util.ArrayList;
 
 /**
- * Created by Shudipto on 11/3/2017.
+ * Created by Shudipto Trafder on 11/3/2017.
+ * at 9:36 PM
  */
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
@@ -124,7 +124,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         // Class variables for the task description and priority TextViews
         final TextView word;
 
-        ImageView imageView;
+        // --Commented out by Inspection (11/29/2017 9:42 PM):final ImageView imageView;
 
         /**
          * Constructor for the TaskViewHolders.
@@ -135,10 +135,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             super(itemView);
 
             word = itemView.findViewById(R.id.search_view_item_tv);
-
-            imageView = itemView.findViewById(R.id.search_view_image);
-
-
+            //imageView = itemView.findViewById(R.id.search_view_image);
             word.setOnClickListener(this);
 
 

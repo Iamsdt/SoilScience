@@ -19,7 +19,8 @@ package com.blogspot.shudiptotrafder.soilscience.data;
 import android.content.SearchRecentSuggestionsProvider;
 
 /**
- * Created by Shudipto on 11/4/2017.
+ * Created by Shudipto Trafder on 11/4/2017.
+ * at 9:35 PM
  */
 
 public class MySuggestionProvider extends SearchRecentSuggestionsProvider {

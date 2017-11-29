@@ -197,12 +197,6 @@ public class FavouriteActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        //getSupportLoaderManager().restartLoader(ConstantUtils.FAVOURITE_LOADER_ID, null, this);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.favourite, menu);

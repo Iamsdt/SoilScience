@@ -162,12 +162,12 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
         ColorHolder(View itemView) {
             super(itemView);
 
-            name = (TextView) itemView.findViewById(R.id.color_list_name);
-            primaryColor = (TextView) itemView.findViewById(R.id.color_list_primary);
-            primaryColorDark = (TextView) itemView.findViewById(R.id.color_list_primaryDark);
-            accentColor = (TextView) itemView.findViewById(R.id.color_list_accent);
+            name = itemView.findViewById(R.id.color_list_name);
+            primaryColor = itemView.findViewById(R.id.color_list_primary);
+            primaryColorDark = itemView.findViewById(R.id.color_list_primaryDark);
+            accentColor = itemView.findViewById(R.id.color_list_accent);
 
-            linearLayout = (LinearLayout) itemView
+            linearLayout = itemView
                     .findViewById(R.id.color_list_linearLayout);
 
             linearLayout.setOnClickListener(this);

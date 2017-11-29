@@ -34,7 +34,7 @@ public class AdvanceSettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_advance_settings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.advanceSettingsToolbar);
+        Toolbar toolbar = findViewById(R.id.advanceSettingsToolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

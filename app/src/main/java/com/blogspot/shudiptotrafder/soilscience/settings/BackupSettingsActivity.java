@@ -34,7 +34,7 @@ public class BackupSettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_backup_settings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.backupSettingsToolbar);
+        Toolbar toolbar = findViewById(R.id.backupSettingsToolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
