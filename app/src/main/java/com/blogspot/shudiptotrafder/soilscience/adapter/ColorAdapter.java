@@ -38,18 +38,18 @@ import com.blogspot.shudiptotrafder.soilscience.theme.ThemesContract;
 import java.util.ArrayList;
 
 /**
- * Created by Shudipto Trafder Trafder.
+ * Created by Shudipto Trafder.
  */
 
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
     private final Context context;
     private final ArrayList<ThemesContract> themeIds;
-    private final ColorClickListener clickListener;
+    private final ItemClickListener clickListener;
 
     public ColorAdapter(Context context,
                         ArrayList<ThemesContract> themeIds,
-                        ColorClickListener clickListener) {
+                        ItemClickListener clickListener) {
 
         this.context = context;
         this.themeIds = themeIds;
@@ -145,10 +145,6 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
     }
 
 
-    public interface ColorClickListener {
-        void onColorItemClick(int id);
-    }
-
     class ColorHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener {
 
@@ -176,7 +172,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
 
         @Override
         public void onClick(View v) {
-            clickListener.onColorItemClick(getAdapterPosition());
+            clickListener.onItemClickListener(getAdapterPosition());
         }
     }
 }

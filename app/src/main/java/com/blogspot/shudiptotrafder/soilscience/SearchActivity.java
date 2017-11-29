@@ -32,6 +32,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.blogspot.shudiptotrafder.soilscience.adapter.ItemClickListener;
 import com.blogspot.shudiptotrafder.soilscience.adapter.SearchAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.data.MySuggestionProvider;
@@ -41,7 +42,7 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity implements
-        SearchAdapter.ClickListener {
+        ItemClickListener {
 
     private SearchView searchView;
     private SearchRecentSuggestions suggestions;
@@ -256,6 +257,11 @@ public class SearchActivity extends AppCompatActivity implements
 
         //clear search view
         clearSearchView();
+    }
+
+    @Override
+    public void onItemClickListener(int i) {
+        //nothing to do
     }
 
     private void setRecentQuery(String query) {

@@ -54,7 +54,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
     private final List<String> dataList;
     private final List<String> itemsPendingRemoval;
 
-    private final FavouriteAdapter.ClickListener clickListener;
+    private final ItemClickListener clickListener;
 
     private final Context mContext;
 
@@ -64,7 +64,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
     //private boolean isDeleteRequest = false;
 
 
-    public FavouriteAdapter(FavouriteAdapter.ClickListener clickListener,
+    public FavouriteAdapter(ItemClickListener clickListener,
                             List<String> dataList, Context context) {
         this.clickListener = clickListener;
         mContext = context;
@@ -171,9 +171,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.MyVi
         return dataList.size();
     }
 
-    public interface ClickListener {
-        void onItemClickListener(String s);
-    }
 
     // Inner class for creating ViewHolders
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

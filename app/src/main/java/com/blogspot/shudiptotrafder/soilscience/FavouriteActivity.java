@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.FavouriteAdapter;
+import com.blogspot.shudiptotrafder.soilscience.adapter.ItemClickListener;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.settings.SettingsActivity;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
@@ -49,7 +50,7 @@ import static com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract.E
 
 
 public class FavouriteActivity extends AppCompatActivity
-        implements FavouriteAdapter.ClickListener {
+        implements ItemClickListener {
 
     //views
     private View noFavourite;
@@ -261,6 +262,11 @@ public class FavouriteActivity extends AppCompatActivity
         Uri wordUri = buildUriWithWord(word);
         intent.setData(wordUri);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemClickListener(int i) {
+        //nothing to do
     }
 }
 

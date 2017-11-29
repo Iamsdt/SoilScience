@@ -50,6 +50,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.CustomCursorAdapter;
+import com.blogspot.shudiptotrafder.soilscience.adapter.ItemClickListener;
 import com.blogspot.shudiptotrafder.soilscience.data.DatabaseUtils;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.services.DataService;
@@ -66,7 +67,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        CustomCursorAdapter.ClickListener,
+        ItemClickListener,
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int THEME_CHANGER_REQUEST_CODE = 111;
@@ -639,5 +640,10 @@ public class MainActivity extends AppCompatActivity
         intent.setData(wordUri);
         startActivity(intent);
         //searchView.closeSearch();
+    }
+
+    @Override
+    public void onItemClickListener(int i) {
+        //nothing to do
     }
 }

@@ -40,7 +40,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     private Cursor mCursor;
     //private Context mContext;
 
-    private final ClickListener clickListener;
+    private final ItemClickListener clickListener;
 
     private final Context mContext;
 
@@ -52,7 +52,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
      *
      * @param context the current Context
      */
-    public CustomCursorAdapter(ClickListener clickListener,Context context) {
+    public CustomCursorAdapter(ItemClickListener clickListener,Context context) {
         this.clickListener = clickListener;
         mContext = context;
     }
@@ -155,10 +155,6 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         Utility.setAnalyticsData(mContext,"Random Word",word);
 
         return word;
-    }
-
-    public interface ClickListener{
-        void onItemClickListener(String s);
     }
 
     // Inner class for creating ViewHolders

@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
 
-    private final ClickListener clickListener;
+    private final ItemClickListener clickListener;
 
     private final Context mContext;
 
@@ -47,7 +47,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
      *
      * @param context the current Context
      */
-    public SearchAdapter(ClickListener clickListener, Context context,
+    public SearchAdapter(ItemClickListener clickListener, Context context,
                          ArrayList<String> arrayList) {
         this.clickListener = clickListener;
         mContext = context;
@@ -83,21 +83,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         String word = arrayList.get(position);
-
-//        if (hashMap.containsKey("suggestion")) {
-//            word = hashMap.get("suggestion");
-//            holder.word.setText(word);
-//        } else {
-//            word = hashMap.get("history");
-//            holder.word.setText(word);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                holder.imageView.setImageDrawable(mContext.getDrawable(android.R.drawable.ic_menu_recent_history));
-//            } else {
-//                holder.imageView.setBackground(
-//                        ContextCompat.getDrawable(mContext,android.R.drawable.ic_menu_recent_history));
-//            }
-//        }
-
         holder.word.setText(word);
         holder.word.setTextSize(Utility.getTextSize(mContext));
     }
@@ -111,11 +96,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         }
 
         return arrayList.size();
-    }
-
-
-    public interface ClickListener {
-        void onItemClickListener(String s);
     }
 
     // Inner class for creating ViewHolders
@@ -143,16 +123,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
         @Override
         public void onClick(View v) {
-
-            //HashMap<String,String> hashMap = arrayList.get(getAdapterPosition());
-
             String word = arrayList.get(getAdapterPosition());
-
-//            if (hashMap.containsKey("suggestion")) {
-//                word = hashMap.get("suggestion");
-//            } else {
-//                word = hashMap.get("history");
-//            }
             clickListener.onItemClickListener(word);
         }
     }

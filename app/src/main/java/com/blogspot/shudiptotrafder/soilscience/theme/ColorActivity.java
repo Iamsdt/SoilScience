@@ -29,13 +29,14 @@ import android.view.MenuItem;
 
 import com.blogspot.shudiptotrafder.soilscience.R;
 import com.blogspot.shudiptotrafder.soilscience.adapter.ColorAdapter;
+import com.blogspot.shudiptotrafder.soilscience.adapter.ItemClickListener;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
 public class ColorActivity extends AppCompatActivity implements
-        ColorAdapter.ColorClickListener {
+        ItemClickListener{
 
     private ArrayList<ThemesContract> themes;
 
@@ -111,13 +112,20 @@ public class ColorActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    public static Intent createIntent(Context context) {
+        return new Intent(context, ColorActivity.class);
+    }
 
     @Override
-    public void onColorItemClick(int id) {
+    public void onItemClickListener(String s) {
+        //nothing to do
+    }
 
+    @Override
+    public void onItemClickListener(int i) {
         // complete: 6/19/2017 add one array this don't use two array list
 
-        ThemesContract themeCont = themes.get(id);
+        ThemesContract themeCont = themes.get(i);
 
         SharedPreferences preferences = getSharedPreferences(ConstantUtils.THEME_SP_KEY, Context.MODE_PRIVATE);
 
@@ -136,9 +144,4 @@ public class ColorActivity extends AppCompatActivity implements
         startActivity(restartIntent);
         overridePendingTransition(0, 0);
     }
-
-    public static Intent createIntent(Context context) {
-        return new Intent(context, ColorActivity.class);
-    }
-
 }
