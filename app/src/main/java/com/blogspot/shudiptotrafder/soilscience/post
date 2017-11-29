@@ -1,10 +1,10 @@
 complete splash screen
-todo settings fragment
-todo settings activity
+complete settings fragment
+complete settings activity
 
 complete menu icon change and share action menu
 
-todo custom tab
+complete custom tab
 
 todo firebase database
 todo firebase storage
@@ -20,6 +20,8 @@ todo android proguard
 
 todo gradle build faster
 
-todo android permission
+complete android permission
+
+todo post undo button
 
 todo app widget

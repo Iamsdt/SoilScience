@@ -38,7 +38,7 @@ public class AppWidgetInfo extends AppWidgetProvider {
     public static final String ACTION = "com.blogspot.shudiptotrafder.soilscience.widget";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, int[] appWidgetIds) {
+                                int appWidgetId) {
 
         String word = "word";
         String des = "des";
@@ -112,11 +112,13 @@ public class AppWidgetInfo extends AppWidgetProvider {
 
         //for refresh
         Intent refreshIntent = new Intent(context,AppWidgetInfo.class);
-        refreshIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+        refreshIntent.setAction(ACTION);
+        refreshIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
 
-        PendingIntent refreshPendingIntent = PendingIntent.getActivity(context,197,refreshIntent,
+        //to update app widget manually we need to set getBroadcast()
+        PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context,
+                197,refreshIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.app_widget_refreshBtn, refreshPendingIntent);
 
@@ -125,45 +127,36 @@ public class AppWidgetInfo extends AppWidgetProvider {
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager,
+                         int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId,appWidgetIds);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-
-    }
-
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-
-    }
-
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        //super.onReceive(context, intent);
+        if (intent.getAction() != null && intent.getAction().equals(ACTION)) {
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+                updateAppWidget(context,AppWidgetManager.getInstance(context),appWidgetId);
+            }
+        } else if (intent.getAction() != null && intent.getAction()
+                .equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)){
 
-        if (intent.getAction() != null && intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
                 int[] appWidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS);
                 if (appWidgetIds != null && appWidgetIds.length > 0) {
-                    //Toast.makeText(context, "Refreshing", Toast.LENGTH_SHORT).show();
-                    this.onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds);
+                    this.onUpdate(context,AppWidgetManager.getInstance(context),appWidgetIds);
                 }
             }
+
         }
 
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 }
 

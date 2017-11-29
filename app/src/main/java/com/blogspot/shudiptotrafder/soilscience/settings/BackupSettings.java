@@ -106,6 +106,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
                         PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}
                             , PERMISSIONS_REQUEST_WRITE_STORAGE_FAVOURITE);
+                    return false;
                 } else {
                     writeFavouriteData();
                 }
