@@ -34,14 +34,17 @@ import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.Random;
 
+/**
+ * Main cursor adapter for recycler view
+ */
 public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.MyViewHolder> {
 
-    // Class variables for the Cursor that holds task data and the Context
+
     private Cursor mCursor;
-    //private Context mContext;
 
     private final ItemClickListener clickListener;
 
+    // Class variables for the Cursor that holds task data and the Context
     private final Context mContext;
 
     private int previousPosition = -1;
@@ -91,26 +94,16 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
 
         holder.itemView.setTag(word);
 
-
-            if(position > previousPosition){ // We are scrolling DOWN
+            if(position > previousPosition){
+                //scrolling DOWN
                 AnimationUtils.animate(holder, true);
 
-            }else{ // We are scrolling UP
+            }else{
+                // time for scrolling up
                 AnimationUtils.animate(holder, false);
             }
 
             previousPosition = position;
-
-
-
-
-//            Animation animation = AnimationUtils.loadAnimation(mContext,
-//                    (position > previousPosition) ? R.anim.up_from_bottom
-//                            : R.anim.down_from_top);
-//            holder.itemView.startAnimation(animation);
-//            previousPosition = position;
-
-
     }
 
     @Override
@@ -152,13 +145,15 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
             word = mCursor.getString(ConstantUtils.INDEX_ONLY_WORD);
         }
 
+        //set analytics data
         Utility.setAnalyticsData(mContext,"Random Word",word);
 
         return word;
     }
 
     // Inner class for creating ViewHolders
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected class MyViewHolder extends
+            RecyclerView.ViewHolder implements View.OnClickListener {
 
         // Class variables for the task description and priority TextViews
         final TextView word;
@@ -188,6 +183,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         public void onClick(View v) {
             mCursor.moveToPosition(getAdapterPosition());
             String word = mCursor.getString(ConstantUtils.INDEX_ONLY_WORD);
+            //pass word
             clickListener.onItemClickListener(word);
         }
     }

@@ -52,12 +52,6 @@ public class ConstantUtils {
     //Details loader id
     public static final int DETAILS_LOADER_ID = 321;
 
-// --Commented out by Inspection START (11/29/2017 9:41 PM):
-//    //favourite loader id
-//    public static final int FAVOURITE_LOADER_ID = 132;
-// --Commented out by Inspection STOP (11/29/2017 9:41 PM)
-
-
     /*Database column select*/
     //selected column form database
     public static final String[] projectionOnlyWord = new String[]
@@ -72,15 +66,15 @@ public class ConstantUtils {
     public static final String FB_REMOTE_CONFIG_STORAGE_KEY = "storage_key";
 
     //settings import export
-    static final String SETTING_IMOUT_OPTION_FAVOUTITR = "favourite.txt";
+    static final String SETTING_IMOUT_OPTION_FAVOURITE = "favourite.txt";
     static final String SETTING_IMOUT_OPTION_USER = "user.txt";
 
 
-    public static final String DEAFUALT_PATH_STORAGE = Environment.getExternalStorageDirectory()
+    public static final String DEFAULT_PATH_STORAGE = Environment.getExternalStorageDirectory()
             .getAbsolutePath()+"/SSDictionary/";
 
     public static final String STORAGE_PATH_KEY = "storage";
-    public static final String STORAGE_PATH = "path";
+    static final String STORAGE_PATH = "path";
 
 
 }

@@ -155,7 +155,7 @@ public class DatabaseUtils {
     }
 
     /**
-     * Check data  check word is already exist or not
+     * Check data check word is already exist or not
      *
      * @param context for access content resolver
      * @param word    check exist of not
@@ -190,8 +190,8 @@ public class DatabaseUtils {
 
     /**
      * This methods for check status of database
-     * we set it from firebase
-     * if we saved new data then we set it from firebase
+     * set it from firebase
+     * if saved new data then set it from firebase
      *
      * @param activity from where activity
      * @return status true or false

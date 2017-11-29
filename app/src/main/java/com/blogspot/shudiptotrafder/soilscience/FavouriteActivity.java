@@ -191,9 +191,9 @@ public class FavouriteActivity extends AppCompatActivity
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 
         //set swipe label
-        swipeHelper.setLeftSwipeLable("Item removed");
+        swipeHelper.setLeftSwipeLabel("Item removed");
         //set swipe background-Color
-        swipeHelper.setLeftcolorCode(ContextCompat.getColor(this, R.color.red_300));
+        swipeHelper.setLeftColorCode(ContextCompat.getColor(this, R.color.red_300));
 
     }
 

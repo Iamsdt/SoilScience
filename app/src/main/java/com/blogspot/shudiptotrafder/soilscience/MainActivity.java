@@ -71,14 +71,9 @@ public class MainActivity extends AppCompatActivity
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int THEME_CHANGER_REQUEST_CODE = 111;
-    //private static final int REQUEST_CODE_SHEET_LAYOUT = 151;
-
 
     //recycler view adapter
     private CustomCursorAdapter mAdapter;
-
-    //material search view
-    //private MaterialSearchView searchView;
 
     //floating action button
     private FloatingActionButton fab;
@@ -145,7 +140,7 @@ public class MainActivity extends AppCompatActivity
 
         fab.setOnClickListener(view -> {
             sheetLayout.expandFab();
-            showRandomword();
+            showRandomised();
         });
 
         //fab hide with recycler view scroll
@@ -179,7 +174,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void showRandomword() {
+    private void showRandomised() {
 
         String word = mAdapter.getRandomWord();
         Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
@@ -250,8 +245,7 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
 
         //check network ability
-        //don't start services
-        //it safe user battery
+        //if network is not found don't start services
         if (Utility.isNetworkAvailable(this)) {
 
             FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -265,18 +259,21 @@ public class MainActivity extends AppCompatActivity
             boolean uploadLeftStatus = DatabaseUtils.checkUploadLeft(this);
 
             if (remoteConfigStatus || uploadLeftStatus) {
+                //first sign in the retrieve value
                 auth.signInAnonymously().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         //check remote config
                         if (remoteConfigStatus) {
-                            Intent intent = new Intent(getApplicationContext(), DataService.class);
+                            Intent intent = new Intent(getApplicationContext(),
+                                    DataService.class);
                             startService(intent);
                             //prevent start again and again
                         }
 
                         //check if any thing left to upload
                         if (uploadLeftStatus) {
-                            startService(new Intent(getApplicationContext(), UploadServices.class));
+                            startService(new Intent(getApplicationContext(),
+                                    UploadServices.class));
                         }
                     }
                 });
@@ -296,8 +293,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
-        //searchView.activityResumed();
 
         if (sheetLayout.isFabExpanded()) {
             sheetLayout.contractFab();
@@ -319,9 +314,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-//        else if (searchView.isOpen()) {
-//            searchView.closeSearch();
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -416,7 +408,7 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.action_search:
-                //searchView.openSearch();
+                //move search view to new activity
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 return true;
 
@@ -436,10 +428,7 @@ public class MainActivity extends AppCompatActivity
                     editor.putBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, true);
                     editor.apply();
                     recreate();
-
                 }
-
-
                 return true;
 
             default:
@@ -447,150 +436,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    //search operation
-
-//    private void setAllSearchOption() {
-//
-//        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                Uri uri = MainWordDBContract.Entry.buildUriWithWord(query.toUpperCase());
-//                Cursor cursor = getContentResolver().query(uri,
-//                        ConstantUtils.projectionOnlyWord, null, null, null);
-//
-//                if (cursor != null && cursor.getCount() > 0) {
-//                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-//                    intent.setData(uri);
-//                    startActivity(intent);
-//                    searchView.closeSearch();
-//                    searchView.setCloseOnTintClick(false);
-//                }
-//
-//                if (cursor != null) {
-//                    cursor.close();
-//                }
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                if (newText.length() > 0) {
-//                    // TODO: 7/6/2017 add settings for user choice that user want search
-//
-//                    String selection = MainWordDBContract.Entry.COLUMN_WORD + " like ? ";
-//                    //if you are try to search from any position of word
-//                    //then use
-//                    //String[] selectionArg = new String[]{"%"+newText+"%"};
-//                    //if you try to search from start of word the use this line
-//                    String[] selectionArg = new String[]{newText + "%"};
-//
-//                    Cursor cursor = getContentResolver().query(MainWordDBContract.Entry.CONTENT_URI,
-//                            ConstantUtils.projectionOnlyWord, selection, selectionArg, null);
-//
-//                    if (cursor != null && cursor.getCount() > 0) {
-//                        mAdapter.AnimationOFF = true;
-//                        mAdapter.swapCursor(cursor);
-//                    }
-//
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//        });
-//
-//        searchView.setSearchViewListener(new MaterialSearchView.SearchViewListener() {
-//            @Override
-//            public void onSearchViewOpened() {
-//
-//                if (fab.isShown()) {
-//                    fab.hide();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onSearchViewClosed() {
-//                if (!fab.isShown()) {
-//                    fab.show();
-//                }
-//            }
-//        });
-//
-//
-//        //        searchView.setTintAlpha(200);
-//        searchView.adjustTintAlpha(0.8f);
-//
-//
-//        searchView.setOnVoiceClickedListener(this::askSpeechInput);
-//
-//    }
-
-    // Showing google speech input dialog
-
-    /**
-     * private void askSpeechInput() {
-     * Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-     * <p>
-     * intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-     * RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-     * <p>
-     * intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-     * intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-     * "Speak your desire word");
-     * try {
-     * startActivityForResult(intent, MaterialSearchView.REQUEST_VOICE);
-     * } catch (ActivityNotFoundException a) {
-     * a.printStackTrace();
-     * Utility.showLogThrowable("Activity not found", a);
-     * Toast.makeText(this, "Sorry Speech To Text is not " +
-     * "supported in your device", Toast.LENGTH_SHORT).show();
-     * }
-     * }
-     */
-
-    // Receiving speech input
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-//        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-//            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-//            if (matches != null && matches.size() > 0) {
-//                String searchWrd = matches.get(0);
-//                if (!TextUtils.isEmpty(searchWrd)) {
-//
-//                    //searchView.setQuery(searchWrd, false);
-//                    Uri uri = MainWordDBContract.Entry.
-//                            buildUriWithWord(searchWrd.toUpperCase());
-//
-//                    Cursor cursor = getContentResolver().query(uri,
-//                            ConstantUtils.projectionOnlyWord, null, null, null);
-//
-//                    if (cursor != null && cursor.getCount() > 0) {
-//                        Intent intent = new Intent(MainActivity.this,
-//                                DetailsActivity.class);
-//                        intent.setData(uri);
-//                        startActivity(intent);
-//                        searchView.closeSearch();
-//                        searchView.setCloseOnTintClick(false);
-//                    }
-//
-//                    if (cursor != null) {
-//                        cursor.close();
-//                    }
-//                }
-//            }
-//
-//        }
 
         if (requestCode == THEME_CHANGER_REQUEST_CODE && resultCode == RESULT_OK) {
             recreate();
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     //for loader
@@ -614,10 +467,12 @@ public class MainActivity extends AppCompatActivity
         boolean restoreState = preferences.getBoolean(ConstantUtils.USER_RESTORE, false);
 
         if (!restoreState) {
-            FileImportExportUtils.checkFileAvailable(this);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean(ConstantUtils.USER_RESTORE, true);
-            editor.apply();
+            new Thread(() -> {
+                FileImportExportUtils.checkFileAvailable(getBaseContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean(ConstantUtils.USER_RESTORE, true);
+                editor.apply();
+            });
         }
 
     }
@@ -642,6 +497,12 @@ public class MainActivity extends AppCompatActivity
         //searchView.closeSearch();
     }
 
+    /**
+     * onClick listener for recycler view
+     * called if click any item on recycler view
+     *
+     * @param i int number
+     */
     @Override
     public void onItemClickListener(int i) {
         //nothing to do

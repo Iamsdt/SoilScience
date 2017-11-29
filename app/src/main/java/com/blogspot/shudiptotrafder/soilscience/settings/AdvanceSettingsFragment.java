@@ -52,7 +52,7 @@ public class AdvanceSettingsFragment extends PreferenceFragmentCompat implements
 
         changeDirPref = findPreference(getString(R.string.advance_dir_add_key));
 
-        changeDirPref.setSummary(ConstantUtils.DEAFUALT_PATH_STORAGE);
+        changeDirPref.setSummary(ConstantUtils.DEFAULT_PATH_STORAGE);
 
         changeDirPref.setOnPreferenceClickListener(preference -> {
 
@@ -76,7 +76,7 @@ public class AdvanceSettingsFragment extends PreferenceFragmentCompat implements
 
     private void selectDir(){
 
-        File file = new File(ConstantUtils.DEAFUALT_PATH_STORAGE);
+        File file = new File(ConstantUtils.DEFAULT_PATH_STORAGE);
 
         if (!file.exists()){
             file.mkdirs();

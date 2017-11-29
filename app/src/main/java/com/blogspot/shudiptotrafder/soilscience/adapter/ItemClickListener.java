@@ -21,7 +21,20 @@ package com.blogspot.shudiptotrafder.soilscience.adapter;
  * at 9:46 PM
  */
 
+
 public interface ItemClickListener {
+    //This class for item click listener for recycler view
+
+
+    /**
+     * This methods for RecyclerView click listener
+     * @param s is a string to pass any text for further use
+     */
     void onItemClickListener(String s);
+
+    /**
+     * This methods for RecyclerView click listener
+     * @param i is a int to pass any int number for further use
+     */
     void onItemClickListener(int i);
 }

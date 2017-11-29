@@ -17,6 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.blogspot.shudiptotrafder.soilscience">
 
+    <!--All permissions-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -31,6 +32,7 @@
         android:supportsRtl="true"
         android:fullBackupContent = "@xml/my_backup_rules"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
@@ -41,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -50,6 +53,7 @@
             android:name=".DetailsActivity"
             android:label="@string/title_activity_details"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
@@ -60,18 +64,22 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".settings.BackupSettingsActivity"
             android:label="@string/sbackup"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".settings.AdvanceSettingsActivity"
             android:label="@string/sAdvance"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".DeveloperActivity"
             android:label="@string/title_activity_developer"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".FavouriteActivity"
             android:label="@string/title_activity_favourite"
@@ -81,6 +89,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
         </activity>
+
         <activity
             android:name=".UserAddActivity"
             android:label="@string/title_activity_user_add"
@@ -90,13 +99,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blogspot.shudiptotrafder.soilscience.MainActivity" />
         </activity>
+
         <activity
             android:name=".theme.ColorActivity"
             android:label="@string/title_activity_color"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".MyAppIntro"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
@@ -119,36 +131,35 @@
 
         </activity>
 
-        <!-- provider -->
+        <!--All providers -->
+        <!--Main Database provider -->
         <provider
             android:name=".data.DataProvider"
             android:authorities="com.blogspot.shudiptotrafder.soilscience"
             android:enabled="true"
             android:exported="false" />
 
+        <!--Search Suggestion database provider -->
         <provider android:name=".data.MySuggestionProvider"
             android:authorities="com.example.MySuggestionProvider"
             android:exported="false"
             android:enabled="true"/>
 
-        <!--
-        <provider
-            android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
-            android:authorities="br.com.mauker.materialsearchview.searchhistorydatabase"
-            android:exported="false"
-            android:protectionLevel="signature"
-            android:syncable="true" /> -->
+        <!-- All services -->
 
-        <!-- services -->
+        <!--Data service for adding remote data -->
         <service
             android:name=".services.DataService"
             android:enabled="true"
             android:exported="false" />
+
+        <!--UploadServices for uploading data to server -->
         <service
             android:name=".services.UploadServices"
             android:enabled="true"
             android:exported="false" />
 
+        <!--Receiver for app widget -->
         <receiver android:name=".widget.AppWidgetInfo">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -158,6 +169,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_info" />
         </receiver>
+
         <receiver android:name=".widget.SearchWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

@@ -44,7 +44,9 @@ import java.util.ArrayList;
 public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
     private final Context context;
+    //contain theme id
     private final ArrayList<ThemesContract> themeIds;
+    //click listener
     private final ItemClickListener clickListener;
 
     public ColorAdapter(Context context,
@@ -68,14 +70,16 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
     @Override
     public void onBindViewHolder(ColorHolder holder, int position) {
 
+        //getting theme object from array list
         ThemesContract themesContract = themeIds.get(position);
 
+        //exert color from theme
         int primary = getThemeAttr(themesContract.getId(), R.attr.colorPrimary);
         int primaryDark = getThemeAttr(themesContract.getId(), R.attr.colorPrimaryDark);
         int accent = getThemeAttr(themesContract.getId(), R.attr.colorAccent);
 
 
-        //textView color
+        //textView color and text
         holder.name.setText(themesContract.getName());
         holder.name.setTextColor(primary);
 
@@ -145,7 +149,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
     }
 
 
-    class ColorHolder extends RecyclerView.ViewHolder implements
+    protected class ColorHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener {
 
         final TextView name;
@@ -172,6 +176,7 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder>
 
         @Override
         public void onClick(View v) {
+            //passing the theme id
             clickListener.onItemClickListener(getAdapterPosition());
         }
     }

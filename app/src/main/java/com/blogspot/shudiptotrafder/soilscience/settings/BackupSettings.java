@@ -85,7 +85,7 @@ public class BackupSettings extends PreferenceFragmentCompat implements
 
         SharedPreferences sp = getContext().getSharedPreferences(ConstantUtils.STORAGE_PATH_KEY, Context.MODE_PRIVATE);
         path = sp.getString(DiskUtil.SC_PREFERENCE_KEY,
-                ConstantUtils.DEAFUALT_PATH_STORAGE);
+                ConstantUtils.DEFAULT_PATH_STORAGE);
 
         //my all preference
         Preference exportFavourite = findPreference(getString(R.string.bps_ex_fav_key));

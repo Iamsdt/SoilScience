@@ -44,8 +44,8 @@ public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
     private boolean initiated;
     private final Context context;
 
-    private int leftcolorCode;
-    private String leftSwipeLable;
+    private int leftColorCode;
+    private String leftSwipeLabel;
 
 
     protected SwipeUtil(@SuppressWarnings("SameParameterValue") int dragDirs, int swipeDirs, Context context) {
@@ -83,7 +83,7 @@ public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
         int itemHeight = itemView.getBottom() - itemView.getTop();
 
         //Setting Swipe Background
-        ((ColorDrawable) background).setColor(getLeftcolorCode());
+        ((ColorDrawable) background).setColor(getLeftColorCode());
         background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
         background.draw(c);
 
@@ -105,25 +105,25 @@ public abstract class SwipeUtil extends ItemTouchHelper.SimpleCallback {
         paint.setColor(Color.WHITE);
         paint.setTextSize(48);
         paint.setTextAlign(Paint.Align.CENTER);
-        c.drawText(getLeftSwipeLable(), xMarkLeft + 40, xMarkTop + 10, paint);
+        c.drawText(getLeftSwipeLabel(), xMarkLeft + 40, xMarkTop + 10, paint);
 
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
 
-    private String getLeftSwipeLable() {
-        return leftSwipeLable;
+    private String getLeftSwipeLabel() {
+        return leftSwipeLabel;
     }
 
-    public void setLeftSwipeLable(@SuppressWarnings("SameParameterValue") String leftSwipeLable) {
-        this.leftSwipeLable = leftSwipeLable;
+    public void setLeftSwipeLabel(@SuppressWarnings("SameParameterValue") String leftSwipeLabel) {
+        this.leftSwipeLabel = leftSwipeLabel;
     }
 
-    private int getLeftcolorCode() {
-        return leftcolorCode;
+    private int getLeftColorCode() {
+        return leftColorCode;
     }
 
-    public void setLeftcolorCode(int leftcolorCode) {
-        this.leftcolorCode = leftcolorCode;
+    public void setLeftColorCode(int leftColorCode) {
+        this.leftColorCode = leftColorCode;
     }
 }
