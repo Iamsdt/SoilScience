@@ -13,7 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
--->
+  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.blogspot.shudiptotrafder.soilscience">
 
@@ -103,6 +103,7 @@
 
         <activity android:name=".SearchActivity"
             android:label="@string/search"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
 
             <!-- to identify this activity as "searchable" -->
@@ -125,7 +126,9 @@
             android:exported="false" />
 
         <provider android:name=".data.MySuggestionProvider"
-            android:authorities="com.example.MySuggestionProvider" />
+            android:authorities="com.example.MySuggestionProvider"
+            android:exported="false"
+            android:enabled="true"/>
 
         <!--
         <provider

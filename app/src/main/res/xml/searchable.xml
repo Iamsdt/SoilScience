@@ -19,5 +19,6 @@
     android:label="@string/app_name"
     android:hint="@string/search"
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    android:voicePromptText="@string/speak_voice"
     android:searchSuggestAuthority="com.example.MySuggestionProvider"
     android:searchSuggestSelection=" ?" />

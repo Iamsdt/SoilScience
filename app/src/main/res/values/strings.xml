@@ -199,5 +199,6 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="clear_history">clear history</string>
+    <string name="speak_voice">Speak now</string>
 
 </resources>

@@ -17,14 +17,12 @@
 package com.blogspot.shudiptotrafder.soilscience;
 
 import android.app.SearchManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.speech.RecognizerIntent;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,24 +31,20 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.blogspot.shudiptotrafder.soilscience.adapter.SearchAdapter;
 import com.blogspot.shudiptotrafder.soilscience.data.MainWordDBContract;
 import com.blogspot.shudiptotrafder.soilscience.data.MySuggestionProvider;
 import com.blogspot.shudiptotrafder.soilscience.theme.ThemeUtils;
 import com.blogspot.shudiptotrafder.soilscience.utilities.ConstantUtils;
-import com.blogspot.shudiptotrafder.soilscience.utilities.Utility;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
-public class SearchActivity extends AppCompatActivity implements SearchAdapter.ClickListener {
+public class SearchActivity extends AppCompatActivity implements
+        SearchAdapter.ClickListener {
 
     private SearchView searchView;
     private SearchRecentSuggestions suggestions;
-
-    private final int REQUEST_VOICE = 126;
 
     private ArrayList<String> arrayList;
 
@@ -82,7 +76,10 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
         if (searchManager != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         }
-        searchView.setIconifiedByDefault(false);// Do not iconify the widget; expand it by default
+
+        // Do not iconify the widget; expand it by default
+        searchView.setIconifiedByDefault(false);
+
 
         searchView.setQueryRefinementEnabled(true);
 
@@ -164,13 +161,6 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
         recyclerView.setLayoutManager(manager);
 
-
-        Intent intent = getIntent();
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            validWordSubmit(query);
-        }
         searchAdapter = new SearchAdapter(this, this, arrayList);
 
         recyclerView.setAdapter(searchAdapter);
@@ -182,6 +172,16 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
         }
     }
 
+    //to catch voice action data
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            validWordSubmit(query);
+        }
+    }
+
+    //check word validity
     private void validWordSubmit(String word) {
         Uri uri = MainWordDBContract.Entry.buildUriWithWord(word.toUpperCase());
         Cursor cursor = getContentResolver().query(uri,
@@ -194,34 +194,17 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
             startActivity(intent);
 
             searchView.clearFocus();
+            clearSearchView();
+        } else {
+            //if word is not found in database
+            //then show the data on searchView
+            searchView.setQuery(word,false);
         }
 
         if (cursor != null) {
             cursor.close();
         }
     }
-
-    //don't need this methods
-    //it's aromatically
-    private void askSpeechInput() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speak your desire word");
-        try {
-            startActivityForResult(intent, REQUEST_VOICE);
-        } catch (ActivityNotFoundException a) {
-            a.printStackTrace();
-            Utility.showLogThrowable("Activity not found", a);
-            Toast.makeText(this, "Sorry Speech To Text is not " +
-                    "supported in your device", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -239,27 +222,11 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_VOICE && resultCode == RESULT_OK) {
-//            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-//            if (matches != null && matches.size() > 0) {
-//                String searchWrd = matches.get(0);
-//                if (!TextUtils.isEmpty(searchWrd)) {
-//                    searchView.setQuery(searchWrd, true);
-//                }
-//            }
-//
-//            return;
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        clearSearchView();
         arrayList.clear();
-        //clearSearchView();
     }
 
     @Override
@@ -287,7 +254,8 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.C
 
         searchView.clearFocus();
 
-        //clearSearchView();
+        //clear search view
+        clearSearchView();
     }
 
     private void setRecentQuery(String query) {
