@@ -257,6 +257,9 @@ public class FileImportExportUtils {
         if (path == null) {
             Toast.makeText(context, "File not selected correctly", Toast.LENGTH_SHORT).show();
             return;
+        } else if (!path.contains(".txt")){
+            Toast.makeText(context, "Please input text file only", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         File file = new File(path);
