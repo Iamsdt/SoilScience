@@ -123,10 +123,6 @@ public class MainActivity extends AppCompatActivity
                 getSharedPreferences(ConstantUtils.NIGHT_MODE_SP_KEY, MODE_PRIVATE);
         nightModeStatus = sharedPreferences.getBoolean(ConstantUtils.NIGHT_MODE_VALUE_KEY, false);
 
-
-        //set all search action
-        //setAllSearchOption();
-
         /*
          Ensure a loader is initialized and active. If the loader doesn't already exist, one is
          created, otherwise the last created loader is re-used.
@@ -137,7 +133,6 @@ public class MainActivity extends AppCompatActivity
         fab = findViewById(R.id.main_fab);
         sheetLayout = findViewById(R.id.bottom_sheet);
         sheetLayout.setFab(fab);
-
         fab.setOnClickListener(view -> {
             sheetLayout.expandFab();
             showRandomised();
@@ -171,14 +166,14 @@ public class MainActivity extends AppCompatActivity
 
         FirebaseAnalytics.getInstance(this)
                 .logEvent(FirebaseAnalytics.Event.APP_OPEN, null);
-
     }
 
     private void showRandomised() {
 
         String word = mAdapter.getRandomWord();
+
         Uri mUri = MainWordDBContract.Entry.buildUriWithWord(word);
-        String description = Utility.getWordWithDes(getBaseContext(), mUri);
+        String des = Utility.getWordWithDes(getBaseContext(), mUri);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -196,34 +191,34 @@ public class MainActivity extends AppCompatActivity
 
 
         wordTV.setText(word);
-        desTV.setText(description);
+        desTV.setText(des);
 
-        AlertDialog b = dialogBuilder.create();
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
         //b.setCancelable(false);
-        b.show();
 
         //set touch outside off
-        b.setCanceledOnTouchOutside(false);
+        alertDialog.setCanceledOnTouchOutside(false);
 
-        b.setOnDismissListener(dialog -> {
-            if (sheetLayout.isFabExpanded()) {
-                sheetLayout.contractFab();
-            }
-        });
+//        alertDialog.setOnDismissListener(dialog -> {
+//            if (sheetLayout.isFabExpanded()) {
+//                sheetLayout.contractFab();
+//            }
+//        });
 
         //control dialog size
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
 
-        if (b.getWindow() != null) {
-            lp.copyFrom(b.getWindow().getAttributes());
+        if (alertDialog.getWindow() != null) {
+            lp.copyFrom(alertDialog.getWindow().getAttributes());
             lp.width = displayMetrics.widthPixels - 5;
             lp.height = displayMetrics.heightPixels - 50;
-            b.getWindow().setAttributes(lp);
+            alertDialog.getWindow().setAttributes(lp);
         }
 
         backImg.setOnClickListener(view1 -> {
-            if (b.isShowing()) {
-                b.dismiss();
+            if (alertDialog.isShowing()) {
+                alertDialog.dismiss();
                 sheetLayout.contractFab();
             }
         });
