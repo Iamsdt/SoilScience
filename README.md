@@ -65,24 +65,31 @@ it for the beginner level developer.
 
 #### Some picture                                                                                                                                                                                                                                                                                                                                                                                                                                             
 Splash Screen
+
 ![Splash](../master/screensort/splash.png)                                                          
 
 App intro screen (contain 4 screen with view pager one for sample)
+
 ![App in intro](../master/screensort/appintro.png)                                                    
                                                                   
-Favourite Screen list item delete with swap with undo button                                                                                          
+Favourite Screen list item delete with swap with undo button
+                                                                                          
 ![Favourite](../master/screensort/favourite.png)                                                       
 
 Random word dialog
+
 ![Random word dialog](../master/screensort/random.png)                                              
 
 Search Screen
+
 ![Search](../master/screensort/search.png)                                                          
 
 Main Screen
+
 ![Main](../master/screensort/main.png)                                                                                                                 
 
 Settings Screen
+
 ![Settings](../master/screensort/settings.png)                                                        
 
                                                                                           
