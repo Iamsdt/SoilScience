@@ -53,3 +53,27 @@ it for the beginner level developer.
     8. About Activity
     9. Developer Activity
     10. Favourite Activity
+    
+#### Some picture
+![Splash](http://url/to/img.png)
+![App in intro](http://url/to/img.png)
+
+![Favourite](http://url/to/img.png)
+![Random word dialog](http://url/to/img.png)
+![Search](http://url/to/img.png)
+![Main](http://url/to/img.png)
+![Details](http://url/to/img.png)
+![Settings](http://url/to/img.png)
+
+![widget](http://url/to/img.png)      
+![widget 2](http://url/to/img.png)    
+
+![Optional Text](../master/screensort/2017-09-25-23-59-05.png)
+
+### 3rd party library:
+1. [Fab transition Activity](https://github.com/coyarzun89/FabTransitionActivity)
+2. [Storage Chooser](https://github.com/codekidX/storage-chooser)
+
+###Used languages
+    1. Mostly java
+    2. Kotlin
