@@ -63,16 +63,32 @@ it for the beginner level developer.
 2. [Storage Chooser](https://github.com/codekidX/storage-chooser)                
 
 
-#### Some picture                                                                                                                                                           
+#### Some picture                                                                                                                                                                                                                                                                                                                                                                                                                                             
+Splash Screen
 ![Splash](../master/screensort/splash.png)                                                          
+
+App intro screen (contain 4 screen with view pager one for sample)
 ![App in intro](../master/screensort/appintro.png)                                                    
-                                                                                          
+                                                                  
+Favourite Screen list item delete with swap with undo button                                                                                          
 ![Favourite](../master/screensort/favourite.png)                                                       
+
+Random word dialog
 ![Random word dialog](../master/screensort/random.png)                                              
+
+Search Screen
 ![Search](../master/screensort/search.png)                                                          
+
+Main Screen
 ![Main](../master/screensort/main.png)                                                                                                                 
+
+Settings Screen
 ![Settings](../master/screensort/settings.png)                                                        
+
                                                                                           
+Widget (contain search icon, refresh button, a word details)
 ![widget](../master/screensort/sample1.png)                                                          
+
+widget (search option)
 ![widget 2](../master/screensort/sample2.png)                                                                                
                               
