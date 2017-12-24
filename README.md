@@ -2,10 +2,10 @@
 It a dictionary all that contain soil related word. But it is not a complete app. It contains only 140 word.
 But It is a good example project for beginners.
 
-This is a full project as I told earlier. It's only likings is it's database is not complete. So it not for the user,
+This is a full project as I told earlier. It's only lacking is it's database is not complete. So it not for the user,
 it for the beginner level developer.
 
-###The components of this project
+### The components of this project
 
 #### Material Design
     1. RecyclerView
