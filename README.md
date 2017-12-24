@@ -7,7 +7,7 @@ it for the beginner level developer.
 
 ###The components of this project
 
-####Material Design
+#### Material Design
     1. RecyclerView
     2. CardView
     3. Toolbar
@@ -18,7 +18,7 @@ it for the beginner level developer.
     1.By using view pager
     2.Seperate Splash screen
 
-####Settings
+#### Settings
     1.Use preference fragment Compact
     2.3 different settings activity
 
@@ -35,14 +35,14 @@ it for the beginner level developer.
     1. app widget
     2. search widget
 
-####Firebase
+#### Firebase
     1. Firebase Real time database
     2. Firebase Analytics
     3. Firebase CrashReporting
     4. Firebase Storage
     5. Firebase Remote config
 
-####Activity
+#### Activity
     1. Main activity
     2. Details Activity
     3. Search Activity
@@ -52,3 +52,4 @@ it for the beginner level developer.
     7. Splash Activity
     8. About Activity
     9. Developer Activity
+    10. Favourite Activity
