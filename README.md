@@ -1,8 +1,8 @@
 # SoilScience
-It a dictionary all that contain soil related word. But it is not a complete app. It contains only 140 word.
+It a dictionary all that contain soil related word. But it is not a complete app. It contains only 140 words.
 But It is a good example project for beginners.
 
-This is a full project as I told earlier. It's only lacking is it's database is not complete. So it not for the user,
+This is a full project as I told earlier. It's only lacking is its database is not complete. So it not for the user,
 it for the beginner level developer.
 
 ### The components of this project
@@ -16,7 +16,7 @@ it for the beginner level developer.
 
 #### App intro and splash screen
     1.By using view pager
-    2.Seperate Splash screen
+    2.Separate Splash screen
 
 #### Settings
     1.Use preference fragment Compact
@@ -68,11 +68,11 @@ Splash Screen
 
 ![Splash](../master/screensort/splash.png)                                                          
 
-App intro screen (contain 4 screen with view pager one for sample)
+App intro screen (contain 4 screens with view pager one for sample)
 
 ![App in intro](../master/screensort/appintro.png)                                                    
                                                                   
-Favourite Screen list item delete with swap with undo button
+Favourite Screen list item delete with a swap with undo button
                                                                                           
 ![Favourite](../master/screensort/favourite.png)                                                       
 
@@ -116,4 +116,3 @@ widget (search option)
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-                                 
